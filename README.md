@@ -12,7 +12,7 @@ Desarrollo de una plataforma de comercio electrónico para la Pastelería Mil Sa
 
 ## Tecnologías Utilizadas
 - **HTML5**: Estructura semántica y accesible
-- **CSS3**: Diseño responsivo y consistente
+- **CSS3**: Diseño responsivo y consistente. Uso de Bootstrap
 - **JavaScript**: Lógica de programación y manipulación del DOM
 - **Git/GitHub**: Control de versiones y colaboración
 
@@ -36,11 +36,12 @@ mil-sabores-fullstack/
 ### Sistema de Usuarios
 - Registro de usuarios con validaciones
 - Login simulado (solo frontend)
-- Gestión de perfiles de usuario
+- Gestión de perfiles de usuario (simulado)
 
 ### Catálogo de Productos
 - Visualización de productos por categorías
 - Filtros funcionales por tipo de producto
+- **En revision: Filtros por precio.**
 - Búsqueda de productos
 
 ### Carrito de Compras
@@ -68,27 +69,17 @@ mil-sabores-fullstack/
 - Productos Veganos
 - Tortas Especiales
 
-## Colores del Diseño
-- **Fondo Principal**: Crema Pastel (#FFF5E1)
-- **Acentos**: Rosa Suave (#FFC0CB) y Chocolate (#8B4513)
-- **Texto Principal**: Marrón Oscuro (#5D4037)
-- **Texto Secundario**: Gris Claro (#B0BEC5)
-
-## Tipografías
-- **Principal**: Lato (Google Fonts)
-- **Encabezados**: Pacifico (Google Fonts)
-
 ## Instalación y Uso
 1. Clonar el repositorio
 2. Abrir `index.html` en un navegador web
 3. Navegar por las diferentes secciones del sitio
 
 ## Colaboradores
-- [Nombre del estudiante 1]
-- [Nombre del estudiante 2]
+- Nicole Chavez
+- Nicolás Barra
 
 ## Fecha de Entrega
-10 de julio de 2025
+16 de Septiembre de 2025
 
 ## Notas Importantes
 - Este es un proyecto de frontend únicamente
