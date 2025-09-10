@@ -132,6 +132,137 @@ function handleForgotPassword(event) {
     showAlert('Funcionalidad de recuperación de contraseña próximamente disponible.', 'info');
 }
 
+// ========================================
+// FUNCIONES DE DESCUENTOS Y BENEFICIOS
+// ========================================
+
+// Función para calcular descuentos basados en usuario
+function calcularDescuentos(usuario, precioOriginal) {
+    let descuentos = [];
+    let precioFinal = precioOriginal;
+    
+    // Descuento por edad (50% para mayores de 50 años)
+    if (usuario.beneficios && usuario.beneficios.descuento50) {
+        const descuento50 = precioOriginal * 0.5;
+        descuentos.push({
+            tipo: 'Edad (50+ años)',
+            porcentaje: 50,
+            monto: descuento50
+        });
+        precioFinal -= descuento50;
+    }
+    
+    // Descuento por código (10% con FELICES50)
+    if (usuario.beneficios && usuario.beneficios.descuento10) {
+        const descuento10 = precioOriginal * 0.1;
+        descuentos.push({
+            tipo: 'Código FELICES50',
+            porcentaje: 10,
+            monto: descuento10
+        });
+        precioFinal -= descuento10;
+    }
+    
+    // Descuento por correo Duoc (20% adicional)
+    if (usuario.email && usuario.email.endsWith('@duoc.cl')) {
+        const descuentoDuoc = precioOriginal * 0.2;
+        descuentos.push({
+            tipo: 'Estudiante Duoc',
+            porcentaje: 20,
+            monto: descuentoDuoc
+        });
+        precioFinal -= descuentoDuoc;
+    }
+    
+    return {
+        descuentos: descuentos,
+        precioOriginal: precioOriginal,
+        precioFinal: Math.max(0, precioFinal),
+        ahorroTotal: precioOriginal - Math.max(0, precioFinal)
+    };
+}
+
+// Función para verificar si es cumpleaños del usuario
+function esCumpleanos(usuario) {
+    if (!usuario.fechaNacimiento) return false;
+    
+    const hoy = new Date();
+    const fechaNacimiento = new Date(usuario.fechaNacimiento);
+    
+    return hoy.getMonth() === fechaNacimiento.getMonth() && 
+           hoy.getDate() === fechaNacimiento.getDate();
+}
+
+// Función para verificar elegibilidad para torta gratis
+function esElegibleTortaGratis(usuario) {
+    return usuario.email && 
+           usuario.email.endsWith('@duoc.cl') && 
+           esCumpleanos(usuario);
+}
+
+// Función para obtener beneficios del usuario
+function obtenerBeneficiosUsuario(usuario) {
+    const beneficios = {
+        descuento50: false,
+        descuento10: false,
+        tortaGratis: false,
+        descuentoDuoc: false
+    };
+    
+    // Verificar descuento por edad
+    if (usuario.fechaNacimiento) {
+        const fecha = new Date(usuario.fechaNacimiento);
+        const hoy = new Date();
+        const edad = hoy.getFullYear() - fecha.getFullYear();
+        const mes = hoy.getMonth() - fecha.getMonth();
+        
+        if (mes < 0 || (mes === 0 && hoy.getDate() < fecha.getDate())) {
+            edad--;
+        }
+        
+        beneficios.descuento50 = edad >= 50;
+    }
+    
+    // Verificar descuento por código
+    if (usuario.beneficios && usuario.beneficios.descuento10) {
+        beneficios.descuento10 = true;
+    }
+    
+    // Verificar torta gratis por cumpleaños
+    beneficios.tortaGratis = esElegibleTortaGratis(usuario);
+    
+    // Verificar descuento por correo Duoc
+    if (usuario.email && usuario.email.endsWith('@duoc.cl')) {
+        beneficios.descuentoDuoc = true;
+    }
+    
+    return beneficios;
+}
+
+// Función para mostrar beneficios en la interfaz
+function mostrarBeneficiosUsuario(usuario) {
+    const beneficios = obtenerBeneficiosUsuario(usuario);
+    const mensajes = [];
+    
+    if (beneficios.descuento50) {
+        mensajes.push('🎉 Tienes 50% de descuento por ser mayor de 50 años');
+    }
+    
+    if (beneficios.descuento10) {
+        mensajes.push('⭐ Tienes 10% de descuento con código FELICES50');
+    }
+    
+    if (beneficios.descuentoDuoc) {
+        mensajes.push('🎓 Tienes 20% de descuento por ser estudiante Duoc');
+    }
+    
+    if (beneficios.tortaGratis) {
+        mensajes.push('🎂 ¡Feliz cumpleaños! Tienes una torta gratis');
+    }
+    
+    return mensajes;
+}
+
 // Inicialización cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
     // Solo ejecutar en la página de login
