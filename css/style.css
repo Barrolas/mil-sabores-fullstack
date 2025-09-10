@@ -15,8 +15,8 @@ body {
 
 /* Customizaciones del navbar */
 .navbar {
-    position: relative; /* Para que la decoración se posicione correctamente */
-    z-index: 1001; /* Z-index más alto que la decoración */
+    position: sticky;
+    z-index: 1001;
 }
 
 
