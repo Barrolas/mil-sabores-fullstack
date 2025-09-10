@@ -1,8 +1,8 @@
 // Registro de Usuarios - Pastelería Mil Sabores
 // Funcionalidades implementadas:
-// - Descuento 50% para usuarios mayores de 50 años
-// - Descuento 10% con código "FELICES50"
-// - Tortas gratis para estudiantes Duoc en su cumpleaños
+// - Alertas simples para beneficios de descuento
+// - Validación de formulario de registro
+// - Almacenamiento de usuarios en localStorage
 
 document.addEventListener('DOMContentLoaded', function() {
     // Elementos del formulario
@@ -11,12 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const togglePasswordBtn = document.getElementById('togglePassword');
     const validarCodigoBtn = document.getElementById('validarCodigo');
     
-    // Variables para almacenar beneficios
-    let beneficios = {
-        descuento50: false,
-        descuento10: false,
-        tortaGratis: false
-    };
+    // Variables para almacenar beneficios (simplificadas)
+    let beneficios = {};
 
     // Inicializar funcionalidades
     init();
@@ -210,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
-    // Validaciones específicas para beneficios
+    // Validaciones específicas para beneficios (simplificadas con alerts)
     function validarEdad() {
         const fechaNacimiento = document.getElementById('fechaNacimiento').value;
         if (fechaNacimiento) {
@@ -224,10 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             if (edad >= 50) {
-                beneficios.descuento50 = true;
-                mostrarAlerta('success', '¡Felicitaciones! Eres elegible para un 50% de descuento en todos los productos.');
-            } else {
-                beneficios.descuento50 = false;
+                mostrarDescuentoEdad();
             }
         }
     }
@@ -235,10 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function validarEmailDuoc() {
         const email = document.getElementById('email').value;
         if (email && email.endsWith('@duoc.cl')) {
-            beneficios.tortaGratis = true;
-            mostrarAlerta('info', '¡Excelente! Como estudiante de Duoc, recibirás una torta gratis en tu cumpleaños.');
-        } else {
-            beneficios.tortaGratis = false;
+            mostrarTortaGratis();
         }
     }
 
@@ -246,14 +236,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const codigo = document.getElementById('codigoDescuento').value.trim().toUpperCase();
         
         if (codigo === 'FELICES50') {
-            beneficios.descuento10 = true;
-            mostrarAlerta('success', '¡Código válido! Recibirás un 10% de descuento de por vida.');
+            mostrarDescuentoCodigo();
             document.getElementById('codigoDescuento').classList.add('is-valid');
         } else if (codigo && codigo !== 'FELICES50') {
-            mostrarAlerta('danger', 'Código de descuento inválido. Intenta con "FELICES50".');
+            mostrarCodigoInvalido();
             document.getElementById('codigoDescuento').classList.add('is-invalid');
         } else {
-            beneficios.descuento10 = false;
             document.getElementById('codigoDescuento').classList.remove('is-valid', 'is-invalid');
         }
     }
@@ -293,7 +281,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 email: datosFormulario.get('email'),
                 fechaNacimiento: datosFormulario.get('fechaNacimiento'),
                 password: datosFormulario.get('password'),
-                beneficios: beneficios,
                 fechaRegistro: new Date().toISOString()
             };
             
@@ -307,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Resetear formulario
             registroForm.reset();
-            beneficios = { descuento50: false, descuento10: false, tortaGratis: false };
+            beneficios = {};
             
             // Redirigir después de 2 segundos
             setTimeout(() => {
