@@ -133,6 +133,133 @@ function handleForgotPassword() {
 }
 
 // ========================================
+// FUNCIONES DE REGISTRO
+// ========================================
+
+// Función para mostrar alerta de descuento por edad
+function mostrarDescuentoEdad() {
+    const edad = document.getElementById('edad').value;
+    if (edad && parseInt(edad) >= 65) {
+        showAlert('¡Felicidades! Tienes un 10% de descuento por ser mayor de 65 años.', 'success');
+    }
+}
+
+// Función para mostrar alerta de descuento por cumpleaños
+function mostrarDescuentoCumpleanos() {
+    const fechaNacimiento = document.getElementById('fechaNacimiento').value;
+    if (fechaNacimiento) {
+        const hoy = new Date();
+        const nacimiento = new Date(fechaNacimiento);
+        const esCumpleanos = hoy.getMonth() === nacimiento.getMonth() && hoy.getDate() === nacimiento.getDate();
+        
+        if (esCumpleanos) {
+            showAlert('¡Feliz cumpleaños! Tienes un 15% de descuento especial.', 'success');
+        }
+    }
+}
+
+// Función para validar formulario de registro
+function validateRegistrationForm() {
+    const nombre = document.getElementById('nombre');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const fechaNacimiento = document.getElementById('fechaNacimiento');
+    const edad = document.getElementById('edad');
+    
+    let isValid = true;
+
+    // Limpiar validaciones anteriores
+    [nombre, email, password, confirmPassword, fechaNacimiento, edad].forEach(field => {
+        if (field) field.classList.remove('is-invalid', 'is-valid');
+    });
+
+    // Validar nombre
+    if (!nombre.value.trim()) {
+        nombre.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        nombre.classList.add('is-valid');
+    }
+
+    // Validar email
+    if (!email.value.trim()) {
+        email.classList.add('is-invalid');
+        isValid = false;
+    } else if (!validateEmail(email.value)) {
+        email.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        email.classList.add('is-valid');
+    }
+
+    // Validar contraseña
+    if (!password.value.trim()) {
+        password.classList.add('is-invalid');
+        isValid = false;
+    } else if (password.value.length < 6) {
+        password.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        password.classList.add('is-valid');
+    }
+
+    // Validar confirmación de contraseña
+    if (!confirmPassword.value.trim()) {
+        confirmPassword.classList.add('is-invalid');
+        isValid = false;
+    } else if (confirmPassword.value !== password.value) {
+        confirmPassword.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        confirmPassword.classList.add('is-valid');
+    }
+
+    // Validar fecha de nacimiento
+    if (!fechaNacimiento.value) {
+        fechaNacimiento.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        fechaNacimiento.classList.add('is-valid');
+    }
+
+    // Validar edad
+    if (!edad.value || parseInt(edad.value) < 18) {
+        edad.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        edad.classList.add('is-valid');
+    }
+
+    return isValid;
+}
+
+// Función para manejar el registro
+function handleRegistration() {
+    if (!validateRegistrationForm()) {
+        showAlert('Por favor, completa todos los campos correctamente.', 'danger');
+        return;
+    }
+
+    const nombre = document.getElementById('nombre').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const fechaNacimiento = document.getElementById('fechaNacimiento').value;
+    const edad = parseInt(document.getElementById('edad').value);
+    
+    // Mostrar descuentos especiales
+    mostrarDescuentoEdad();
+    mostrarDescuentoCumpleanos();
+    
+    showAlert(`¡Bienvenido ${nombre}! Tu cuenta ha sido creada exitosamente.`, 'success');
+    
+    // Simular redirección después de un breve delay
+    setTimeout(() => {
+        window.location.href = 'login.html';
+    }, 2000);
+}
+
+// ========================================
 // FUNCIONES DE CARRITO
 // ========================================
 
@@ -296,6 +423,21 @@ function handleUrlHash() {
         setTimeout(() => {
             handleProductNavigation(categoryKey);
         }, 1000);
+    } else if (hash === '#productos' || hash === '#productos-todos') {
+        // Si el hash es solo #productos o #productos-todos, mostrar el tab "todos"
+        setTimeout(() => {
+            const productosSection = document.getElementById('productos');
+            if (productosSection) {
+                productosSection.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => {
+                    const tabButton = document.getElementById('todos-tab');
+                    if (tabButton) {
+                        const tab = new bootstrap.Tab(tabButton);
+                        tab.show();
+                    }
+                }, 500);
+            }
+        }, 1000);
     }
 }
 
@@ -337,4 +479,32 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    // Configurar eventos de registro
+    const togglePasswordBtn = document.getElementById('togglePassword');
+    const toggleConfirmPasswordBtn = document.getElementById('toggleConfirmPassword');
+    
+    if (togglePasswordBtn) {
+        togglePasswordBtn.addEventListener('click', togglePassword);
+    }
+    
+    if (toggleConfirmPasswordBtn) {
+        toggleConfirmPasswordBtn.addEventListener('click', function() {
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const eyeIcon = document.getElementById('eyeIconConfirm');
+            
+            if (confirmPasswordInput && eyeIcon) {
+                const tipo = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                confirmPasswordInput.setAttribute('type', tipo);
+                
+                if (tipo === 'text') {
+                    eyeIcon.classList.remove('fa-eye');
+                    eyeIcon.classList.add('fa-eye-slash');
+                } else {
+                    eyeIcon.classList.remove('fa-eye-slash');
+                    eyeIcon.classList.add('fa-eye');
+                }
+            }
+        });
+    }
 });
