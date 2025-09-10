@@ -6,9 +6,10 @@
     <title>Iniciar Sesión - Pastelería Mil Sabores</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="page-login">
+<body class="login-page">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-lg">
         <div class="container-fluid px-4">
@@ -149,7 +150,95 @@
         </div>
     </div>
 
+    <!-- Main Content -->
+        <!-- Main Content -->
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-5">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-body p-5">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-user-circle fa-3x text-pink mb-3"></i>
+                                <h2 class="card-title">Iniciar Sesión</h2>
+                                <p class="text-muted">Accede y disfruta de nuestros productos</p>
+                            </div>
     
+                            <!-- Alert para mensajes -->
+                            <div id="alertContainer"></div>
+    
+                            <!-- Formulario de Login -->
+                            <form id="loginForm" novalidate>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">
+                                        <i class="fas fa-envelope me-1"></i>Correo Electrónico
+                                    </label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico" required>
+                                    <div class="invalid-feedback" id="emailError"></div>
+                                </div>
+    
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">
+                                        <i class="fas fa-lock me-1"></i>Contraseña
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contraseña" required>
+                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                            <i class="fas fa-eye" id="eyeIcon"></i>
+                                        </button>
+                                    </div>
+                                    <div class="invalid-feedback" id="passwordError"></div>
+                                </div>
+                                <!--boton de recordarme-->
+                                <div class="mb-3 form-check d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                                        <label class="form-check-label" for="rememberMe">
+                                            Recordarme
+                                        </label>
+                                    </div>
+                                    <a href="#" class="text-decoration-none" id="forgotPasswordLink">
+                                        <small>¿Olvidaste tu contraseña?</small>
+                                    </a>
+                                </div>
+                                <!--boton de iniciar sesion-->
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg" id="loginBtn">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                                    </button>
+                                </div>
+                            </form>
+    
+                            <hr class="my-4">
+                            
+                            <div class="text-center">
+                                <p class="mb-0">¿No tienes una cuenta?</p>
+                                <a href="registro.html" class="btn btn-outline-primary">
+                                    <i class="fas fa-user-plus me-1"></i>Crear Cuenta
+                                </a>
+                            </div>
+    
+                            <!-- Información de usuarios de prueba -->
+                            <div class="mt-4">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h6 class="card-title text-center">
+                                            <i class="fas fa-info-circle me-1"></i>Usuarios de Prueba
+                                        </h6>
+                                        <small class="text-muted">
+                                            <strong>Admin:</strong> admin@duoc.cl / admin123<br>
+                                            <strong>Cliente:</strong> cliente@duoc.cl / cliente123<br>
+                                            <strong>Mayor 50:</strong> senior@duoc.cl / senior123
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
     <!-- scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/utils.js"></script>
