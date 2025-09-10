@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body class="page-home">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
@@ -15,27 +17,32 @@
             <div class="row w-100 align-items-center">
                 <!-- Logo -->
                 <div class="col-auto px-3">
-                    <a class="navbar-brand d-flex align-items-center" href="#">
-                        <img src="assets/images/logo-milsabores.png" alt="Mil Sabores Logo" class="me-3" style="width: 82px; height: 100px; object-fit: contain;">
+                    <a class="navbar-brand d-flex align-items-center" href="index.html">
+                        <img src="assets/images/logo-milsabores.png" alt="Mil Sabores Logo" class="me-2"
+                            style="width: 102px;">
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
+                <!-- Dropdown de categorias -->
                 <div class="col-auto px-3">
                     <ul class="navbar-nav d-flex flex-row">
                         <li class="nav-item me-4">
                             <a class="nav-link fw-medium px-2" href="#">Inicio</a>
                         </li>
                         <li class="nav-item dropdown me-4">
-                            <a class="nav-link dropdown-toggle fw-medium px-2" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle fw-medium px-2" href="#" id="productosDropdown"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Productos
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="productosDropdown">
-                                <li><a class="dropdown-item" href="#">Categoría 1</a></li>
-                                <li><a class="dropdown-item" href="#">Categoría 2</a></li>
-                                <li><a class="dropdown-item" href="#">Categoría 3</a></li>
-                                <li><a class="dropdown-item" href="#">Categoría 4</a></li>
-                                <li><a class="dropdown-item" href="#">Categoría 5</a></li>
+                                <li><a class="dropdown-item" href="#">Tortas Cuadradas</a></li>
+                                <li><a class="dropdown-item" href="#">Tortas Circulares</a></li>
+                                <li><a class="dropdown-item" href="#">Postres Individuales</a></li>
+                                <li><a class="dropdown-item" href="#">Productos Sin Azúcar</a></li>
+                                <li><a class="dropdown-item" href="#">Pastelería Tradicional</a></li>
+                                <li><a class="dropdown-item" href="#">Productos sin gluten</a></li>
+                                <li><a class="dropdown-item" href="#">Productos Vegana</a></li>
+                                <li><a class="dropdown-item" href="#">Tortas Especiales</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -47,8 +54,10 @@
                 <!-- Search Bar -->
                 <div class="col px-4">
                     <div class="position-relative">
-                        <i class="material-icons position-absolute top-50 start-0 translate-middle-y ms-3 text-pink">search</i>
-                        <input type="text" class="form-control ps-5 border-pink bg-white search-input" placeholder="Buscar..." style="border-radius: 25px;">
+                        <i
+                            class="material-icons position-absolute top-50 start-0 translate-middle-y ms-3 text-pink">search</i>
+                        <input type="text" class="form-control ps-5 border-pink bg-white search-input"
+                            placeholder="Buscar..." style="border-radius: 25px;">
                     </div>
                 </div>
 
@@ -69,8 +78,61 @@
         </div>
     </nav>
 
+    <header>
+        <section class="container-fluid p-0">
+            <!-- INSERT_YOUR_CODE -->
+            <div id="carruselPrincipal" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carruselPrincipal" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carruselPrincipal" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carruselPrincipal" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carruselPrincipal" data-bs-slide-to="3"
+                        aria-label="Slide 4"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="assets/images/carrusel1.png" class="d-block w-100" alt="Torta decorada">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/images/carrusel2.png" class="d-block w-100" alt="Postres individuales">
+                        <div class="carousel-caption d-none d-md-block">
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/images/carrusel3.png" class="d-block w-100" alt="Productos sin azúcar">
+                        <div class="carousel-caption d-none d-md-block">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/images/carrusel4.png" class="d-block w-100" alt="Productos sin azúcar">
+                        <div class="carousel-caption d-none d-md-block">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carruselPrincipal"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carruselPrincipal"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </section>
+    </header>
+
     <!-- scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/utils.js"></script>
 </body>
+
 </html>
