@@ -12,7 +12,7 @@
 
 <body class="page-home">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-lg">
         <div class="container-fluid px-4">
             <div class="row w-100 align-items-center">
                 <!-- Logo -->
@@ -23,8 +23,14 @@
                     </a>
                 </div>
 
+                <!-- Nombre de la pastelería - Solo visible en móvil/tablet -->
+                <div class="col d-lg-none text-center">
+                    <h5 class="mb-0 fw-bold text-dark">Mil Sabores</h5>
+                    <small class="text-pink">Pastelería</small>
+                </div>
+
                 <!-- Dropdown de categorias -->
-                <div class="col-auto px-3">
+                <div class="col-auto px-3 d-none d-lg-block">
                     <ul class="navbar-nav d-flex flex-row">
                         <li class="nav-item me-4">
                             <a class="nav-link fw-medium px-2" href="#">Inicio</a>
@@ -52,7 +58,7 @@
                 </div>
 
                 <!-- Search Bar -->
-                <div class="col px-4">
+                <div class="col px-4 d-none d-lg-block">
                     <div class="position-relative">
                         <i
                             class="material-icons position-absolute top-50 start-0 translate-middle-y ms-3 text-pink">search</i>
@@ -62,7 +68,7 @@
                 </div>
 
                 <!-- User and Cart -->
-                <div class="col-auto px-3">
+                <div class="col-auto px-3 d-none d-lg-block">
                     <div class="d-flex align-items-center gap-4">
                         <div class="d-flex flex-column align-items-center px-2">
                             <i class="material-icons text-pink">person</i>
@@ -74,13 +80,84 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Hamburger Button -->
+                <div class="col-auto d-lg-none px-3">
+                    <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                        aria-label="Toggle navigation">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
+    <!-- Offcanvas Menu -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+                <img src="assets/images/logo-milsabores.png" alt="Mil Sabores Logo" style="width: 60px;">
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <!-- Navigation Links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link fw-medium py-3" href="#">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-medium py-3" href="#" data-bs-toggle="collapse"
+                        data-bs-target="#productosCollapse" aria-expanded="false" aria-controls="productosCollapse">
+                        Productos <i class="material-icons float-end">expand_more</i>
+                    </a>
+                    <div class="collapse" id="productosCollapse">
+                        <ul class="list-unstyled ps-3">
+                            <li><a class="nav-link py-2 text-muted" href="#">Tortas Cuadradas</a></li>
+                            <li><a class="nav-link py-2 text-muted" href="#">Tortas Circulares</a></li>
+                            <li><a class="nav-link py-2 text-muted" href="#">Postres Individuales</a></li>
+                            <li><a class="nav-link py-2 text-muted" href="#">Productos Sin Azúcar</a></li>
+                            <li><a class="nav-link py-2 text-muted" href="#">Pastelería Tradicional</a></li>
+                            <li><a class="nav-link py-2 text-muted" href="#">Productos sin gluten</a></li>
+                            <li><a class="nav-link py-2 text-muted" href="#">Productos Vegana</a></li>
+                            <li><a class="nav-link py-2 text-muted" href="#">Tortas Especiales</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-medium py-3" href="#">Sobre Nosotros</a>
+                </li>
+            </ul>
+
+            <!-- Search Bar - Mobile -->
+            <div class="mt-4">
+                <div class="position-relative">
+                    <i
+                        class="material-icons position-absolute top-50 start-0 translate-middle-y ms-3 text-pink">search</i>
+                    <input type="text" class="form-control ps-5 border-pink bg-white search-input"
+                        placeholder="Buscar..." style="border-radius: 25px;">
+                </div>
+            </div>
+
+            <!-- User and Cart - Mobile -->
+            <div class="mt-4 d-flex flex-column gap-3">
+                <div class="d-flex align-items-center gap-3 p-3 bg-light rounded">
+                    <i class="material-icons text-pink">person</i>
+                    <span class="fw-medium">Mi usuario</span>
+                </div>
+                <div class="d-flex align-items-center gap-3 p-3 bg-light rounded">
+                    <i class="material-icons text-pink">shopping_cart</i>
+                    <span class="fw-medium">Carrito $35.990</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <header>
         <section class="container-fluid p-0">
-            <!-- INSERT_YOUR_CODE -->
             <div id="carruselPrincipal" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#carruselPrincipal" data-bs-slide-to="0" class="active"

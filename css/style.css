@@ -8,7 +8,18 @@
     --dark-blue: #1e3a8a;
 }
 
+/* Fondo limpio sin puntos */
+body {
+    background-color: #fafafa;
+}
+
 /* Customizaciones del navbar */
+.navbar {
+    position: relative; /* Para que la decoración se posicione correctamente */
+    z-index: 1001; /* Z-index más alto que la decoración */
+}
+
+
 .text-pink {
     color: var(--dark-pink) !important;
 }
@@ -32,12 +43,111 @@
     color: var(--dark-pink) !important;
 }
 
-/* Hover effects para iconos de usuario y carrito */
-.d-flex.flex-column.align-items-center:hover {
-    transform: translateY(-2px);
-    transition: transform 0.3s ease;
-    cursor: pointer;
+/* Hover effects para iconos de usuario y carrito - Solo Desktop */
+@media (min-width: 992px) {
+    .d-flex.flex-column.align-items-center:hover {
+        transform: translateY(-2px);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
 }
+
+/* Hamburger Button Animation */
+.navbar-toggler {
+    padding: 0;
+    border: none;
+    background: none;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.hamburger-line {
+    width: 25px;
+    height: 3px;
+    background-color: var(--dark-pink);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+/* Hamburger Animation - Active State */
+.navbar-toggler[aria-expanded="true"] .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.navbar-toggler[aria-expanded="true"] .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.navbar-toggler[aria-expanded="true"] .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Offcanvas Customization */
+.offcanvas {
+    width: 80% !important;
+    max-width: 350px;
+}
+
+.offcanvas-header {
+    background-color: var(--light-pink);
+    padding: 1rem 1.5rem;
+}
+
+.offcanvas-body {
+    padding: 1.5rem;
+}
+
+/* Mobile Navigation Links */
+.offcanvas .nav-link {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Mobile User/Cart Cards */
+.offcanvas .bg-light {
+    background-color: var(--light-pink) !important;
+    border: 1px solid var(--primary-pink);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+    .navbar-brand img {
+        width: 70px !important;
+    }
+    
+    /* Asegurar que el nombre de la pastelería esté bien centrado */
+    .navbar .col.d-lg-none {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .navbar-brand img {
+        width: 60px !important;
+    }
+    
+    .offcanvas {
+        width: 90% !important;
+    }
+    
+    /* Ajustar el nombre en móviles muy pequeños */
+    .navbar .col.d-lg-none h5 {
+        font-size: 1rem;
+    }
+    
+    .navbar .col.d-lg-none small {
+        font-size: 0.75rem;
+    }
+}
+
 
 /* Estilos para la barra de búsqueda */
 .search-input:focus {
@@ -45,4 +155,6 @@
     box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25) !important;
     background-color: var(--white) !important;
 }
+
+
 
