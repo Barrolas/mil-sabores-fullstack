@@ -208,7 +208,7 @@ body {
 
 /* Sección de productos con fondo degradado */
 #productos {
-    background: linear-gradient(135deg, #f8f9fa 0%, #fff8f0 50%, #f0f8ff 100%);
+    background: linear-gradient(135deg, #edc1d9 0%, #f8f0ff 50%, #f0f8ff 100%);
     position: relative;
 }
 
@@ -233,14 +233,18 @@ body {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
     border-radius: 25px;
-    padding: 10px;
+    padding: 15px;
     box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
     border: 1px solid rgba(255, 182, 193, 0.3);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
 }
 
 #productTabs .nav-link {
     border-radius: 20px;
-    margin: 0 3px;
+    margin: 0;
     padding: 12px 18px;
     font-weight: 600;
     transition: all 0.3s ease;
@@ -248,6 +252,12 @@ body {
     color: var(--dark-pink);
     position: relative;
     overflow: hidden;
+    flex: 0 0 calc(25% - 4px);
+    min-width: 0;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #productTabs .nav-link::before {
@@ -361,6 +371,19 @@ body {
     background: linear-gradient(45deg, #28a745, #20c997);
 }
 
+.product-badge.low-stock {
+    background: linear-gradient(45deg, #ffc107, #ffeb3b);
+    color: #333;
+}
+
+.product-badge.out-of-stock {
+    background: linear-gradient(45deg, #dc3545, #ff6b7a);
+}
+
+.product-badge.featured {
+    background: linear-gradient(45deg, #28a745, #20c997);
+}
+
 .product-rating {
     font-size: 0.9rem;
     margin: 10px 0;
@@ -426,56 +449,66 @@ body {
     box-shadow: 0 0 0 3px rgba(255, 182, 193, 0.3);
 }
 
-/* Swiper personalizado */
-.productosSwiper {
-    padding: 20px 0 50px 0;
-}
-
-.productosSwiper .swiper-slide {
-    height: auto;
-}
-
-.productosSwiper .swiper-button-next,
-.productosSwiper .swiper-button-prev {
-    color: var(--dark-color);
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    box-shadow: 0 4px 15px rgba(255, 179, 209, 0.2);
-    border: 1px solid rgba(255, 182, 193, 0.3);
+/* Filtro de precios */
+#productos .card {
     transition: var(--login-transition);
 }
 
-.productosSwiper .swiper-button-next:hover,
-.productosSwiper .swiper-button-prev:hover {
-    background: linear-gradient(45deg, var(--primary-pink), var(--accent-color));
-    color: var(--dark-color);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 179, 209, 0.3);
-}
-
-.productosSwiper .swiper-button-next:after,
-.productosSwiper .swiper-button-prev:after {
-    font-size: 20px;
-}
-
-.productosSwiper .swiper-pagination-bullet {
-    background: var(--primary-pink);
-    opacity: 0.5;
+#productos .form-control-sm {
+    border: 2px solid rgba(255, 182, 193, 0.3);
+    border-radius: 8px;
     transition: var(--login-transition);
-    box-shadow: 0 2px 8px rgba(255, 179, 209, 0.2);
 }
 
-.productosSwiper .swiper-pagination-bullet-active {
-    opacity: 1;
+#productos .form-control-sm:focus {
+    border-color: var(--primary-pink);
+    box-shadow: 0 0 0 0.2rem rgba(255, 182, 193, 0.3);
+}
+
+#productos .btn-sm {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: var(--login-transition);
+}
+
+#productos .btn-primary.btn-sm {
     background: linear-gradient(45deg, var(--primary-pink), var(--accent-color));
-    transform: scale(1.2);
-    box-shadow: 0 4px 15px rgba(255, 179, 209, 0.3);
+    border: none;
+    color: var(--dark-color);
+}
+
+#productos .btn-primary.btn-sm:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 179, 209, 0.3);
+}
+
+#productos .btn-outline-secondary.btn-sm {
+    border: 2px solid #6c757d;
+    color: #6c757d;
+}
+
+#productos .btn-outline-secondary.btn-sm:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    transform: translateY(-1px);
+}
+
+/* Grid de productos */
+#productos .row {
+    margin: 0 -10px;
+}
+
+#productos .col-lg-3,
+#productos .col-md-6 {
+    padding: 0 10px;
 }
 
 /* Modal de producto con estética de marca */
+#productModal .modal-dialog {
+    max-width: 60%;
+    margin: 1.75rem auto;
+}
+
 #productModal .modal-content {
     border-radius: 20px;
     border: none;
@@ -739,12 +772,93 @@ body {
     #productTabs .nav-link {
         font-size: 0.8rem;
         padding: 8px 12px;
-        margin: 0 2px;
+        margin: 0;
+        flex: 0 0 calc(50% - 3px);
     }
     
-    .productosSwiper .swiper-button-next,
-    .productosSwiper .swiper-button-prev {
-        display: none;
+    #productTabs {
+        gap: 3px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    #productTabs .nav-link {
+        font-size: 0.7rem;
+        padding: 6px 8px;
+        flex: 0 0 calc(50% - 2px);
+    }
+    
+    #productTabs {
+        gap: 2px;
+        padding: 8px;
+    }
+}
+
+/* Responsive para modales */
+@media (max-width: 1200px) {
+    #productModal .modal-dialog {
+        max-width: 70%;
+    }
+}
+
+@media (max-width: 992px) {
+    #productModal .modal-dialog {
+        max-width: 80%;
+    }
+}
+
+@media (max-width: 768px) {
+    #productModal .modal-dialog {
+        max-width: 90%;
+        margin: 1rem auto;
+    }
+    
+    #productModal .modal-body {
+        padding: 20px;
+    }
+    
+    #productModal .modal-header {
+        padding: 15px 20px;
+    }
+    
+    #productModal .modal-footer {
+        padding: 15px 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    #productModal .modal-dialog {
+        max-width: 95%;
+        margin: 0.5rem auto;
+    }
+    
+    #productModal .modal-body {
+        padding: 15px;
+    }
+    
+    #productModal .modal-header {
+        padding: 12px 15px;
+    }
+    
+    #productModal .modal-footer {
+        padding: 12px 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Filtro de precios responsive */
+    #productos .card-body {
+        padding: 1rem;
+    }
+    
+    #productos .d-flex.gap-2 {
+        flex-direction: column;
+        gap: 0.5rem !important;
+    }
+    
+    #productos .btn-sm {
+        width: 100%;
     }
     
     .product-card .card-body {
