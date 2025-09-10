@@ -1,2 +1,48 @@
-/* Pastelería Mil Sabores - Estilos Globales */
+/* Pastelería Mil Sabores - Estilos Customizados */
+
+/* Variables de colores personalizados */
+:root {
+    --primary-pink: #ffb6c1;
+    --light-pink: #ffe4e1;
+    --dark-pink: #ff69b4;
+    --dark-blue: #1e3a8a;
+}
+
+/* Customizaciones del navbar */
+.text-pink {
+    color: var(--dark-pink) !important;
+}
+
+.border-pink {
+    border-color: var(--primary-pink) !important;
+}
+
+.bg-light-pink {
+    background-color: var(--light-pink) !important;
+}
+
+/* Hover effects para navegación */
+.nav-link:hover {
+    color: var(--dark-pink) !important;
+}
+
+/* Customización del dropdown */
+.dropdown-item:hover {
+    background-color: var(--light-pink) !important;
+    color: var(--dark-pink) !important;
+}
+
+/* Hover effects para iconos de usuario y carrito */
+.d-flex.flex-column.align-items-center:hover {
+    transform: translateY(-2px);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+/* Estilos para la barra de búsqueda */
+.search-input:focus {
+    border-color: var(--dark-pink) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25) !important;
+    background-color: var(--white) !important;
+}
 
