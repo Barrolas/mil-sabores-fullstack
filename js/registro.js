@@ -24,15 +24,18 @@ document.addEventListener('DOMContentLoaded', function() {
         validarCodigoBtn.addEventListener('click', validarCodigo);
         
         // Validaciones en tiempo real
+        document.getElementById('nombre').addEventListener('blur', validarNombre);
+        document.getElementById('apellido').addEventListener('blur', validarApellido);
         document.getElementById('fechaNacimiento').addEventListener('change', validarEdad);
         document.getElementById('email').addEventListener('blur', validarEmailDuoc);
-        document.getElementById('password').addEventListener('input', validarPassword);
-        document.getElementById('confirmPassword').addEventListener('input', validarConfirmPassword);
+        document.getElementById('password').addEventListener('blur', validarPassword);
+        document.getElementById('confirmPassword').addEventListener('blur', validarConfirmPassword);
         
         // Configurar fecha máxima (hoy)
         const fechaMaxima = new Date().toISOString().split('T')[0];
         document.getElementById('fechaNacimiento').setAttribute('max', fechaMaxima);
     }
+
 
     // Manejar envío del formulario
     function handleSubmit(e) {
@@ -139,9 +142,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
         
+        // El input type="date" ya devuelve formato yyyy-mm-dd válido
         const fecha = new Date(valor);
         const hoy = new Date();
-        const edad = hoy.getFullYear() - fecha.getFullYear();
+        let edad = hoy.getFullYear() - fecha.getFullYear();
         const mes = hoy.getMonth() - fecha.getMonth();
         
         if (mes < 0 || (mes === 0 && hoy.getDate() < fecha.getDate())) {
@@ -210,9 +214,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function validarEdad() {
         const fechaNacimiento = document.getElementById('fechaNacimiento').value;
         if (fechaNacimiento) {
+            // El input type="date" ya devuelve formato yyyy-mm-dd
             const fecha = new Date(fechaNacimiento);
             const hoy = new Date();
-            const edad = hoy.getFullYear() - fecha.getFullYear();
+            let edad = hoy.getFullYear() - fecha.getFullYear();
             const mes = hoy.getMonth() - fecha.getMonth();
             
             if (mes < 0 || (mes === 0 && hoy.getDate() < fecha.getDate())) {
@@ -273,13 +278,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Simular procesamiento
         setTimeout(() => {
+            // El input type="date" ya devuelve formato yyyy-mm-dd
+            const fechaNacimiento = datosFormulario.get('fechaNacimiento');
+            
             // Crear objeto de usuario
             const usuario = {
                 id: Date.now(),
                 nombre: datosFormulario.get('nombre'),
                 apellido: datosFormulario.get('apellido'),
                 email: datosFormulario.get('email'),
-                fechaNacimiento: datosFormulario.get('fechaNacimiento'),
+                fechaNacimiento: fechaNacimiento,
                 password: datosFormulario.get('password'),
                 fechaRegistro: new Date().toISOString()
             };
@@ -289,17 +297,30 @@ document.addEventListener('DOMContentLoaded', function() {
             usuarios.push(usuario);
             localStorage.setItem('usuarios', JSON.stringify(usuarios));
             
-            // Mostrar mensaje de éxito
-            mostrarAlerta('success', '¡Registro exitoso! Bienvenido a Mil Sabores.');
+            // Mostrar mensaje de éxito con SweetAlert2
+            Swal.fire({
+                title: '¡Registro Exitoso!',
+                text: 'Bienvenido a Mil Sabores. Tu cuenta ha sido creada correctamente.',
+                icon: 'success',
+                confirmButtonText: 'Continuar',
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: true,
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then((result) => {
+                // Redirigir a login después de cerrar el alert
+                window.location.href = 'login.html';
+            });
+            
+            // Redirigir automáticamente después de 3 segundos si no se hace clic
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 3000);
             
             // Resetear formulario
             registroForm.reset();
             beneficios = {};
-            
-            // Redirigir después de 2 segundos
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 2000);
             
         }, 1500);
     }

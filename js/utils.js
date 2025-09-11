@@ -84,7 +84,12 @@ function validateLoginForm() {
 // Función para manejar el login
 function handleLogin() {
     if (!validateLoginForm()) {
-        showAlert('Por favor, completa todos los campos correctamente.', 'danger');
+        Swal.fire({
+            title: 'Error',
+            text: 'Por favor, completa todos los campos correctamente.',
+            icon: 'error',
+            confirmButtonText: 'Entendido'
+        });
         return;
     }
 
@@ -98,26 +103,37 @@ function handleLogin() {
 
     // Simular proceso de login
     setTimeout(() => {
-        // Simular validación (en una app real, esto sería una llamada al servidor)
-        if (email === 'admin@milsabores.com' && password === 'admin123') {
-            showAlert('¡Bienvenido! Has iniciado sesión correctamente.', 'success');
-            
+        // Simular login exitoso (sin validación real)
+        Swal.fire({
+            title: '¡Sesión Iniciada!',
+            text: 'Has iniciado sesión correctamente. Bienvenido a Mil Sabores.',
+            icon: 'success',
+            confirmButtonText: 'Continuar',
+            timer: 2000,
+            timerProgressBar: true,
+            showConfirmButton: true,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then((result) => {
             // Guardar sesión (en una app real, esto sería un token JWT)
             sessionStorage.setItem('userLoggedIn', 'true');
             sessionStorage.setItem('userEmail', email);
             
-            // Redirigir después de un breve delay
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1500);
-        } else {
-            showAlert('Credenciales incorrectas. Por favor, verifica tu email y contraseña.', 'danger');
-        }
+            // Redirigir a index
+            window.location.href = 'index.html';
+        });
+        
+        // Redirigir automáticamente después de 2 segundos si no se hace clic
+        setTimeout(() => {
+            sessionStorage.setItem('userLoggedIn', 'true');
+            sessionStorage.setItem('userEmail', email);
+            window.location.href = 'index.html';
+        }, 2000);
 
         // Restaurar botón
         loginBtn.classList.remove('btn-loading');
         loginBtn.disabled = false;
-    }, 2000);
+    }, 1500);
 }
 
 // Función para manejar "Olvidé mi contraseña"
@@ -137,12 +153,6 @@ function handleForgotPassword() {
 // ========================================
 
 // Función para mostrar alerta de descuento por edad
-function mostrarDescuentoEdad() {
-    const edad = document.getElementById('edad').value;
-    if (edad && parseInt(edad) >= 65) {
-        showAlert('¡Felicidades! Tienes un 10% de descuento por ser mayor de 65 años.', 'success');
-    }
-}
 
 // Función para mostrar alerta de descuento por cumpleaños
 function mostrarDescuentoCumpleanos() {
@@ -156,6 +166,26 @@ function mostrarDescuentoCumpleanos() {
             showAlert('¡Feliz cumpleaños! Tienes un 15% de descuento especial.', 'success');
         }
     }
+}
+
+// Función para mostrar descuento por edad (mayores de 50)
+function mostrarDescuentoEdad() {
+    alert('¡Felicidades! Por ser mayor de 50 años tienes un 50% de descuento en todos nuestros productos.');
+}
+
+// Función para mostrar beneficio de torta gratis para usuarios @duoc.cl
+function mostrarTortaGratis() {
+    alert('¡Excelente! Por ser estudiante de Duoc UC recibirás una torta gratis en tu cumpleaños.');
+}
+
+// Función para mostrar descuento por código válido
+function mostrarDescuentoCodigo() {
+    alert('¡Código válido! Tienes un 10% de descuento de por vida con el código FELICES50.');
+}
+
+// Función para mostrar código inválido
+function mostrarCodigoInvalido() {
+    alert('Código de descuento inválido. Intenta con "FELICES50" para obtener un 10% de descuento.');
 }
 
 // Función para validar formulario de registro
