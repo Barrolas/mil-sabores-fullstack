@@ -77,18 +77,14 @@ document.addEventListener('DOMContentLoaded', function() {
         return esValido;
     }
 
-    // Validaciones individuales
+    // Validaciones individuales usando funciones de auth.js
     function validarNombre() {
         const nombre = document.getElementById('nombre');
         const valor = nombre.value.trim();
+        const validation = validateName(valor, 'nombre');
         
-        if (valor.length < 2) {
-            mostrarError(nombre, 'El nombre debe tener al menos 2 caracteres');
-            return false;
-        }
-        
-        if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(valor)) {
-            mostrarError(nombre, 'El nombre solo puede contener letras');
+        if (!validation.valid) {
+            mostrarError(nombre, validation.message);
             return false;
         }
         
@@ -99,14 +95,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function validarApellido() {
         const apellido = document.getElementById('apellido');
         const valor = apellido.value.trim();
+        const validation = validateName(valor, 'apellido');
         
-        if (valor.length < 2) {
-            mostrarError(apellido, 'El apellido debe tener al menos 2 caracteres');
-            return false;
-        }
-        
-        if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(valor)) {
-            mostrarError(apellido, 'El apellido solo puede contener letras');
+        if (!validation.valid) {
+            mostrarError(apellido, validation.message);
             return false;
         }
         
@@ -117,14 +109,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function validarEmail() {
         const email = document.getElementById('email');
         const valor = email.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         
         if (!valor) {
             mostrarError(email, 'El correo electrónico es requerido');
             return false;
         }
         
-        if (!emailRegex.test(valor)) {
+        if (!validateEmail(valor)) {
             mostrarError(email, 'Ingrese un correo electrónico válido');
             return false;
         }
@@ -136,29 +127,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function validarFechaNacimiento() {
         const fechaNacimiento = document.getElementById('fechaNacimiento');
         const valor = fechaNacimiento.value;
+        const validation = validateBirthDate(valor);
         
-        if (!valor) {
-            mostrarError(fechaNacimiento, 'La fecha de nacimiento es requerida');
-            return false;
-        }
-        
-        // El input type="date" ya devuelve formato yyyy-mm-dd válido
-        const fecha = new Date(valor);
-        const hoy = new Date();
-        let edad = hoy.getFullYear() - fecha.getFullYear();
-        const mes = hoy.getMonth() - fecha.getMonth();
-        
-        if (mes < 0 || (mes === 0 && hoy.getDate() < fecha.getDate())) {
-            edad--;
-        }
-        
-        if (edad < 13) {
-            mostrarError(fechaNacimiento, 'Debe ser mayor de 13 años para registrarse');
-            return false;
-        }
-        
-        if (edad > 120) {
-            mostrarError(fechaNacimiento, 'Ingrese una fecha de nacimiento válida');
+        if (!validation.valid) {
+            mostrarError(fechaNacimiento, validation.message);
             return false;
         }
         
@@ -169,14 +141,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function validarPassword() {
         const password = document.getElementById('password');
         const valor = password.value;
+        const validation = validatePassword(valor);
         
-        if (valor.length < 8) {
-            mostrarError(password, 'La contraseña debe tener al menos 8 caracteres');
-            return false;
-        }
-        
-        if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(valor)) {
-            mostrarError(password, 'La contraseña debe incluir mayúsculas, minúsculas y números');
+        if (!validation.valid) {
+            mostrarError(password, validation.message);
             return false;
         }
         
@@ -188,9 +156,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword');
         const valor = confirmPassword.value;
+        const validation = validateConfirmPassword(password, valor);
         
-        if (valor !== password) {
-            mostrarError(confirmPassword, 'Las contraseñas no coinciden');
+        if (!validation.valid) {
+            mostrarError(confirmPassword, validation.message);
             return false;
         }
         

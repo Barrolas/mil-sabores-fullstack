@@ -7,45 +7,6 @@ let cart = [];
 // FUNCIONES DE LOGIN
 // ========================================
 
-// Función para toggle de contraseña
-function togglePassword() {
-    const passwordInput = document.getElementById('password');
-    const eyeIcon = document.getElementById('eyeIcon');
-    
-    if (passwordInput && eyeIcon) {
-        const tipo = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', tipo);
-        
-        // Cambia el icono
-        if (tipo === 'text') {
-            eyeIcon.classList.remove('fa-eye');
-            eyeIcon.classList.add('fa-eye-slash');
-        } else {
-            eyeIcon.classList.remove('fa-eye-slash');
-            eyeIcon.classList.add('fa-eye');
-        }
-    }
-}
-
-// Función para mostrar alertas
-function showAlert(message, type = 'info') {
-    const alertContainer = document.getElementById('alertContainer');
-    if (alertContainer) {
-        alertContainer.innerHTML = `
-            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        `;
-    }
-}
-
-// Función para validar email
-function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
 // Función para validar formulario de login
 function validateLoginForm() {
     const email = document.getElementById('email');
@@ -67,7 +28,7 @@ function validateLoginForm() {
         email.classList.add('is-valid');
     }
 
-    // Validar contraseña
+    // Validar contraseña (criterio más simple para login)
     if (!password.value.trim()) {
         password.classList.add('is-invalid');
         isValid = false;
@@ -115,9 +76,8 @@ function handleLogin() {
             allowOutsideClick: false,
             allowEscapeKey: false
         }).then((result) => {
-            // Guardar sesión (en una app real, esto sería un token JWT)
-            sessionStorage.setItem('userLoggedIn', 'true');
-            sessionStorage.setItem('userEmail', email);
+            // Guardar sesión usando función de auth.js
+            saveUserSession(email);
             
             // Redirigir a index
             window.location.href = 'index.html';
@@ -125,8 +85,7 @@ function handleLogin() {
         
         // Redirigir automáticamente después de 2 segundos si no se hace clic
         setTimeout(() => {
-            sessionStorage.setItem('userLoggedIn', 'true');
-            sessionStorage.setItem('userEmail', email);
+            saveUserSession(email);
             window.location.href = 'index.html';
         }, 2000);
 
@@ -146,147 +105,6 @@ function handleForgotPassword() {
     }
 
     showAlert(`Se ha enviado un enlace de recuperación a ${email}`, 'info');
-}
-
-// ========================================
-// FUNCIONES DE REGISTRO
-// ========================================
-
-// Función para mostrar alerta de descuento por edad
-
-// Función para mostrar alerta de descuento por cumpleaños
-function mostrarDescuentoCumpleanos() {
-    const fechaNacimiento = document.getElementById('fechaNacimiento').value;
-    if (fechaNacimiento) {
-        const hoy = new Date();
-        const nacimiento = new Date(fechaNacimiento);
-        const esCumpleanos = hoy.getMonth() === nacimiento.getMonth() && hoy.getDate() === nacimiento.getDate();
-        
-        if (esCumpleanos) {
-            showAlert('¡Feliz cumpleaños! Tienes un 15% de descuento especial.', 'success');
-        }
-    }
-}
-
-// Función para mostrar descuento por edad (mayores de 50)
-function mostrarDescuentoEdad() {
-    alert('¡Felicidades! Por ser mayor de 50 años tienes un 50% de descuento en todos nuestros productos.');
-}
-
-// Función para mostrar beneficio de torta gratis para usuarios @duoc.cl
-function mostrarTortaGratis() {
-    alert('¡Excelente! Por ser estudiante de Duoc UC recibirás una torta gratis en tu cumpleaños.');
-}
-
-// Función para mostrar descuento por código válido
-function mostrarDescuentoCodigo() {
-    alert('¡Código válido! Tienes un 10% de descuento de por vida con el código FELICES50.');
-}
-
-// Función para mostrar código inválido
-function mostrarCodigoInvalido() {
-    alert('Código de descuento inválido. Intenta con "FELICES50" para obtener un 10% de descuento.');
-}
-
-// Función para validar formulario de registro
-function validateRegistrationForm() {
-    const nombre = document.getElementById('nombre');
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-    const confirmPassword = document.getElementById('confirmPassword');
-    const fechaNacimiento = document.getElementById('fechaNacimiento');
-    const edad = document.getElementById('edad');
-    
-    let isValid = true;
-
-    // Limpiar validaciones anteriores
-    [nombre, email, password, confirmPassword, fechaNacimiento, edad].forEach(field => {
-        if (field) field.classList.remove('is-invalid', 'is-valid');
-    });
-
-    // Validar nombre
-    if (!nombre.value.trim()) {
-        nombre.classList.add('is-invalid');
-        isValid = false;
-    } else {
-        nombre.classList.add('is-valid');
-    }
-
-    // Validar email
-    if (!email.value.trim()) {
-        email.classList.add('is-invalid');
-        isValid = false;
-    } else if (!validateEmail(email.value)) {
-        email.classList.add('is-invalid');
-        isValid = false;
-    } else {
-        email.classList.add('is-valid');
-    }
-
-    // Validar contraseña
-    if (!password.value.trim()) {
-        password.classList.add('is-invalid');
-        isValid = false;
-    } else if (password.value.length < 6) {
-        password.classList.add('is-invalid');
-        isValid = false;
-    } else {
-        password.classList.add('is-valid');
-    }
-
-    // Validar confirmación de contraseña
-    if (!confirmPassword.value.trim()) {
-        confirmPassword.classList.add('is-invalid');
-        isValid = false;
-    } else if (confirmPassword.value !== password.value) {
-        confirmPassword.classList.add('is-invalid');
-        isValid = false;
-    } else {
-        confirmPassword.classList.add('is-valid');
-    }
-
-    // Validar fecha de nacimiento
-    if (!fechaNacimiento.value) {
-        fechaNacimiento.classList.add('is-invalid');
-        isValid = false;
-    } else {
-        fechaNacimiento.classList.add('is-valid');
-    }
-
-    // Validar edad
-    if (!edad.value || parseInt(edad.value) < 18) {
-        edad.classList.add('is-invalid');
-        isValid = false;
-    } else {
-        edad.classList.add('is-valid');
-    }
-
-    return isValid;
-}
-
-// Función para manejar el registro
-function handleRegistration() {
-    if (!validateRegistrationForm()) {
-        showAlert('Por favor, completa todos los campos correctamente.', 'danger');
-        return;
-    }
-
-    const nombre = document.getElementById('nombre').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const fechaNacimiento = document.getElementById('fechaNacimiento').value;
-    const edad = parseInt(document.getElementById('edad').value);
-    
-    // Mostrar descuentos especiales
-    mostrarDescuentoEdad();
-    mostrarDescuentoCumpleanos();
-    
-    showAlert(`¡Bienvenido ${nombre}! Tu cuenta ha sido creada exitosamente.`, 'success');
-    
-    // Simular redirección después de un breve delay
-    setTimeout(() => {
-        window.location.href = 'login.html';
-    }, 2000);
 }
 
 // ========================================
@@ -510,31 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Configurar eventos de registro
-    const togglePasswordBtn = document.getElementById('togglePassword');
-    const toggleConfirmPasswordBtn = document.getElementById('toggleConfirmPassword');
-    
-    if (togglePasswordBtn) {
-        togglePasswordBtn.addEventListener('click', togglePassword);
-    }
-    
-    if (toggleConfirmPasswordBtn) {
-        toggleConfirmPasswordBtn.addEventListener('click', function() {
-            const confirmPasswordInput = document.getElementById('confirmPassword');
-            const eyeIcon = document.getElementById('eyeIconConfirm');
-            
-            if (confirmPasswordInput && eyeIcon) {
-                const tipo = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                confirmPasswordInput.setAttribute('type', tipo);
-                
-                if (tipo === 'text') {
-                    eyeIcon.classList.remove('fa-eye');
-                    eyeIcon.classList.add('fa-eye-slash');
-                } else {
-                    eyeIcon.classList.remove('fa-eye-slash');
-                    eyeIcon.classList.add('fa-eye');
-                }
-            }
-        });
-    }
+    // Configurar eventos de autenticación usando auth.js
+    setupPasswordToggles();
+    setupDateInputs();
 });
