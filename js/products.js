@@ -12,7 +12,7 @@ const productosDB = {
                 {
                     id: "TC001",
                     nombre: "Torta Cuadrada de Chocolate",
-                    precio: 22990,
+                    precio: 45990,
                     imagen: "https://delicakesysnacks.com/wp-content/uploads/2025/01/vitxekmdoeio3sgmh5dr-1.webp",
                     descripcion: "Deliciosa torta de chocolate con relleno de crema.",
                     descripcionDetallada: "Exquisita torta de chocolate premium elaborada con los mejores ingredientes. Capas de bizcocho de chocolate esponjoso, relleno de crema de chocolate belga y decoración artesanal con virutas de chocolate. Perfecta para celebraciones especiales, cumpleaños y eventos importantes. Cada bocado es una experiencia de sabor inolvidable.",
@@ -117,7 +117,7 @@ const productosDB = {
                 {
                     id: "PI001",
                     nombre: "Mousse de Chocolate",
-                    precio: 2990,
+                    precio: 5990,
                     imagen: "https://images.aws.nestle.recipes/original/2024_10_18T11_53_16_badun_images.badun.es_4ed41e942636_mousse_de_chocolate_intenso.jpg",
                     descripcion: "Delicioso mousse de chocolate con decoración de frutas.",
                     descripcionDetallada: "Exquisito mousse de chocolate intenso, elaborado con chocolate premium y crema fresca. Textura suave y aterciopelada que se derrite en el paladar. Decorado con frutas frescas de temporada y virutas de chocolate. Perfecto como postre individual o para compartir en ocasiones especiales. Una experiencia de sabor que deleitará a los amantes del chocolate.",
@@ -135,7 +135,7 @@ const productosDB = {
                 {
                     id: "PI002",
                     nombre: "Tiramisú Clásico",
-                    precio: 3990,
+                    precio: 7990,
                     imagen: "https://www.kingarthurbaking.com/sites/default/files/2023-03/Tiramisu_1426.jpg",
                     descripcion: "Tiramisú tradicional italiano con café y mascarpone.",
                     descripcionDetallada: "Auténtico tiramisú italiano, elaborado siguiendo la receta tradicional. Capas de bizcocho savoiardi empapado en café espresso, crema de mascarpone suave y espolvoreado con cacao en polvo. Un postre elegante y sofisticado que transporta a las cafeterías de Italia. Perfecto para los amantes del café y la repostería italiana.",
@@ -158,7 +158,7 @@ const productosDB = {
                 {
                     id: "PSA001",
                     nombre: "Torta Sin Azúcar de Naranja",
-                    precio: 19990,
+                    precio: 25990,
                     imagen: "https://santaisabel.vtexassets.com/arquivos/ids/447848-900-900?width=900&height=900&aspect=true",
                     descripcion: "Torta saludable sin azúcar con sabor a naranja natural.",
                     descripcionDetallada: "Deliciosa torta de naranja sin azúcar, elaborada con naranjas frescas y edulcorantes naturales. Perfecta para personas con diabetes o que buscan opciones más saludables. Base de bizcocho esponjoso de naranja, relleno de crema de naranja natural y decoración con gajos de naranja fresca. Un postre refrescante y saludable que no compromete el sabor.",
