@@ -36,7 +36,6 @@ mil-sabores-fullstack/
 ### Sistema de Usuarios
 - Registro de usuarios con validaciones
 - Login simulado (solo frontend)
-- Gestión de perfiles de usuario (simulado)
 
 ### Catálogo de Productos
 - Visualización de productos por categorías

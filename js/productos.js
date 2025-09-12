@@ -1,6 +1,10 @@
 // ========================================
-//   SISTEMA DE PRODUCTOS - MIL SABORES
+// PRODUCTOS - Pastelería Mil Sabores
+// Funciones específicas para productos, carrito y navegación
 // ========================================
+
+// Variables globales
+let cart = [];
 
 // Base de datos de productos y categorías
 const productosDB = {
@@ -754,11 +758,245 @@ function handleUrlHash() {
     }
 }
 
+// ========================================
+// FUNCIONES DEL CARRITO
+// ========================================
+
+/**
+ * Agrega un producto al carrito
+ * @param {string} productId - ID del producto
+ * @param {number} quantity - Cantidad a agregar
+ */
+function addToCart(productId, quantity = null) {
+    const producto = getProductById(productId);
+    if (!producto) return;
+
+    const cantidad = quantity || parseInt(document.getElementById(`quantity-${productId}`).value) || 1;
+    
+    // Validar stock
+    if (producto.stock === 0) {
+        showCartNotification('Este producto no está disponible', 'error');
+        return;
+    }
+    
+    if (cantidad > producto.stock) {
+        showCartNotification(`Solo hay ${producto.stock} unidades disponibles`, 'error');
+        return;
+    }
+
+    // Verificar si el producto ya está en el carrito
+    const existingItem = cart.find(item => item.id === productId);
+    
+    if (existingItem) {
+        // Verificar si al agregar más cantidad no excede el stock
+        if (existingItem.cantidad + cantidad > producto.stock) {
+            showCartNotification(`Solo puedes agregar ${producto.stock - existingItem.cantidad} unidades más`, 'warning');
+            return;
+        }
+        existingItem.cantidad += cantidad;
+    } else {
+        cart.push({
+            id: productId,
+            nombre: producto.nombre,
+            precio: producto.precio,
+            cantidad: cantidad,
+            imagen: producto.imagen
+        });
+    }
+
+    updateCartCounter();
+    showCartNotification(`${producto.nombre} agregado al carrito`, 'success');
+}
+
+/**
+ * Muestra notificación del carrito
+ * @param {string} message - Mensaje a mostrar
+ * @param {string} type - Tipo de notificación (success, error, warning)
+ */
+function showCartNotification(message, type = 'success') {
+    // Crear toast si no existe
+    let toastContainer = document.getElementById('toastContainer');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        toastContainer.style.zIndex = '9999';
+        document.body.appendChild(toastContainer);
+    }
+
+    const toastId = 'toast-' + Date.now();
+    const bgClass = type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : 'bg-warning';
+    const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-exclamation-triangle';
+
+    toastContainer.innerHTML += `
+        <div class="toast ${bgClass} text-white" id="${toastId}" role="alert">
+            <div class="toast-header ${bgClass} text-white border-0">
+                <i class="fas ${icon} me-2"></i>
+                <strong class="me-auto">Carrito</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                ${message}
+            </div>
+        </div>
+    `;
+
+    const toastElement = document.getElementById(toastId);
+    const toast = new bootstrap.Toast(toastElement);
+    toast.show();
+
+    // Remover el toast del DOM después de que se oculte
+    toastElement.addEventListener('hidden.bs.toast', () => {
+        toastElement.remove();
+    });
+}
+
+/**
+ * Cambia la cantidad de un producto
+ * @param {string} productId - ID del producto
+ * @param {number} change - Cambio en la cantidad (+1 o -1)
+ */
+function changeQuantity(productId, change) {
+    const input = document.getElementById(`quantity-${productId}`);
+    const producto = getProductById(productId);
+    if (!input || !producto) return;
+
+    let newValue = parseInt(input.value) + change;
+    newValue = Math.max(1, Math.min(newValue, producto.stock));
+    input.value = newValue;
+}
+
+/**
+ * Cambia la cantidad en el modal
+ * @param {number} change - Cambio en la cantidad (+1 o -1)
+ */
+function changeModalQuantity(change) {
+    const input = document.getElementById('modalQuantity');
+    const modalTitle = document.getElementById('modalProductTitle');
+    if (!input || !modalTitle) return;
+
+    // Obtener el producto actual del modal
+    const currentProduct = getProductById(modalTitle.textContent);
+    if (!currentProduct) return;
+
+    let newValue = parseInt(input.value) + change;
+    newValue = Math.max(1, Math.min(newValue, currentProduct.stock));
+    input.value = newValue;
+}
+
+/**
+ * Actualiza el contador del carrito
+ */
+function updateCartCounter() {
+    const counter = document.getElementById('cartCounter');
+    if (counter) {
+        const totalItems = cart.reduce((sum, item) => sum + item.cantidad, 0);
+        const totalPrice = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+        
+        counter.textContent = totalItems;
+        counter.style.display = totalItems > 0 ? 'block' : 'none';
+        
+        // Actualizar precio total si existe el elemento
+        const priceElement = document.getElementById('cartTotalPrice');
+        if (priceElement) {
+            priceElement.textContent = `$${totalPrice.toLocaleString('es-CL')}`;
+        }
+    }
+}
+
+// ========================================
+// FUNCIONES DE NAVEGACIÓN
+// ========================================
+
+/**
+ * Maneja la navegación de productos desde navbar
+ * @param {string} categoryKey - Clave de la categoría
+ */
+function handleProductNavigation(categoryKey) {
+    const productosSection = document.getElementById('productos');
+    if (!productosSection) return;
+
+    // Si estamos en la página de productos, hacer scroll y activar tab
+    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+        productosSection.scrollIntoView({ behavior: 'smooth' });
+        
+        // Activar el tab correspondiente
+        setTimeout(() => {
+            const tabButton = document.getElementById(`${categoryKey}-tab`);
+            if (tabButton) {
+                const tab = new bootstrap.Tab(tabButton);
+                tab.show();
+            }
+        }, 500);
+    } else {
+        // Si estamos en otra página, redirigir a index con hash
+        window.location.href = `index.html#productos-${categoryKey}`;
+    }
+}
+
+/**
+ * Maneja el hash de URL al cargar la página
+ */
+function handleUrlHash() {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#productos-')) {
+        const categoryKey = hash.replace('#productos-', '');
+        setTimeout(() => {
+            handleProductNavigation(categoryKey);
+        }, 1000);
+    } else if (hash === '#productos' || hash === '#productos-todos') {
+        // Si el hash es solo #productos o #productos-todos, mostrar el tab "todos"
+        setTimeout(() => {
+            const productosSection = document.getElementById('productos');
+            if (productosSection) {
+                productosSection.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => {
+                    const tabButton = document.getElementById('todos-tab');
+                    if (tabButton) {
+                        const tab = new bootstrap.Tab(tabButton);
+                        tab.show();
+                    }
+                }, 500);
+            }
+        }, 1000);
+    }
+}
+
 // Inicializar productos cuando se carga el DOM
 document.addEventListener('DOMContentLoaded', function() {
+    // Actualizar contador del carrito en todas las páginas
+    updateCartCounter();
+    
     // Solo inicializar si estamos en la página de productos
     if (document.getElementById('productos')) {
         initializeDynamicProducts();
         handleUrlHash();
+        
+        // Configurar eventos de navegación de productos
+        document.querySelectorAll('[data-category]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const categoryKey = this.getAttribute('data-category');
+                handleProductNavigation(categoryKey);
+            });
+        });
+        
+        // Configurar evento para el enlace principal de "Productos"
+        document.querySelectorAll('a[href="#productos"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const productosSection = document.getElementById('productos');
+                if (productosSection) {
+                    productosSection.scrollIntoView({ behavior: 'smooth' });
+                    setTimeout(() => {
+                        const tabButton = document.getElementById('todos-tab');
+                        if (tabButton) {
+                            const tab = new bootstrap.Tab(tabButton);
+                            tab.show();
+                        }
+                    }, 500);
+                }
+            });
+        });
     }
 });
