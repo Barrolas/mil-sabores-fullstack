@@ -888,20 +888,232 @@ function changeModalQuantity(change) {
  * Actualiza el contador del carrito
  */
 function updateCartCounter() {
+    const totalItems = cart.reduce((sum, item) => sum + item.cantidad, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+    
+    // Actualizar contador desktop
     const counter = document.getElementById('cartCounter');
     if (counter) {
-        const totalItems = cart.reduce((sum, item) => sum + item.cantidad, 0);
-        const totalPrice = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-        
         counter.textContent = totalItems;
         counter.style.display = totalItems > 0 ? 'block' : 'none';
+    }
+    
+    // Actualizar contador mobile
+    const counterMobile = document.getElementById('cartCounterMobile');
+    if (counterMobile) {
+        counterMobile.textContent = totalItems;
+        counterMobile.style.display = totalItems > 0 ? 'block' : 'none';
+    }
+    
+    // Actualizar precio total desktop
+    const priceElement = document.getElementById('cartTotalPrice');
+    if (priceElement) {
+        priceElement.textContent = `Carrito $${totalPrice.toLocaleString('es-CL')}`;
+    }
+    
+    // Actualizar precio total mobile
+    const priceElementMobile = document.getElementById('cartTotalPriceMobile');
+    if (priceElementMobile) {
+        priceElementMobile.textContent = `Carrito $${totalPrice.toLocaleString('es-CL')}`;
+    }
+}
+
+/**
+ * Elimina un producto del carrito
+ * @param {string} productId - ID del producto a eliminar
+ */
+function removeFromCart(productId) {
+    const index = cart.findIndex(item => item.id === productId);
+    if (index !== -1) {
+        const producto = cart[index];
+        cart.splice(index, 1);
+        updateCartCounter();
+        showCartNotification(`${producto.nombre} eliminado del carrito`, 'info');
         
-        // Actualizar precio total si existe el elemento
-        const priceElement = document.getElementById('cartTotalPrice');
-        if (priceElement) {
-            priceElement.textContent = `$${totalPrice.toLocaleString('es-CL')}`;
+        // Si el modal del carrito está abierto, actualizarlo
+        if (document.getElementById('cartModal')) {
+            displayCartModal();
         }
     }
+}
+
+/**
+ * Modifica la cantidad de un producto en el carrito
+ * @param {string} productId - ID del producto
+ * @param {number} newQuantity - Nueva cantidad
+ */
+function updateCartQuantity(productId, newQuantity) {
+    const item = cart.find(item => item.id === productId);
+    if (!item) return;
+    
+    const producto = getProductById(productId);
+    if (!producto) return;
+    
+    // Validar que la nueva cantidad no exceda el stock
+    if (newQuantity > producto.stock) {
+        showCartNotification(`Solo hay ${producto.stock} unidades disponibles`, 'error');
+        return;
+    }
+    
+    if (newQuantity <= 0) {
+        removeFromCart(productId);
+        return;
+    }
+    
+    item.cantidad = newQuantity;
+    updateCartCounter();
+    
+    // Si el modal del carrito está abierto, actualizarlo
+    if (document.getElementById('cartModal')) {
+        displayCartModal();
+    }
+}
+
+/**
+ * Muestra el modal del carrito con resumen detallado
+ */
+function showCartModal() {
+    // Crear modal si no existe
+    let modal = document.getElementById('cartModal');
+    if (!modal) {
+        modal = createCartModal();
+        document.body.appendChild(modal);
+    }
+    
+    displayCartModal();
+    
+    // Mostrar modal
+    const bsModal = new bootstrap.Modal(modal);
+    bsModal.show();
+}
+
+/**
+ * Crea el modal del carrito
+ */
+function createCartModal() {
+    const modal = document.createElement('div');
+    modal.id = 'cartModal';
+    modal.className = 'modal fade';
+    modal.setAttribute('tabindex', '-1');
+    modal.setAttribute('aria-labelledby', 'cartModalLabel');
+    modal.setAttribute('aria-hidden', 'true');
+    
+    modal.innerHTML = `
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">
+                        <i class="fas fa-shopping-cart me-2"></i>Carrito de Compras
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="cartModalBody">
+                    <!-- Contenido del carrito se llenará dinámicamente -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="checkoutBtn">
+                        <i class="fas fa-credit-card me-2"></i>Proceder al Pago
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return modal;
+}
+
+/**
+ * Actualiza el contenido del modal del carrito
+ */
+function displayCartModal() {
+    const modalBody = document.getElementById('cartModalBody');
+    if (!modalBody) return;
+    
+    if (cart.length === 0) {
+        modalBody.innerHTML = `
+            <div class="text-center py-5">
+                <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">Tu carrito está vacío</h5>
+                <p class="text-muted">Agrega algunos productos para comenzar tu compra</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let total = 0;
+    let html = '<div class="row">';
+    
+    cart.forEach(item => {
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
+        
+        html += `
+            <div class="col-12 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-2">
+                                <img src="${item.imagen}" class="img-fluid rounded" alt="${item.nombre}" style="height: 80px; object-fit: cover;">
+                            </div>
+                            <div class="col-md-4">
+                                <h6 class="mb-1">${item.nombre}</h6>
+                                <p class="text-muted mb-0">$${item.precio.toLocaleString('es-CL')} c/u</p>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group input-group-sm">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="updateCartQuantity('${item.id}', ${item.cantidad - 1})">-</button>
+                                    <input type="number" class="form-control text-center" value="${item.cantidad}" min="1" max="99" onchange="updateCartQuantity('${item.id}', parseInt(this.value))">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="updateCartQuantity('${item.id}', ${item.cantidad + 1})">+</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2 text-end">
+                                <h6 class="mb-0">$${subtotal.toLocaleString('es-CL')}</h6>
+                            </div>
+                            <div class="col-md-1 text-end">
+                                <button class="btn btn-outline-danger btn-sm" onclick="removeFromCart('${item.id}')" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    
+    // Resumen de totales
+    html += `
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <h6 class="mb-0">Total de productos:</h6>
+                            </div>
+                            <div class="col-6 text-end">
+                                <h6 class="mb-0">${cart.reduce((sum, item) => sum + item.cantidad, 0)} unidades</h6>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <h5 class="mb-0">Total a pagar:</h5>
+                            </div>
+                            <div class="col-6 text-end">
+                                <h5 class="mb-0 text-primary">$${total.toLocaleString('es-CL')}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    modalBody.innerHTML = html;
 }
 
 // ========================================
