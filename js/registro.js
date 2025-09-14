@@ -346,13 +346,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Mostrar mensaje de error si hay campos con problemas
         if (!esValido) {
-            let mensaje = 'Por favor, complete correctamente los siguientes campos obligatorios:\n\n';
-            mensaje += camposConError.join('\n• ');
-            mensaje += '\n\nLos campos marcados en rojo indican errores que deben corregirse.';
-            
             Swal.fire({
                 title: 'Campos Incompletos',
-                text: mensaje,
+                text: 'Por favor, completa todos los campos obligatorios correctamente.',
                 icon: 'error',
                 confirmButtonText: 'Entendido',
                 confirmButtonColor: '#dc3545'

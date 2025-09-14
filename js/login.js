@@ -22,37 +22,79 @@ function validateEmail(email) {
  * @returns {boolean} true si es válido, false si no
  */
 function validateLoginForm() {
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-    let isValid = true;
-
+    let esValido = true;
+    let camposConError = [];
+    
     // Limpiar validaciones anteriores
-    email.classList.remove('is-invalid', 'is-valid');
-    password.classList.remove('is-invalid', 'is-valid');
-
-    // Validar email
-    if (!email.value.trim()) {
-        email.classList.add('is-invalid');
-        isValid = false;
-    } else if (!validateEmail(email.value)) {
-        email.classList.add('is-invalid');
-        isValid = false;
-    } else {
-        email.classList.add('is-valid');
+    limpiarValidaciones();
+    
+    // Validar campos obligatorios
+    if (!validarEmailLogin()) {
+        esValido = false;
+        camposConError.push('Correo electrónico');
     }
-
-    // Validar contraseña (criterio más simple para login)
-    if (!password.value.trim()) {
-        password.classList.add('is-invalid');
-        isValid = false;
-    } else if (password.value.length < 6) {
-        password.classList.add('is-invalid');
-        isValid = false;
-    } else {
-        password.classList.add('is-valid');
+    
+    if (!validarPasswordLogin()) {
+        esValido = false;
+        camposConError.push('Contraseña');
     }
+    
+    // Mostrar mensaje de error si hay campos con problemas
+    if (!esValido) {
+        Swal.fire({
+            title: 'Campos Incompletos',
+            text: 'Por favor, completa todos los campos obligatorios correctamente.',
+            icon: 'error',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#dc3545'
+        });
+    }
+    
+    return esValido;
+}
 
-    return isValid;
+/**
+ * Valida el campo de email individualmente
+ * @returns {boolean} true si es válido, false si no
+ */
+function validarEmailLogin() {
+    const email = document.getElementById('email');
+    const valor = email.value.trim();
+    
+    if (!valor) {
+        mostrarError(email, 'El correo electrónico es obligatorio');
+        return false;
+    }
+    
+    if (!validateEmail(valor)) {
+        mostrarError(email, 'Ingrese un correo electrónico válido (ejemplo: usuario@correo.com)');
+        return false;
+    }
+    
+    mostrarExito(email);
+    return true;
+}
+
+/**
+ * Valida el campo de contraseña individualmente
+ * @returns {boolean} true si es válido, false si no
+ */
+function validarPasswordLogin() {
+    const password = document.getElementById('password');
+    const valor = password.value;
+    
+    if (!valor) {
+        mostrarError(password, 'La contraseña es obligatoria');
+        return false;
+    }
+    
+    if (valor.length < 6) {
+        mostrarError(password, 'La contraseña debe tener al menos 6 caracteres');
+        return false;
+    }
+    
+    mostrarExito(password);
+    return true;
 }
 
 // ========================================
@@ -128,23 +170,67 @@ function handleLogin() {
     });
 }
 
-/**
- * Maneja la funcionalidad de "¿Olvidé mi contraseña?"
- */
-function handleForgotPassword() {
-    const email = document.getElementById('email').value;
-    
-    if (!email || !validateEmail(email)) {
-        showAlert('Por favor, ingresa un email válido primero.', 'warning');
-        return;
-    }
-
-    showAlert(`Se ha enviado un enlace de recuperación a ${email}`, 'info');
-}
 
 // ========================================
 // UTILIDADES DE INTERFAZ PARA LOGIN
 // ========================================
+
+/**
+ * Muestra error en un campo del formulario
+ * @param {HTMLElement} campo - Campo del formulario
+ * @param {string} mensaje - Mensaje de error
+ */
+function mostrarError(campo, mensaje) {
+    campo.classList.remove('is-valid');
+    campo.classList.add('is-invalid');
+    
+    const errorElement = document.getElementById(campo.id + 'Error');
+    if (errorElement) {
+        errorElement.textContent = mensaje;
+        errorElement.style.display = 'block';
+    }
+    
+    // Agregar atributo aria-invalid para accesibilidad
+    campo.setAttribute('aria-invalid', 'true');
+    campo.setAttribute('aria-describedby', campo.id + 'Error');
+}
+
+/**
+ * Muestra éxito en un campo del formulario
+ * @param {HTMLElement} campo - Campo del formulario
+ */
+function mostrarExito(campo) {
+    campo.classList.remove('is-invalid');
+    campo.classList.add('is-valid');
+    
+    const errorElement = document.getElementById(campo.id + 'Error');
+    if (errorElement) {
+        errorElement.textContent = '';
+        errorElement.style.display = 'none';
+    }
+    
+    // Remover atributo aria-invalid para accesibilidad
+    campo.removeAttribute('aria-invalid');
+    campo.removeAttribute('aria-describedby');
+}
+
+/**
+ * Limpia todas las validaciones del formulario de login
+ */
+function limpiarValidaciones() {
+    const campos = document.querySelectorAll('#loginForm .form-control');
+    campos.forEach(campo => {
+        campo.classList.remove('is-valid', 'is-invalid');
+        campo.removeAttribute('aria-invalid');
+        campo.removeAttribute('aria-describedby');
+    });
+    
+    const errores = document.querySelectorAll('#loginForm .invalid-feedback');
+    errores.forEach(error => {
+        error.textContent = '';
+        error.style.display = 'none';
+    });
+}
 
 /**
  * Alterna la visibilidad de la contraseña
@@ -188,53 +274,6 @@ function showAlert(message, type = 'info', containerId = 'alertContainer') {
     }
 }
 
-/**
- * Muestra error en un campo del formulario
- * @param {HTMLElement} campo - Campo del formulario
- * @param {string} mensaje - Mensaje de error
- */
-function mostrarError(campo, mensaje) {
-    campo.classList.remove('is-valid');
-    campo.classList.add('is-invalid');
-    
-    const errorElement = document.getElementById(campo.id + 'Error');
-    if (errorElement) {
-        errorElement.textContent = mensaje;
-    }
-}
-
-/**
- * Muestra éxito en un campo del formulario
- * @param {HTMLElement} campo - Campo del formulario
- */
-function mostrarExito(campo) {
-    campo.classList.remove('is-invalid');
-    campo.classList.add('is-valid');
-    
-    const errorElement = document.getElementById(campo.id + 'Error');
-    if (errorElement) {
-        errorElement.textContent = '';
-    }
-}
-
-/**
- * Limpia todas las validaciones de un formulario
- * @param {string} formId - ID del formulario
- */
-function limpiarValidaciones(formId) {
-    const form = document.getElementById(formId);
-    if (!form) return;
-    
-    const campos = form.querySelectorAll('.form-control, .form-check-input');
-    campos.forEach(campo => {
-        campo.classList.remove('is-valid', 'is-invalid');
-    });
-    
-    const errores = form.querySelectorAll('.invalid-feedback');
-    errores.forEach(error => {
-        error.textContent = '';
-    });
-}
 
 // ========================================
 // INICIALIZACIÓN DE LOGIN
@@ -279,13 +318,10 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // Configurar evento de "Olvidé mi contraseña"
-        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
-        if (forgotPasswordLink) {
-            forgotPasswordLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                handleForgotPassword();
-            });
-        }
+        // Validaciones en tiempo real (onblur - cuando el usuario sale del campo)
+        // Esto evita validaciones molestas mientras el usuario está escribiendo
+        document.getElementById('email').addEventListener('blur', validarEmailLogin);
+        document.getElementById('password').addEventListener('blur', validarPasswordLogin);
+        
     }
 });
