@@ -1347,31 +1347,54 @@ body {
     }
     
     .product-card .form-label {
-        font-size: 0.85rem;
-        margin-bottom: 0.5rem;
+        font-size: 0.8rem;
+        margin-bottom: 0.4rem;
+        font-weight: 500;
     }
     
-    /* Asegurar que la cantidad use menos espacio y el botón más */
+    /* Mantener layout horizontal en móvil igual que desktop */
+    .product-card .d-flex {
+        display: flex !important;
+        align-items: end !important;
+        gap: 0.5rem !important;
+    }
+    
+    /* Cantidad: espacio fijo pequeño */
     .product-card .flex-shrink-0 {
-        width: 80px !important;
-        flex-shrink: 0;
+        width: 70px !important;
+        flex-shrink: 0 !important;
+        min-width: 70px !important;
     }
     
+    /* Botón: toma el resto del espacio */
     .product-card .flex-grow-1 {
-        flex-grow: 1;
-        min-width: 0;
+        flex-grow: 1 !important;
+        min-width: 0 !important;
+        flex-shrink: 1 !important;
     }
     
+    /* Input de cantidad optimizado para móvil */
     .product-card input[type="number"] {
-        width: 100%;
-        font-size: 0.9rem;
-        padding: 0.375rem 0.5rem;
+        width: 100% !important;
+        font-size: 0.85rem !important;
+        padding: 0.3rem 0.4rem !important;
+        height: 36px !important;
+        border: 1px solid #ddd !important;
+        border-radius: 6px !important;
     }
     
+    /* Botones optimizados para móvil */
     .product-card .btn {
-        font-size: 0.9rem;
-        padding: 0.5rem 1rem;
-        white-space: nowrap;
+        font-size: 0.85rem !important;
+        padding: 0.4rem 0.8rem !important;
+        height: 36px !important;
+        white-space: nowrap !important;
+        border-radius: 6px !important;
+    }
+    
+    /* Botón principal más prominente */
+    .product-card .btn-primary {
+        font-weight: 600 !important;
     }
     
     .auth-page .btn-lg {
