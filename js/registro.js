@@ -72,55 +72,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Validar formulario completo
     function validarFormulario() {
-        let esValido = true;
-        let camposConError = [];
-        
-        // Limpiar validaciones anteriores
-        limpiarValidaciones('registroForm');
-        
-        // Validar campos obligatorios (todos excepto código de descuento)
-        if (!validarNombre()) {
-            esValido = false;
-            camposConError.push('Nombre');
-        }
-        
-        if (!validarApellido()) {
-            esValido = false;
-            camposConError.push('Apellido');
-        }
-        
-        if (!validarEmail()) {
-            esValido = false;
-            camposConError.push('Correo electrónico');
-        }
-        
-        if (!validarFechaNacimiento()) {
-            esValido = false;
-            camposConError.push('Fecha de nacimiento');
-        }
-        
-        if (!validarPassword()) {
-            esValido = false;
-            camposConError.push('Contraseña');
-        }
-        
-        if (!validarConfirmPassword()) {
-            esValido = false;
-            camposConError.push('Confirmar contraseña');
-        }
-        
-        // Mostrar mensaje de error si hay campos con problemas
-        if (!esValido) {
-            Swal.fire({
-                title: 'Campos Incompletos',
-                text: 'Por favor, completa todos los campos obligatorios correctamente.',
-                icon: 'error',
-                confirmButtonText: 'Entendido',
-                confirmButtonColor: '#dc3545'
-            });
-        }
-        
-        return esValido;
+        // Para botón dummy, siempre retornar true
+        return true;
     }
 
     // Validaciones individuales usando funciones de auth.js
@@ -311,62 +264,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // Procesar registro
+    // Procesar registro (botón dummy)
     function procesarRegistro() {
-        const btnRegistro = document.getElementById('registroBtn');
-        const datosFormulario = new FormData(registroForm);
-        
-        // Mostrar loading
-        btnRegistro.classList.add('btn-loading');
-        btnRegistro.disabled = true;
-        
-        // Simular procesamiento
-        setTimeout(() => {
-            // El input type="date" ya devuelve formato yyyy-mm-dd
-            const fechaNacimiento = datosFormulario.get('fechaNacimiento');
-            
-            // Crear objeto de usuario
-            const usuario = {
-                id: Date.now(),
-                nombre: datosFormulario.get('nombre'),
-                apellido: datosFormulario.get('apellido'),
-                email: datosFormulario.get('email'),
-                fechaNacimiento: fechaNacimiento,
-                password: datosFormulario.get('password'),
-                fechaRegistro: new Date().toISOString()
-            };
-            
-            // Guardar en localStorage
-            let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
-            usuarios.push(usuario);
-            localStorage.setItem('usuarios', JSON.stringify(usuarios));
-            
-            // Mostrar mensaje de éxito con SweetAlert2
-            Swal.fire({
-                title: '¡Registro Exitoso!',
-                text: 'Bienvenido a Mil Sabores. Tu cuenta ha sido creada correctamente.',
-                icon: 'success',
-                confirmButtonText: 'Continuar',
-                timer: 3000,
-                timerProgressBar: true,
-                showConfirmButton: true,
-                allowOutsideClick: false,
-                allowEscapeKey: false
-            }).then((result) => {
-                // Redirigir a login después de cerrar el alert
-                window.location.href = 'login.html';
-            });
-            
-            // Redirigir automáticamente después de 3 segundos si no se hace clic
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 3000);
-            
-            // Resetear formulario
-            registroForm.reset();
-            descuentos = {};
-            
-        }, 1500);
+        // Simular registro exitoso (botón dummy)
+        Swal.fire({
+            title: '¡Registro Simulado!',
+            text: 'Este es un botón de demostración. No hay registro real.',
+            icon: 'info',
+            confirmButtonText: 'Entendido',
+            timer: 3000,
+            timerProgressBar: true
+        });
     }
 
     // Utilidades específicas de registro
