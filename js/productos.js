@@ -553,16 +553,18 @@ function generateProductCardHTML(producto) {
                     
                     <!-- Botones de acción -->
                     <div class="mt-auto">
-                        <!-- Cantidad -->
-                        <div class="mb-2">
-                            <label class="form-label small mb-1">Cantidad:</label>
-                            <input type="number" class="form-control form-control-sm" id="quantity-${producto.id}" value="1" min="1" max="${producto.stock}" style="width: 80px;">
-                        </div>
-                        
-                        <!-- Botón agregar al carrito -->
-                        <button class="btn btn-primary w-100 mb-2" onclick="addToCart('${producto.id}')">
-                            <i class="fas fa-shopping-cart me-1"></i>Agregar al Carrito
+                        <!-- Fila con cantidad y agregar al carrito -->
+                        <div class="d-flex align-items-end gap-2 mb-2">
+                            <div class="flex-shrink-0" style="width: 80px;">
+                                <label class="form-label small mb-1">Cantidad:</label>
+                                <input type="number" class="form-control form-control-sm" id="quantity-${producto.id}" value="1" min="1" max="${producto.stock}">
+                            </div>
+                            <div class="flex-grow-1">
+                                <button class="btn btn-primary w-100" onclick="addToCart('${producto.id}')">
+                                    <i class="fas fa-shopping-cart me-1"></i>Agregar al Carrito
                         </button>
+                            </div>
+                        </div>
                         
                         <!-- Botón ver detalles -->
                         <button class="btn btn-outline-primary w-100" onclick="showProductDetails('${producto.id}')">
@@ -1252,9 +1254,9 @@ function changeCartItemQuantity(productId, change) {
  * Actualiza el contador del carrito
  */
 function updateCartCounter() {
-    const totalItems = cart.reduce((sum, item) => sum + item.cantidad, 0);
-    const totalPrice = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-    
+        const totalItems = cart.reduce((sum, item) => sum + item.cantidad, 0);
+        const totalPrice = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+        
     // Actualizar contador desktop
     const counter = document.getElementById('cartCounter');
     if (counter) {
@@ -1270,10 +1272,10 @@ function updateCartCounter() {
     }
     
     // Actualizar precio total desktop
-    const priceElement = document.getElementById('cartTotalPrice');
-    if (priceElement) {
+        const priceElement = document.getElementById('cartTotalPrice');
+        if (priceElement) {
         priceElement.textContent = `Carrito $${totalPrice.toLocaleString('es-CL')}`;
-    }
+        }
     
     // Actualizar precio total móvil
     const priceElementMobile = document.getElementById('cartTotalPriceMobile');
