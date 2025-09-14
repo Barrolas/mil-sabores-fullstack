@@ -1227,25 +1227,6 @@ body {
 }
 
 /* Loading compartido para páginas de autenticación */
-.auth-page .btn-loading {
-    position: relative;
-    color: transparent !important;
-}
-
-.auth-page .btn-loading::after {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: 50%;
-    left: 50%;
-    margin-left: -10px;
-    margin-top: -10px;
-    border: 2px solid #ffffff;
-    border-radius: 50%;
-    border-top-color: transparent;
-    animation: spin 1s linear infinite;
-}
 
 /* Información compartida para páginas de autenticación */
 .auth-page .card.bg-light {
@@ -1362,23 +1343,6 @@ body {
     filter: brightness(1.1);
 }
 
-.carousel-caption {
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 8px;
-    padding: 15px;
-    backdrop-filter: blur(5px);
-}
-
-.carousel-caption h5 {
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.carousel-caption p {
-    margin-bottom: 0;
-    font-size: 0.9rem;
-    opacity: 0.9;
-}
 
 
 

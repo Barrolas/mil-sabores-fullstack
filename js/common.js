@@ -169,9 +169,6 @@ function mostrarError(campo, mensaje) {
         errorElement.style.display = 'block';
     }
     
-    // Agregar atributo aria-invalid para accesibilidad
-    campo.setAttribute('aria-invalid', 'true');
-    campo.setAttribute('aria-describedby', campo.id + 'Error');
 }
 
 /**
@@ -188,9 +185,6 @@ function mostrarExito(campo) {
         errorElement.style.display = 'none';
     }
     
-    // Remover atributo aria-invalid para accesibilidad
-    campo.removeAttribute('aria-invalid');
-    campo.removeAttribute('aria-describedby');
 }
 
 /**
@@ -204,8 +198,6 @@ function limpiarValidaciones(formId) {
     const campos = form.querySelectorAll('.form-control, .form-check-input');
     campos.forEach(campo => {
         campo.classList.remove('is-valid', 'is-invalid');
-        campo.removeAttribute('aria-invalid');
-        campo.removeAttribute('aria-describedby');
     });
     
     const errores = form.querySelectorAll('.invalid-feedback');
