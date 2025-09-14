@@ -14,7 +14,9 @@
  */
 function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    const isValid = emailRegex.test(email);
+    console.log('validateEmail:', email, '->', isValid);
+    return isValid;
 }
 
 /**
@@ -522,11 +524,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function validarEmailDuoc() {
         const email = document.getElementById('email').value;
+        console.log('validarEmailDuoc called with email:', email);
+        
         if (email && email.endsWith('@duoc.cl')) {
+            console.log('Email ends with @duoc.cl');
             // Solo mostrar el descuento si el email es válido
             if (validateEmail(email)) {
+                console.log('Email is valid, showing torta gratis');
             mostrarTortaGratis();
+            } else {
+                console.log('Email format is invalid');
             }
+        } else {
+            console.log('Email does not end with @duoc.cl');
         }
     }
 

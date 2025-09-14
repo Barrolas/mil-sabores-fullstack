@@ -5,8 +5,33 @@
 
 // Variables globales
 let cart = [];
+let currentModalProductId = null;
+
+// Cargar carrito desde localStorage al inicializar
+function loadCartFromStorage() {
+    const savedCart = localStorage.getItem('milSaboresCart');
+    if (savedCart) {
+        try {
+            cart = JSON.parse(savedCart);
+        } catch (e) {
+            console.error('Error al cargar carrito desde localStorage:', e);
+            cart = [];
+        }
+    }
+}
+
+// Guardar carrito en localStorage
+function saveCartToStorage() {
+    try {
+        localStorage.setItem('milSaboresCart', JSON.stringify(cart));
+    } catch (e) {
+        console.error('Error al guardar carrito en localStorage:', e);
+    }
+}
 
 // Base de datos de productos y categorías
+console.log('🚀 productos.js cargado correctamente');
+
 const productosDB = {
     categorias: {
         "tortas-cuadradas": {
@@ -386,7 +411,9 @@ function getAllProducts() {
 
 // Función para obtener un producto por ID
 function getProductById(id) {
-    return getAllProducts()[id];
+    const producto = getAllProducts()[id];
+    console.log('getProductById:', id, producto);
+    return producto;
 }
 
 // Función para obtener productos por categoría
@@ -477,6 +504,12 @@ function regenerateProductsContent() {
     ).join('');
     
     productTabsContent.innerHTML = todosHTML + categoriesHTML;
+    
+    // Configurar botones de cantidad después de regenerar el HTML
+    setupQuantityButtons();
+    
+    // Configurar listeners de cambio de tabs
+    setupTabChangeListeners();
 }
 
 // Función para generar HTML de una card de producto
@@ -518,22 +551,22 @@ function generateProductCardHTML(producto) {
                         </small>
                     </div>
                     
-                    <!-- Selector de cantidad -->
-                    <div class="quantity-selector mb-3">
-                        <button class="quantity-btn" onclick="changeQuantity('${producto.id}', -1)">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <input type="number" class="quantity-input" id="quantity-${producto.id}" value="1" min="1" max="${producto.stock}">
-                        <button class="quantity-btn" onclick="changeQuantity('${producto.id}', 1)">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                    
                     <!-- Botones de acción -->
                     <div class="mt-auto">
-                        <button class="btn btn-primary w-100 mb-2" onclick="addToCart('${producto.id}')">
-                            <i class="fas fa-shopping-cart me-2"></i>Agregar al Carrito
-                        </button>
+                        <!-- Fila con cantidad y agregar al carrito -->
+                        <div class="d-flex align-items-end gap-2 mb-2">
+                            <div class="flex-shrink-0" style="width: 80px;">
+                                <label class="form-label small mb-1">Cantidad:</label>
+                                <input type="number" class="form-control form-control-sm" id="quantity-${producto.id}" value="1" min="1" max="${producto.stock}">
+                            </div>
+                            <div class="flex-grow-1">
+                                <button class="btn btn-primary w-100" onclick="addToCart('${producto.id}')">
+                                    <i class="fas fa-shopping-cart me-1"></i>Agregar al Carrito
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Botón ver detalles -->
                         <button class="btn btn-outline-primary w-100" onclick="showProductDetails('${producto.id}')">
                             <i class="fas fa-eye me-2"></i>Ver Detalles
                         </button>
@@ -647,13 +680,202 @@ function initializeDynamicProducts() {
         
         // Reemplazar contenido de categorías
         productTabsContent.innerHTML = content.categories;
+        
+        // Configurar botones de cantidad después de regenerar el HTML
+        setupQuantityButtons();
+        
+        // Configurar listeners de cambio de tabs
+        setupTabChangeListeners();
     }
 }
+
+/**
+ * Configura los inputs de cantidad después de regenerar el HTML
+ */
+function setupQuantityButtons() {
+    console.log('🔧 Setting up quantity inputs...');
+    
+    // Configurar todos los inputs de cantidad existentes
+    const inputs = document.querySelectorAll('input[id^="quantity-"]');
+    console.log('🔍 Found quantity inputs:', inputs.length);
+    
+    // Verificar qué tab está activo
+    const activeTab = document.querySelector('.tab-pane.active');
+    console.log('📋 Active tab:', activeTab ? activeTab.id : 'none');
+    
+    inputs.forEach((input, index) => {
+        console.log(`Input ${index} configured:`, input.id, input.value);
+        
+        // Asegurar que el input tenga los atributos correctos
+        if (input.id && input.id.startsWith('quantity-')) {
+            const productId = input.id.replace('quantity-', '');
+            const producto = getProductById(productId);
+            if (producto) {
+                input.min = 1;
+                input.max = producto.stock;
+                input.value = input.value || 1;
+                console.log(`✅ Input ${productId} configured: min=${input.min}, max=${input.max}, value=${input.value}`);
+            }
+        }
+    });
+    
+    console.log('Quantity inputs setup complete');
+}
+
+/**
+ * Configura los inputs de cantidad solo del tab activo
+ */
+function setupActiveTabQuantityButtons() {
+    console.log('🎯 Setting up active tab quantity inputs...');
+    
+    // Buscar solo los inputs del tab activo
+    const activeTab = document.querySelector('.tab-pane.active');
+    if (!activeTab) {
+        console.log('❌ No active tab found');
+        return;
+    }
+    
+    const inputs = activeTab.querySelectorAll('input[id^="quantity-"]');
+    console.log('🔍 Found quantity inputs in active tab:', inputs.length, 'for tab:', activeTab.id);
+    
+    inputs.forEach((input, index) => {
+        console.log(`Input ${index} configured in tab ${activeTab.id}:`, input.id, input.value);
+        
+        // Asegurar que el input tenga los atributos correctos
+        if (input.id && input.id.startsWith('quantity-')) {
+            const productId = input.id.replace('quantity-', '');
+            const producto = getProductById(productId);
+            if (producto) {
+                input.min = 1;
+                input.max = producto.stock;
+                input.value = input.value || 1;
+                console.log(`✅ Input ${productId} configured: min=${input.min}, max=${input.max}, value=${input.value}`);
+            }
+        }
+    });
+    
+    console.log('Active tab quantity inputs setup complete');
+}
+
+/**
+ * Verifica que los inputs de cantidad estén funcionando correctamente
+ */
+function verifyQuantityInputs() {
+    console.log('🔍 Verifying quantity inputs...');
+    
+    const activeTab = document.querySelector('.tab-pane.active');
+    if (!activeTab) {
+        console.log('❌ No active tab found');
+        return;
+    }
+    
+    const inputs = activeTab.querySelectorAll('input[id^="quantity-"]');
+    console.log(`📊 Found ${inputs.length} inputs in tab ${activeTab.id}`);
+    
+    inputs.forEach((input, index) => {
+        const productId = input.id.replace('quantity-', '');
+        console.log(`Input ${index}:`, {
+            id: input.id,
+            productId: productId,
+            value: input.value,
+            min: input.min,
+            max: input.max,
+            visible: input.offsetParent !== null
+        });
+    });
+}
+
+/**
+ * Limpia inputs duplicados manteniendo solo los del tab activo
+ */
+function cleanupDuplicateInputs() {
+    console.log('🧹 Cleaning up duplicate inputs...');
+    
+    const activeTab = document.querySelector('.tab-pane.active');
+    if (!activeTab) {
+        console.log('❌ No active tab found');
+        return;
+    }
+    
+    // Obtener todos los inputs de cantidad
+    const allInputs = document.querySelectorAll('input[id^="quantity-"]');
+    const inputsByProduct = {};
+    
+    // Agrupar inputs por producto
+    allInputs.forEach(input => {
+        const productId = input.id.replace('quantity-', '');
+        if (!inputsByProduct[productId]) {
+            inputsByProduct[productId] = [];
+        }
+        inputsByProduct[productId].push(input);
+    });
+    
+    // Para cada producto, mantener solo el input del tab activo
+    Object.entries(inputsByProduct).forEach(([productId, inputs]) => {
+        if (inputs.length > 1) {
+            console.log(`🔧 Found ${inputs.length} inputs for product ${productId}`);
+            
+            // Encontrar el input del tab activo
+            const activeInput = activeTab.querySelector(`#quantity-${productId}`);
+            
+            if (activeInput) {
+                // Ocultar o remover los otros inputs
+                inputs.forEach(input => {
+                    if (input !== activeInput) {
+                        console.log(`🗑️ Removing duplicate input for ${productId}`);
+                        input.remove();
+                    }
+                });
+            }
+        }
+    });
+    
+    console.log('🧹 Cleanup complete');
+}
+
+/**
+ * Configura los event listeners para el cambio de tabs
+ */
+function setupTabChangeListeners() {
+    console.log('📑 Setting up tab change listeners...');
+    
+    // Configurar eventos para todos los tabs de productos
+    const tabButtons = document.querySelectorAll('#productTabs button[data-bs-toggle="pill"]');
+    
+    tabButtons.forEach(tabButton => {
+        // Remover event listener anterior si existe
+        tabButton.removeEventListener('shown.bs.tab', handleTabShown);
+        
+        // Agregar nuevo event listener
+        tabButton.addEventListener('shown.bs.tab', handleTabShown);
+    });
+    
+    console.log('Tab change listeners configured for', tabButtons.length, 'tabs');
+}
+
+/**
+ * Maneja el evento de mostrar un tab
+ */
+function handleTabShown(event) {
+    console.log('🎯 Tab shown:', event.target.id);
+    
+    // Configurar botones de cantidad después de que se muestre el tab
+    setTimeout(() => {
+        console.log('⏰ Configurando botones después de cambio de tab...');
+        cleanupDuplicateInputs();
+        setupActiveTabQuantityButtons();
+        verifyQuantityInputs();
+    }, 200);
+}
+
 
 // Función para mostrar detalles del producto en modal
 function showProductDetails(productId) {
     const producto = getProductById(productId);
     if (!producto) return;
+
+    // Guardar el ID del producto actual para usar en el modal
+    currentModalProductId = productId;
 
     // Llenar el modal con la información del producto
     document.getElementById('modalProductImage').src = producto.imagen;
@@ -706,6 +928,7 @@ function showProductDetails(productId) {
     // Mostrar el modal
     const modal = new bootstrap.Modal(document.getElementById('productModal'));
     modal.show();
+    
 }
 
 
@@ -768,10 +991,35 @@ function handleUrlHash() {
  * @param {number} quantity - Cantidad a agregar
  */
 function addToCart(productId, quantity = null) {
+    console.log('🛒 addToCart called:', productId, 'quantity param:', quantity);
     const producto = getProductById(productId);
-    if (!producto) return;
+    if (!producto) {
+        console.log('❌ Producto not found:', productId);
+        return;
+    }
 
-    const cantidad = quantity || parseInt(document.getElementById(`quantity-${productId}`).value) || 1;
+    // Buscar el input en el tab activo específicamente
+    const activeTab = document.querySelector('.tab-pane.active');
+    const inputElement = activeTab ? 
+        activeTab.querySelector(`#quantity-${productId}`) : 
+        document.getElementById(`quantity-${productId}`);
+    
+    const inputValue = inputElement ? inputElement.value : 'not found';
+    const cantidad = quantity || parseInt(inputValue) || 1;
+    
+    console.log('📊 Active tab:', activeTab?.id);
+    console.log('📊 Input element:', inputElement);
+    console.log('📊 Input value:', inputValue);
+    console.log('📊 Final cantidad:', cantidad);
+    
+    // Verificar si hay inputs duplicados
+    const allInputs = document.querySelectorAll(`#quantity-${productId}`);
+    if (allInputs.length > 1) {
+        console.log('⚠️ WARNING: Found', allInputs.length, 'inputs with same ID:', productId);
+        allInputs.forEach((input, index) => {
+            console.log(`Input ${index}:`, input.value, input.offsetParent ? 'visible' : 'hidden');
+        });
+    }
     
     // Validar stock
     if (producto.stock === 0) {
@@ -793,8 +1041,10 @@ function addToCart(productId, quantity = null) {
             showCartNotification(`Solo puedes agregar ${producto.stock - existingItem.cantidad} unidades más`, 'warning');
             return;
         }
+        console.log('➕ Adding to existing item:', existingItem.cantidad, '+', cantidad, '=', existingItem.cantidad + cantidad);
         existingItem.cantidad += cantidad;
     } else {
+        console.log('🆕 Adding new item to cart:', cantidad, 'units');
         cart.push({
             id: productId,
             nombre: producto.nombre,
@@ -805,6 +1055,8 @@ function addToCart(productId, quantity = null) {
     }
 
     updateCartCounter();
+    saveCartToStorage();
+    updateCartModal();
     showCartNotification(`${producto.nombre} agregado al carrito`, 'success');
 }
 
@@ -819,7 +1071,7 @@ function showCartNotification(message, type = 'success') {
     if (!toastContainer) {
         toastContainer = document.createElement('div');
         toastContainer.id = 'toastContainer';
-        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        toastContainer.className = 'toast-container position-fixed top-0 start-0 p-3';
         toastContainer.style.zIndex = '9999';
         document.body.appendChild(toastContainer);
     }
@@ -851,20 +1103,6 @@ function showCartNotification(message, type = 'success') {
     });
 }
 
-/**
- * Cambia la cantidad de un producto
- * @param {string} productId - ID del producto
- * @param {number} change - Cambio en la cantidad (+1 o -1)
- */
-function changeQuantity(productId, change) {
-    const input = document.getElementById(`quantity-${productId}`);
-    const producto = getProductById(productId);
-    if (!input || !producto) return;
-
-    let newValue = parseInt(input.value) + change;
-    newValue = Math.max(1, Math.min(newValue, producto.stock));
-    input.value = newValue;
-}
 
 /**
  * Cambia la cantidad en el modal
@@ -872,35 +1110,177 @@ function changeQuantity(productId, change) {
  */
 function changeModalQuantity(change) {
     const input = document.getElementById('modalQuantity');
-    const modalTitle = document.getElementById('modalProductTitle');
-    if (!input || !modalTitle) return;
-
-    // Obtener el producto actual del modal
-    const currentProduct = getProductById(modalTitle.textContent);
-    if (!currentProduct) return;
+    if (!input) return;
 
     let newValue = parseInt(input.value) + change;
-    newValue = Math.max(1, Math.min(newValue, currentProduct.stock));
+    newValue = Math.max(1, Math.min(newValue, parseInt(input.max)));
     input.value = newValue;
+}
+
+/**
+ * Elimina un producto del carrito
+ * @param {string} productId - ID del producto a eliminar
+ */
+function removeFromCart(productId) {
+    const index = cart.findIndex(item => item.id === productId);
+    if (index !== -1) {
+        const producto = cart[index];
+        cart.splice(index, 1);
+        updateCartCounter();
+        saveCartToStorage();
+        updateCartModal();
+        showCartNotification(`${producto.nombre} eliminado del carrito`, 'info');
+    }
+}
+
+/**
+ * Obtiene el carrito completo
+ * @returns {Array} Array con todos los productos del carrito
+ */
+function getCart() {
+    return cart;
+}
+
+/**
+ * Limpia todo el carrito
+ */
+function clearCart() {
+    cart = [];
+    updateCartCounter();
+    saveCartToStorage();
+    showCartNotification('Carrito vaciado', 'info');
+    updateCartModal();
+}
+
+/**
+ * Muestra el modal del carrito
+ */
+function showCartModal() {
+    updateCartModal();
+    const modal = new bootstrap.Modal(document.getElementById('cartModal'));
+    modal.show();
+}
+
+
+/**
+ * Actualiza el contenido del modal del carrito
+ */
+function updateCartModal() {
+    const cartItemsList = document.getElementById('cartItemsList');
+    const cartEmptyMessage = document.getElementById('cartEmptyMessage');
+    const cartModalTotal = document.getElementById('cartModalTotal');
+    const clearCartBtn = document.getElementById('clearCartBtn');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    
+    if (!cartItemsList || !cartEmptyMessage || !cartModalTotal || !clearCartBtn || !checkoutBtn) return;
+    
+    // Calcular total
+    const totalPrice = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+    cartModalTotal.textContent = `$${totalPrice.toLocaleString('es-CL')}`;
+    
+    if (cart.length === 0) {
+        // Carrito vacío
+        cartItemsList.style.display = 'none';
+        cartEmptyMessage.style.display = 'block';
+        clearCartBtn.style.display = 'none';
+        checkoutBtn.style.display = 'none';
+    } else {
+        // Carrito con productos
+        cartItemsList.style.display = 'block';
+        cartEmptyMessage.style.display = 'none';
+        clearCartBtn.style.display = 'inline-block';
+        checkoutBtn.style.display = 'inline-block';
+        
+        // Generar HTML de los productos
+        cartItemsList.innerHTML = cart.map(item => `
+            <div class="cart-item d-flex align-items-center mb-3 p-3 border rounded">
+                <img src="${item.imagen}" alt="${item.nombre}" class="cart-item-image me-3" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                <div class="flex-grow-1">
+                    <h6 class="mb-1">${item.nombre}</h6>
+                    <p class="text-muted mb-1">$${item.precio.toLocaleString('es-CL')} c/u</p>
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-sm btn-outline-secondary" onclick="changeCartItemQuantity('${item.id}', -1)">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span class="mx-2 fw-bold">${item.cantidad}</span>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="changeCartItemQuantity('${item.id}', 1)">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <div class="fw-bold mb-1">$${(item.precio * item.cantidad).toLocaleString('es-CL')}</div>
+                    <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart('${item.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+/**
+ * Cambia la cantidad de un producto en el carrito
+ * @param {string} productId - ID del producto
+ * @param {number} change - Cambio en la cantidad (+1 o -1)
+ */
+function changeCartItemQuantity(productId, change) {
+    const item = cart.find(item => item.id === productId);
+    if (!item) return;
+    
+    const producto = getProductById(productId);
+    if (!producto) return;
+    
+    let newQuantity = item.cantidad + change;
+    
+    // Validar límites
+    if (newQuantity <= 0) {
+        removeFromCart(productId);
+        return;
+    }
+    
+    if (newQuantity > producto.stock) {
+        showCartNotification(`Solo hay ${producto.stock} unidades disponibles`, 'error');
+        return;
+    }
+    
+    item.cantidad = newQuantity;
+    updateCartCounter();
+    saveCartToStorage();
+    updateCartModal();
 }
 
 /**
  * Actualiza el contador del carrito
  */
 function updateCartCounter() {
+    const totalItems = cart.reduce((sum, item) => sum + item.cantidad, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+    
+    // Actualizar contador desktop
     const counter = document.getElementById('cartCounter');
     if (counter) {
-        const totalItems = cart.reduce((sum, item) => sum + item.cantidad, 0);
-        const totalPrice = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-        
         counter.textContent = totalItems;
         counter.style.display = totalItems > 0 ? 'block' : 'none';
-        
-        // Actualizar precio total si existe el elemento
-        const priceElement = document.getElementById('cartTotalPrice');
-        if (priceElement) {
-            priceElement.textContent = `$${totalPrice.toLocaleString('es-CL')}`;
-        }
+    }
+    
+    // Actualizar contador móvil
+    const counterMobile = document.getElementById('cartCounterMobile');
+    if (counterMobile) {
+        counterMobile.textContent = totalItems;
+        counterMobile.style.display = totalItems > 0 ? 'block' : 'none';
+    }
+    
+    // Actualizar precio total desktop
+    const priceElement = document.getElementById('cartTotalPrice');
+    if (priceElement) {
+        priceElement.textContent = `Carrito $${totalPrice.toLocaleString('es-CL')}`;
+    }
+    
+    // Actualizar precio total móvil
+    const priceElementMobile = document.getElementById('cartTotalPriceMobile');
+    if (priceElementMobile) {
+        priceElementMobile.textContent = `Carrito $${totalPrice.toLocaleString('es-CL')}`;
     }
 }
 
@@ -964,8 +1344,28 @@ function handleUrlHash() {
 
 // Inicializar productos cuando se carga el DOM
 document.addEventListener('DOMContentLoaded', function() {
+    // Cargar carrito desde localStorage
+    loadCartFromStorage();
+    
     // Actualizar contador del carrito en todas las páginas
     updateCartCounter();
+    
+    // Configurar evento para el botón de agregar al carrito del modal
+    const modalAddToCartBtn = document.getElementById('modalAddToCart');
+    if (modalAddToCartBtn) {
+        modalAddToCartBtn.addEventListener('click', function() {
+            if (currentModalProductId) {
+                const quantity = parseInt(document.getElementById('modalQuantity').value) || 1;
+                addToCart(currentModalProductId, quantity);
+                
+                // Cerrar el modal después de agregar
+                const modal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
+                if (modal) {
+                    modal.hide();
+                }
+            }
+        });
+    }
     
     // Solo inicializar si estamos en la página de productos
     if (document.getElementById('productos')) {
@@ -998,5 +1398,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+        
+        // Configurar eventos de cambio de tabs para configurar botones de cantidad
+        setupTabChangeListeners();
     }
 });

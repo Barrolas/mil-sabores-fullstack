@@ -102,9 +102,10 @@
                         </div>
 
                         <!-- Carrito -->
-                        <div class="d-flex flex-column align-items-center px-2">
+                        <div class="d-flex flex-column align-items-center px-2 position-relative" style="cursor: pointer;" onclick="showCartModal()">
                             <i class="material-icons text-pink">shopping_cart</i>
-                            <small class="text-dark fw-medium">Carrito $35.990</small>
+                            <small class="text-dark fw-medium" id="cartTotalPrice">Carrito $0</small>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCounter" style="display: none;">0</span>
                         </div>
                     </div>
                 </div>
@@ -187,9 +188,10 @@
                 </div>
 
                 <!-- Carrito - Mobile -->
-                <div class="d-flex align-items-center gap-3 p-3 bg-light rounded">
+                <div class="d-flex align-items-center gap-3 p-3 bg-light rounded position-relative" style="cursor: pointer;" onclick="showCartModal()">
                     <i class="material-icons text-pink">shopping_cart</i>
-                    <span class="fw-medium">Carrito $35.990</span>
+                    <span class="fw-medium" id="cartTotalPriceMobile">Carrito $0</span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCounterMobile" style="display: none;">0</span>
                 </div>
             </div>
         </div>
@@ -314,8 +316,7 @@
             </div>
 
             <!-- Modal de Detalles del Producto -->
-            <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -326,6 +327,51 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <img id="modalProductImage" src="" class="img-fluid rounded" alt="Producto">
+                                    
+                                    <!-- Reseñas debajo de la imagen -->
+                                    <div class="mt-4">
+                                        <h6>Reseñas de Clientes</h6>
+                                        <div id="modalProductReviews">
+                                            <!-- Las reseñas se cargarán dinámicamente -->
+                                        </div>
+                                        
+                                        <!-- Formulario para agregar reseña (Mockup) -->
+                                        <div class="mt-4 p-3 bg-light rounded">
+                                            <h6 class="mb-3">Agregar tu reseña</h6>
+                                            
+                                            <!-- Rating selector -->
+                                            <div class="mb-3">
+                                                <label class="form-label">Calificación</label>
+                                                <div class="rating-selector">
+                                                    <input type="radio" id="star5" name="rating" value="5" checked>
+                                                    <label for="star5" class="star-label">⭐</label>
+                                                    
+                                                    <input type="radio" id="star4" name="rating" value="4" checked>
+                                                    <label for="star4" class="star-label">⭐</label>
+                                                    
+                                                    <input type="radio" id="star3" name="rating" value="3" checked>
+                                                    <label for="star3" class="star-label">⭐</label>
+                                                    
+                                                    <input type="radio" id="star2" name="rating" value="2" checked>
+                                                    <label for="star2" class="star-label">⭐</label>
+                                                    
+                                                    <input type="radio" id="star1" name="rating" value="1" checked>
+                                                    <label for="star1" class="star-label">⭐</label>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Comentario -->
+                                            <div class="mb-3">
+                                                <label class="form-label">Tu comentario</label>
+                                                <textarea class="form-control" rows="3" placeholder="Comparte tu experiencia con este producto..."></textarea>
+                                            </div>
+                                            
+                                            <!-- Botón habilitado (sin funcionalidad) -->
+                                            <button type="button" class="btn btn-primary">
+                                                <i class="fas fa-star me-2"></i>Publicar Reseña
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <h4 id="modalProductTitle"></h4>
@@ -361,14 +407,6 @@
                                             </li>
                                         </ul>
                                     </div>
-
-                                    <!-- Reseñas -->
-                                    <div class="mb-4">
-                                        <h6>Reseñas de Clientes</h6>
-                                        <div id="modalProductReviews">
-                                            <!-- Las reseñas se cargarán dinámicamente -->
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -385,10 +423,12 @@
         <section id="sobre-nosotros" class="py-5">
             <div class="container">
                 <div class="row">
-                    <div class="col-6 text-center mb-5">
+                    <!-- Imagen: col-12 en móvil/tablet, col-6 en desktop -->
+                    <div class="col-12 col-lg-6 text-center mb-4 mb-lg-5">
                        <img src="https://pasteleriatialucy.cl/img/cms/Sobre%20nosotros_%20(1).png" alt="Sobre Nosotros" class="img-fluid">
                     </div>
-                    <div class="col-6  mb-5">
+                    <!-- Texto: col-12 en móvil/tablet, col-6 en desktop -->
+                    <div class="col-12 col-lg-6 mb-5">
                         <h2 class="display-4 fw-bold text-dark mb-3">Sobre Nosotros</h2>
                         <p class="lead text-muted">Hace más de tres décadas, Pastelería Mil sabores  se ha distinguido como una de las pastelerías más queridas en la comuna de La Florida y sus alrededores. Nuestros productos combinan la tradición familiar con un compromiso en la calidad, la creatividad y la cuidadosa elección de ingredientes.
 
@@ -399,6 +439,50 @@
         </section>
 
     </main>
+
+    <!-- Modal del Carrito -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">
+                        <i class="fas fa-shopping-cart me-2"></i>Mi Carrito
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Lista de productos del carrito -->
+                    <div id="cartItemsList">
+                        <!-- Los productos se cargarán dinámicamente aquí -->
+                    </div>
+                    
+                    <!-- Mensaje cuando el carrito está vacío -->
+                    <div id="cartEmptyMessage" class="text-center py-5" style="display: none;">
+                        <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">Tu carrito está vacío</h5>
+                        <p class="text-muted">Agrega algunos productos para comenzar</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <div>
+                            <strong>Total: <span id="cartModalTotal">$0</span></strong>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-outline-danger me-2" onclick="clearCart()" id="clearCartBtn" style="display: none;">
+                                <i class="fas fa-trash me-1"></i>Vaciar Carrito
+                            </button>
+                            <button type="button" class="btn btn-success me-2" id="checkoutBtn" style="display: none;">
+                                <i class="fas fa-credit-card me-1"></i>Ir a Pagar
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/productos.js"></script>
