@@ -1341,6 +1341,31 @@ body {
         padding: 2rem !important;
     }
     
+    /* Layout mejorado para tarjetas de productos en móvil */
+    .product-card .card-body {
+        padding: 1rem;
+    }
+    
+    .product-card .form-label {
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .product-card input[type="number"] {
+        width: 80px !important;
+        margin-bottom: 0.75rem;
+    }
+    
+    .product-card .btn {
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .product-card .btn:last-child {
+        margin-bottom: 0;
+    }
+    
     .auth-page .btn-lg {
         padding: 10px 20px;
         font-size: 1rem;
