@@ -1287,59 +1287,6 @@ function updateCartCounter() {
 // FUNCIONES DE NAVEGACIÓN
 // ========================================
 
-/**
- * Maneja la navegación de productos desde navbar
- * @param {string} categoryKey - Clave de la categoría
- */
-function handleProductNavigation(categoryKey) {
-    const productosSection = document.getElementById('productos');
-    if (!productosSection) return;
-
-    // Si estamos en la página de productos, hacer scroll y activar tab
-    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
-        productosSection.scrollIntoView({ behavior: 'smooth' });
-        
-        // Activar el tab correspondiente
-        setTimeout(() => {
-            const tabButton = document.getElementById(`${categoryKey}-tab`);
-            if (tabButton) {
-                const tab = new bootstrap.Tab(tabButton);
-                tab.show();
-            }
-        }, 500);
-    } else {
-        // Si estamos en otra página, redirigir a index con hash
-        window.location.href = `index.html#productos-${categoryKey}`;
-    }
-}
-
-/**
- * Maneja el hash de URL al cargar la página
- */
-function handleUrlHash() {
-    const hash = window.location.hash;
-    if (hash && hash.startsWith('#productos-')) {
-        const categoryKey = hash.replace('#productos-', '');
-        setTimeout(() => {
-            handleProductNavigation(categoryKey);
-        }, 1000);
-    } else if (hash === '#productos' || hash === '#productos-todos') {
-        // Si el hash es solo #productos o #productos-todos, mostrar el tab "todos"
-        setTimeout(() => {
-            const productosSection = document.getElementById('productos');
-            if (productosSection) {
-                productosSection.scrollIntoView({ behavior: 'smooth' });
-                setTimeout(() => {
-                    const tabButton = document.getElementById('todos-tab');
-                    if (tabButton) {
-                        const tab = new bootstrap.Tab(tabButton);
-                        tab.show();
-                    }
-                }, 500);
-            }
-        }, 1000);
-    }
-}
 
 // Inicializar productos cuando se carga el DOM
 document.addEventListener('DOMContentLoaded', function() {

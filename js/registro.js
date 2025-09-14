@@ -171,21 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function validarEmail() {
-        const email = document.getElementById('email');
-        const valor = email.value.trim();
-        
-        if (!valor) {
-            mostrarError(email, 'El correo electrónico es obligatorio');
-            return false;
-        }
-        
-        if (!validateEmail(valor)) {
-            mostrarError(email, 'Ingrese un correo electrónico válido (ejemplo: usuario@correo.com)');
-            return false;
-        }
-        
-        mostrarExito(email);
-        return true;
+        return validateEmailField('email', true);
     }
 
     function validarFechaNacimiento() {

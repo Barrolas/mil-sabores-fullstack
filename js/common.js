@@ -18,6 +18,35 @@ function validateEmail(email) {
 }
 
 /**
+ * Valida campo de email con feedback visual
+ * @param {string} fieldId - ID del campo de email
+ * @param {boolean} required - Si el campo es obligatorio
+ * @returns {boolean} - true si es válido
+ */
+function validateEmailField(fieldId, required = true) {
+    const email = document.getElementById(fieldId);
+    const valor = email.value.trim();
+    
+    if (!valor) {
+        if (required) {
+            mostrarError(email, 'El correo electrónico es obligatorio');
+            return false;
+        } else {
+            mostrarExito(email);
+            return true;
+        }
+    }
+    
+    if (!validateEmail(valor)) {
+        mostrarError(email, 'Ingrese un correo electrónico válido (ejemplo: usuario@correo.com)');
+        return false;
+    }
+    
+    mostrarExito(email);
+    return true;
+}
+
+/**
  * Valida un nombre o apellido
  * @param {string} name - Nombre a validar
  * @param {string} fieldName - Nombre del campo para mensajes
@@ -319,13 +348,5 @@ function mostrarCodigoInvalido() {
  * @param {string} tipo - Tipo de alerta (success, error, info, warning)
  * @param {string} mensaje - Mensaje a mostrar
  */
-function mostrarAlerta(tipo, mensaje) {
-    Swal.fire({
-        title: tipo === 'success' ? '¡Éxito!' : tipo === 'error' ? 'Error' : 'Información',
-        text: mensaje,
-        icon: tipo === 'success' ? 'success' : tipo === 'error' ? 'error' : 'info',
-        confirmButtonText: 'Entendido'
-    });
-}
 
 console.log('✅ common.js cargado correctamente - Funciones compartidas disponibles');
