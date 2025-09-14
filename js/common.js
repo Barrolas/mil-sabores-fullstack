@@ -251,52 +251,58 @@ function showAlert(message, type = 'info', containerId = 'alertContainer') {
 // ========================================
 
 /**
- * Muestra descuento por edad (mayores de 50)
+ * Muestra beneficio de descuento por edad (50+ años)
  */
 function mostrarDescuentoEdad() {
     Swal.fire({
-        title: '¡Felicidades!',
-        text: 'Por ser mayor de 50 años tienes un 50% de descuento en todos nuestros productos.',
+        title: '🎉 ¡Descuento Especial!',
+        text: 'Por ser mayor de 50 años, recibes un 50% de descuento en todos nuestros productos.',
         icon: 'success',
-        confirmButtonText: 'Entendido'
+        confirmButtonText: '¡Genial!',
+        timer: 5000,
+        timerProgressBar: true
     });
 }
 
 /**
- * Muestra beneficio de torta gratis para usuarios @duoc.cl
- * REQUERIMIENTO: Tortas gratis para estudiantes de Duoc en su cumpleaños
+ * Muestra beneficio de torta gratis para estudiantes Duoc
  */
 function mostrarTortaGratis() {
     Swal.fire({
-        title: '¡Beneficio especial!',
-        text: 'Al registrarte con correo @duoc.cl, recibirás tortas gratis en tu cumpleaños.',
+        title: '🎂 ¡Torta Gratis!',
+        text: 'Como estudiante de Duoc, recibes una torta gratis en tu cumpleaños.',
         icon: 'success',
-        confirmButtonText: 'Entendido'
+        confirmButtonText: '¡Excelente!',
+        timer: 5000,
+        timerProgressBar: true
     });
 }
 
 /**
- * Muestra descuento por código válido
- * REQUERIMIENTO: Descuento 10% para código "FELICES50"
+ * Muestra beneficio de descuento por código FELICES50
  */
 function mostrarDescuentoCodigo() {
     Swal.fire({
-        title: '¡Código válido!',
-        text: 'Tienes un descuento del 10% de por vida con el código: FELICES50',
+        title: '🎊 ¡Código Válido!',
+        text: 'Con el código FELICES50 recibes un 10% de descuento de por vida.',
         icon: 'success',
-        confirmButtonText: 'Entendido'
+        confirmButtonText: '¡Perfecto!',
+        timer: 5000,
+        timerProgressBar: true
     });
 }
 
 /**
- * Muestra código inválido
+ * Muestra mensaje de código inválido
  */
 function mostrarCodigoInvalido() {
     Swal.fire({
-        title: 'Código inválido',
-        text: 'Código de descuento inválido. Intenta con "FELICES50" para obtener un 10% de descuento.',
+        title: '❌ Código Inválido',
+        text: 'El código ingresado no es válido. Intenta con FELICES50.',
         icon: 'error',
-        confirmButtonText: 'Entendido'
+        confirmButtonText: 'Entendido',
+        timer: 3000,
+        timerProgressBar: true
     });
 }
 
