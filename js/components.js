@@ -411,8 +411,16 @@ function scrollToSection(sectionId) {
  * @param {string} categoryId - ID de la categoría a activar
  */
 function activateProductTab(categoryId) {
-    // Buscar el tab correspondiente
-    const tabButton = document.querySelector(`button[data-bs-target="#${categoryId}"]`);
+    let tabButton;
+    
+    // Caso especial para "todos"
+    if (categoryId === 'todos') {
+        tabButton = document.getElementById('todos-tab');
+    } else {
+        // Buscar el tab correspondiente para categorías específicas
+        tabButton = document.querySelector(`button[data-bs-target="#${categoryId}"]`);
+    }
+    
     if (tabButton) {
         // Activar el tab usando Bootstrap
         const tab = new bootstrap.Tab(tabButton);
