@@ -6,16 +6,7 @@
 // ========================================
 // VALIDACIONES DE LOGIN
 // ========================================
-
-/**
- * Valida el formato de un email
- * @param {string} email - Email a validar
- * @returns {boolean} true si es válido, false si no
- */
-function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
+// Nota: validateEmail() ahora está en js/common.js
 
 /**
  * Valida el formulario completo de login
@@ -26,7 +17,7 @@ function validateLoginForm() {
     let camposConError = [];
     
     // Limpiar validaciones anteriores
-    limpiarValidaciones();
+    limpiarValidaciones('loginForm');
     
     // Validar campos obligatorios
     if (!validarEmailLogin()) {
@@ -100,43 +91,7 @@ function validarPasswordLogin() {
 // ========================================
 // MANEJO DE SESIONES
 // ========================================
-
-/**
- * Guarda la sesión del usuario en sessionStorage
- * @param {string} email - Email del usuario
- * @param {object} userData - Datos adicionales del usuario
- */
-function saveUserSession(email, userData = {}) {
-    sessionStorage.setItem('userLoggedIn', 'true');
-    sessionStorage.setItem('userEmail', email);
-    sessionStorage.setItem('userData', JSON.stringify(userData));
-}
-
-/**
- * Verifica si el usuario está logueado
- * @returns {boolean} true si está logueado, false si no
- */
-function isUserLoggedIn() {
-    return sessionStorage.getItem('userLoggedIn') === 'true';
-}
-
-/**
- * Obtiene los datos del usuario de la sesión
- * @returns {object|null} Datos del usuario o null si no hay sesión
- */
-function getUserData() {
-    const userData = sessionStorage.getItem('userData');
-    return userData ? JSON.parse(userData) : null;
-}
-
-/**
- * Cierra la sesión del usuario
- */
-function logout() {
-    sessionStorage.removeItem('userLoggedIn');
-    sessionStorage.removeItem('userEmail');
-    sessionStorage.removeItem('userData');
-}
+// Nota: Funciones de sesión ahora están en js/common.js
 
 // ========================================
 // FUNCIONES DE LOGIN
@@ -174,105 +129,7 @@ function handleLogin() {
 // ========================================
 // UTILIDADES DE INTERFAZ PARA LOGIN
 // ========================================
-
-/**
- * Muestra error en un campo del formulario
- * @param {HTMLElement} campo - Campo del formulario
- * @param {string} mensaje - Mensaje de error
- */
-function mostrarError(campo, mensaje) {
-    campo.classList.remove('is-valid');
-    campo.classList.add('is-invalid');
-    
-    const errorElement = document.getElementById(campo.id + 'Error');
-    if (errorElement) {
-        errorElement.textContent = mensaje;
-        errorElement.style.display = 'block';
-    }
-    
-    // Agregar atributo aria-invalid para accesibilidad
-    campo.setAttribute('aria-invalid', 'true');
-    campo.setAttribute('aria-describedby', campo.id + 'Error');
-}
-
-/**
- * Muestra éxito en un campo del formulario
- * @param {HTMLElement} campo - Campo del formulario
- */
-function mostrarExito(campo) {
-    campo.classList.remove('is-invalid');
-    campo.classList.add('is-valid');
-    
-    const errorElement = document.getElementById(campo.id + 'Error');
-    if (errorElement) {
-        errorElement.textContent = '';
-        errorElement.style.display = 'none';
-    }
-    
-    // Remover atributo aria-invalid para accesibilidad
-    campo.removeAttribute('aria-invalid');
-    campo.removeAttribute('aria-describedby');
-}
-
-/**
- * Limpia todas las validaciones del formulario de login
- */
-function limpiarValidaciones() {
-    const campos = document.querySelectorAll('#loginForm .form-control');
-    campos.forEach(campo => {
-        campo.classList.remove('is-valid', 'is-invalid');
-        campo.removeAttribute('aria-invalid');
-        campo.removeAttribute('aria-describedby');
-    });
-    
-    const errores = document.querySelectorAll('#loginForm .invalid-feedback');
-    errores.forEach(error => {
-        error.textContent = '';
-        error.style.display = 'none';
-    });
-}
-
-/**
- * Alterna la visibilidad de la contraseña
- * @param {string} passwordId - ID del campo de contraseña
- * @param {string} eyeIconId - ID del icono del ojo
- */
-function togglePassword(passwordId, eyeIconId) {
-    const passwordInput = document.getElementById(passwordId);
-    const eyeIcon = document.getElementById(eyeIconId);
-    
-    if (passwordInput && eyeIcon) {
-        const tipo = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', tipo);
-        
-        // Cambia el icono
-        if (tipo === 'text') {
-            eyeIcon.classList.remove('fa-eye');
-            eyeIcon.classList.add('fa-eye-slash');
-        } else {
-            eyeIcon.classList.remove('fa-eye-slash');
-            eyeIcon.classList.add('fa-eye');
-        }
-    }
-}
-
-/**
- * Muestra alertas en la página
- * @param {string} message - Mensaje a mostrar
- * @param {string} type - Tipo de alerta (info, success, warning, danger)
- * @param {string} containerId - ID del contenedor de alertas
- */
-function showAlert(message, type = 'info', containerId = 'alertContainer') {
-    const alertContainer = document.getElementById(containerId);
-    if (alertContainer) {
-        alertContainer.innerHTML = `
-            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        `;
-    }
-}
+// Nota: Funciones de interfaz ahora están en js/common.js
 
 
 // ========================================
@@ -290,16 +147,7 @@ function setupPasswordToggles() {
     }
 }
 
-/**
- * Configura los inputs de fecha con fecha máxima
- */
-function setupDateInputs() {
-    const fechaMaxima = new Date().toISOString().split('T')[0];
-    const dateInputs = document.querySelectorAll('input[type="date"]');
-    dateInputs.forEach(input => {
-        input.setAttribute('max', fechaMaxima);
-    });
-}
+// Nota: setupDateInputs() ahora está en js/common.js
 
 // Inicializar cuando se carga el DOM
 document.addEventListener('DOMContentLoaded', function() {
