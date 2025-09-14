@@ -556,10 +556,10 @@ function generateProductCardHTML(producto) {
                         <!-- Fila con cantidad y agregar al carrito -->
                         <div class="row g-2 mb-2 align-items-end">
                             <div class="col-3">
-                                <input type="number" class="form-control form-control-sm" id="quantity-${producto.id}" value="1" min="1" max="${producto.stock}" placeholder="Cant.">
+                                <input type="number" class="form-control form-control-sm py-2" id="quantity-${producto.id}" value="1" min="1" max="${producto.stock}" placeholder="Cant.">
                             </div>
                             <div class="col-9">
-                                <button class="btn btn-primary w-100" onclick="addToCart('${producto.id}')">
+                                <button class="btn btn-primary w-100 py-2" onclick="addToCart('${producto.id}')">
                                     <i class="fas fa-shopping-cart me-1"></i>Agregar al Carrito
                                 </button>
                             </div>

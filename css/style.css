@@ -551,31 +551,9 @@ body {
     filter: grayscale(0%);
 }
 
-/* Estilos para el nuevo layout de cantidad y botón */
-.d-flex.gap-2 .form-control-sm {
-    font-size: 0.875rem;
-    padding: 0.375rem 0.5rem;
+/* Estilos mínimos para el layout de cantidad y botón */
+.product-card input[type="number"] {
     text-align: center;
-}
-
-.d-flex.gap-2 .form-label.small {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: #6c757d;
-    margin-bottom: 0.25rem;
-}
-
-.d-flex.gap-2 .btn {
-    font-size: 0.875rem;
-    padding: 0.375rem 0.75rem;
-    height: 38px; /* Altura fija para alineación */
-    line-height: 1.5;
-}
-
-/* Asegurar que el input tenga la misma altura que el botón */
-.d-flex.gap-2 .form-control-sm {
-    height: 38px;
-    line-height: 1.5;
 }
 
 /* Estilos específicos para el contenedor de cantidad */
@@ -1354,37 +1332,14 @@ body {
         font-weight: 500;
     }
     
-    /* Layout móvil usando Bootstrap Grid */
+    /* Layout móvil usando solo Bootstrap */
     .product-card .row.g-2 {
         margin: 0 !important;
     }
     
-    .product-card .col-3 {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
-    }
-    
-    .product-card .col-9 {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
-    }
-    
     /* Input de cantidad optimizado para móvil */
     .product-card input[type="number"] {
-        font-size: 0.85rem !important;
         text-align: center !important;
-        height: 38px !important;
-        line-height: 1.5 !important;
-        padding: 0.375rem 0.5rem !important;
-    }
-    
-    /* Botones optimizados para móvil */
-    .product-card .btn {
-        font-size: 0.85rem !important;
-        font-weight: 600 !important;
-        height: 38px !important;
-        line-height: 1.5 !important;
-        padding: 0.375rem 0.75rem !important;
     }
     
     .auth-page .btn-lg {
