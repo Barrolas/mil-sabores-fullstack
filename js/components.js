@@ -360,16 +360,35 @@ function setupNavbarNavigation() {
                 
                 const href = this.getAttribute('href');
                 const [page, anchor] = href.split('#');
+                const category = this.getAttribute('data-category');
                 
                 // Si estamos en index.html, navegar directamente al anchor
                 if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
                     scrollToSection(anchor);
+                    
+                    // Si hay una categoría específica, activar el tab correspondiente
+                    if (category) {
+                        activateProductTab(category);
+                    }
                 } else {
                     // Si estamos en otra página, ir a index.html con el anchor
+                    if (category) {
+                        // Guardar la categoría para activarla después de cargar la página
+                        sessionStorage.setItem('activeCategory', category);
+                    }
                     window.location.href = href;
                 }
             });
         });
+        
+        // Verificar si hay una categoría guardada para activar
+        const savedCategory = sessionStorage.getItem('activeCategory');
+        if (savedCategory) {
+            setTimeout(() => {
+                activateProductTab(savedCategory);
+                sessionStorage.removeItem('activeCategory');
+            }, 1000);
+        }
     }, 500);
 }
 
@@ -384,6 +403,24 @@ function scrollToSection(sectionId) {
             behavior: 'smooth',
             block: 'start'
         });
+    }
+}
+
+/**
+ * Activa el tab de productos correspondiente a la categoría
+ * @param {string} categoryId - ID de la categoría a activar
+ */
+function activateProductTab(categoryId) {
+    // Buscar el tab correspondiente
+    const tabButton = document.querySelector(`button[data-bs-target="#${categoryId}"]`);
+    if (tabButton) {
+        // Activar el tab usando Bootstrap
+        const tab = new bootstrap.Tab(tabButton);
+        tab.show();
+        
+        console.log(`✅ Tab activado: ${categoryId}`);
+    } else {
+        console.warn(`❌ No se encontró el tab para la categoría: ${categoryId}`);
     }
 }
 
