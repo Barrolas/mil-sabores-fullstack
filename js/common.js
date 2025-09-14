@@ -244,46 +244,7 @@ function showAlert(message, type = 'info', containerId = 'alertContainer') {
     }
 }
 
-// ========================================
-// MANEJO DE SESIONES COMUNES
-// ========================================
 
-/**
- * Guarda la sesión del usuario en sessionStorage
- * @param {string} email - Email del usuario
- * @param {object} userData - Datos adicionales del usuario
- */
-function saveUserSession(email, userData = {}) {
-    sessionStorage.setItem('userLoggedIn', 'true');
-    sessionStorage.setItem('userEmail', email);
-    sessionStorage.setItem('userData', JSON.stringify(userData));
-}
-
-/**
- * Verifica si el usuario está logueado
- * @returns {boolean} true si está logueado, false si no
- */
-function isUserLoggedIn() {
-    return sessionStorage.getItem('userLoggedIn') === 'true';
-}
-
-/**
- * Obtiene los datos del usuario de la sesión
- * @returns {object|null} Datos del usuario o null si no hay sesión
- */
-function getUserData() {
-    const userData = sessionStorage.getItem('userData');
-    return userData ? JSON.parse(userData) : null;
-}
-
-/**
- * Cierra la sesión del usuario
- */
-function logout() {
-    sessionStorage.removeItem('userLoggedIn');
-    sessionStorage.removeItem('userEmail');
-    sessionStorage.removeItem('userData');
-}
 
 // ========================================
 // BENEFICIOS ESPECIALES COMUNES
