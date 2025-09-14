@@ -1371,12 +1371,14 @@ body {
     .product-card input[type="number"] {
         font-size: 0.85rem !important;
         text-align: center !important;
+        height: 38px !important;
     }
     
     /* Botones optimizados para móvil */
     .product-card .btn {
         font-size: 0.85rem !important;
         font-weight: 600 !important;
+        height: 38px !important;
     }
     
     .auth-page .btn-lg {
