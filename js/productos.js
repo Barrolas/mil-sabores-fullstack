@@ -566,7 +566,7 @@ function generateProductCardHTML(producto) {
                         </div>
                         
                         <!-- Botón ver detalles -->
-                        <button class="btn btn-outline-primary w-100" onclick="showProductDetails('${producto.id}')">
+                        <button class="btn btn-outline-primary w-100 mt-2" onclick="showProductDetails('${producto.id}')">
                             <i class="fas fa-eye me-2"></i>Ver Detalles
                         </button>
                     </div>
