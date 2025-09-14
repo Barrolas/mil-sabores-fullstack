@@ -554,15 +554,15 @@ function generateProductCardHTML(producto) {
                     <!-- Botones de acción -->
                     <div class="mt-auto">
                         <!-- Fila con cantidad y agregar al carrito -->
-                        <div class="d-flex align-items-end gap-2 mb-2">
-                            <div class="flex-shrink-0" style="width: 80px;">
+                        <div class="row g-2 mb-2">
+                            <div class="col-3">
                                 <label class="form-label small mb-1">Cantidad:</label>
                                 <input type="number" class="form-control form-control-sm" id="quantity-${producto.id}" value="1" min="1" max="${producto.stock}">
                             </div>
-                            <div class="flex-grow-1">
+                            <div class="col-9">
                                 <button class="btn btn-primary w-100" onclick="addToCart('${producto.id}')">
                                     <i class="fas fa-shopping-cart me-1"></i>Agregar al Carrito
-                        </button>
+                                </button>
                             </div>
                         </div>
                         

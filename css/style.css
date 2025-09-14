@@ -1352,54 +1352,30 @@ body {
         font-weight: 500;
     }
     
-    /* Layout horizontal que usa todo el ancho disponible */
-    .product-card .d-flex {
-        display: flex !important;
-        align-items: end !important;
-        gap: 0.75rem !important;
-        width: 100% !important;
-        justify-content: space-between !important;
+    /* Layout móvil usando Bootstrap Grid */
+    .product-card .row.g-2 {
+        margin: 0 !important;
     }
     
-    /* Cantidad: espacio proporcional como desktop */
-    .product-card .flex-shrink-0 {
-        width: 25% !important;
-        flex-shrink: 0 !important;
-        min-width: 80px !important;
-        max-width: 100px !important;
+    .product-card .col-3 {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
     }
     
-    /* Botón: toma el resto del espacio disponible */
-    .product-card .flex-grow-1 {
-        flex-grow: 1 !important;
-        min-width: 0 !important;
-        flex-shrink: 1 !important;
-        width: 70% !important;
+    .product-card .col-9 {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
     }
     
-    /* Input de cantidad que usa todo su contenedor */
+    /* Input de cantidad optimizado para móvil */
     .product-card input[type="number"] {
-        width: 100% !important;
         font-size: 0.85rem !important;
-        padding: 0.4rem 0.5rem !important;
-        height: 38px !important;
-        border: 1px solid #ddd !important;
-        border-radius: 6px !important;
         text-align: center !important;
     }
     
-    /* Botones que usan todo su espacio disponible */
+    /* Botones optimizados para móvil */
     .product-card .btn {
-        width: 100% !important;
         font-size: 0.85rem !important;
-        padding: 0.5rem 0.8rem !important;
-        height: 38px !important;
-        white-space: nowrap !important;
-        border-radius: 6px !important;
-    }
-    
-    /* Botón principal más prominente */
-    .product-card .btn-primary {
         font-weight: 600 !important;
     }
     
