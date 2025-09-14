@@ -340,6 +340,51 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.log('ℹ️ No se detectaron contenedores de componentes en esta página');
     }
+    
+    // Configurar navegación suave para enlaces del navbar
+    setupNavbarNavigation();
 });
+
+/**
+ * Configura la navegación suave para los enlaces del navbar
+ */
+function setupNavbarNavigation() {
+    // Esperar un poco para que los componentes se carguen
+    setTimeout(() => {
+        // Manejar enlaces de navegación
+        const navLinks = document.querySelectorAll('a[href*="#sobre-nosotros"], a[href*="#productos"]');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const href = this.getAttribute('href');
+                const [page, anchor] = href.split('#');
+                
+                // Si estamos en index.html, navegar directamente al anchor
+                if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+                    scrollToSection(anchor);
+                } else {
+                    // Si estamos en otra página, ir a index.html con el anchor
+                    window.location.href = href;
+                }
+            });
+        });
+    }, 500);
+}
+
+/**
+ * Hace scroll suave a una sección específica
+ * @param {string} sectionId - ID de la sección a la que hacer scroll
+ */
+function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+        section.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
 
 console.log('✅ components.js cargado correctamente - Sistema híbrido de componentes disponible');
