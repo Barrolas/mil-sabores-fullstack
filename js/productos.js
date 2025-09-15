@@ -1,35 +1,222 @@
-// ========================================
-// PRODUCTOS - Pastelería Mil Sabores
-// Funciones específicas para productos, carrito y navegación
-// ========================================
+/**
+ * ====================================================================================
+ * 🛒 ARCHIVO DE PRODUCTOS - PASTELERÍA MIL SABORES
+ * ====================================================================================
+ * 
+ * Este archivo centraliza toda la lógica relacionada con productos, carrito de compras
+ * y navegación entre categorías. Es el corazón del sistema de e-commerce de la aplicación.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Gestionar la base de datos de productos y categorías
+ * - Implementar funcionalidad completa del carrito de compras
+ * - Manejar navegación entre categorías de productos
+ * - Proporcionar modales de detalles de productos
+ * - Persistir datos del carrito en localStorage
+ * 
+ * 📋 FUNCIONALIDADES PRINCIPALES:
+ * - Base de datos de productos con categorías
+ * - Sistema de carrito con persistencia
+ * - Modales de detalles de productos
+ * - Navegación entre categorías con tabs
+ * - Notificaciones toast para feedback del usuario
+ * - Gestión de cantidad de productos
+ * 
+ * 🔄 FLUJO DE FUNCIONAMIENTO:
+ * 1. Carga productos desde base de datos local
+ * 2. Inicializa carrito desde localStorage
+ * 3. Configura event listeners para interacciones
+ * 4. Maneja navegación entre categorías
+ * 5. Gestiona agregar/quitar productos del carrito
+ * 6. Persiste cambios en localStorage
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Sistema de carrito persistente
+ * - Navegación fluida entre categorías
+ * - Modales responsivos con Bootstrap
+ * - Notificaciones toast para feedback
+ * - Gestión de cantidad con botones +/-
+ * - Integración con sistema de componentes
+ * 
+ * 📄 ARCHIVOS RELACIONADOS:
+ * - index.html: Página principal con sección de productos
+ * - components/navbar.html: Navegación con dropdown de categorías
+ * - components/cart-modal.html: Modal del carrito de compras
+ * - js/components.js: Sistema de componentes y navegación
+ */
 
-// Variables globales
+// ====================================================================================
+// 📋 SECCIÓN 1: VARIABLES GLOBALES Y PERSISTENCIA
+// ====================================================================================
+
+/**
+ * ====================================================================================
+ * 🛒 VARIABLES GLOBALES DEL SISTEMA
+ * ====================================================================================
+ * 
+ * Estas variables mantienen el estado global del sistema de productos y carrito.
+ * 
+ * 📋 VARIABLES DISPONIBLES:
+ * - cart: Array que contiene los productos en el carrito
+ * - currentModalProductId: ID del producto actualmente mostrado en el modal
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Estado global accesible desde todas las funciones
+ * - Persistencia automática en localStorage
+ * - Sincronización con interfaz de usuario
+ */
+
+// Array que contiene los productos en el carrito
 let cart = [];
+
+// ID del producto actualmente mostrado en el modal de detalles
 let currentModalProductId = null;
 
-// Cargar carrito desde localStorage al inicializar
+/**
+ * ====================================================================================
+ * 💾 CARGA DE CARRITO DESDE LOCALSTORAGE
+ * ====================================================================================
+ * 
+ * Esta función recupera el carrito de compras guardado en localStorage al inicializar
+ * la aplicación, asegurando que el usuario mantenga sus productos seleccionados
+ * entre sesiones.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Recuperar carrito de compras de sesiones anteriores
+ * - Mantener persistencia de datos del usuario
+ * - Inicializar el estado global del carrito
+ * - Manejar errores de parsing de JSON
+ * 
+ * 🔄 FLUJO DE FUNCIONAMIENTO:
+ * 
+ * PASO 1: RECUPERACIÓN DE DATOS
+ * - Busca el carrito guardado en localStorage con clave 'milSaboresCart'
+ * - Si no existe → Mantiene carrito vacío
+ * 
+ * PASO 2: PARSING DE JSON
+ * - Intenta convertir el string JSON a objeto JavaScript
+ * - Si hay error → Muestra error en consola y resetea carrito
+ * 
+ * PASO 3: INICIALIZACIÓN
+ * - Asigna el carrito recuperado a la variable global
+ * - Actualiza la interfaz de usuario
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Manejo seguro de errores de parsing
+ * - Fallback a carrito vacío en caso de error
+ * - Logs informativos para debugging
+ * - Persistencia automática entre sesiones
+ * 
+ * 📄 USADO EN:
+ * - Inicialización de la aplicación
+ * - Recuperación de estado después de recarga de página
+ */
 function loadCartFromStorage() {
+    // ====================================================================================
+    // PASO 1: RECUPERACIÓN DE DATOS DESDE LOCALSTORAGE
+    // ====================================================================================
     const savedCart = localStorage.getItem('milSaboresCart');
     if (savedCart) {
         try {
+            // ====================================================================================
+            // PASO 2: PARSING SEGURO DE JSON
+            // ====================================================================================
             cart = JSON.parse(savedCart);
         } catch (e) {
+            // ====================================================================================
+            // PASO 3: MANEJO DE ERRORES
+            // ====================================================================================
             console.error('Error al cargar carrito desde localStorage:', e);
             cart = [];
         }
     }
 }
 
-// Guardar carrito en localStorage
+/**
+ * ====================================================================================
+ * 💾 GUARDADO DE CARRITO EN LOCALSTORAGE
+ * ====================================================================================
+ * 
+ * Esta función guarda el estado actual del carrito en localStorage para mantener
+ * persistencia entre sesiones y recargas de página.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Guardar estado actual del carrito en localStorage
+ * - Mantener persistencia de datos del usuario
+ * - Sincronizar cambios con almacenamiento local
+ * - Manejar errores de escritura en localStorage
+ * 
+ * 🔄 FLUJO DE FUNCIONAMIENTO:
+ * 
+ * PASO 1: SERIALIZACIÓN
+ * - Convierte el array del carrito a string JSON
+ * - Prepara datos para almacenamiento
+ * 
+ * PASO 2: ALMACENAMIENTO
+ * - Guarda el carrito en localStorage con clave 'milSaboresCart'
+ * - Si hay error → Muestra error en consola
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Manejo seguro de errores de escritura
+ * - Serialización automática a JSON
+ * - Logs informativos para debugging
+ * - Persistencia automática en cada cambio
+ * 
+ * 📄 USADO EN:
+ * - Después de agregar productos al carrito
+ * - Después de modificar cantidades
+ * - Después de eliminar productos
+ * - Al cerrar la aplicación
+ */
 function saveCartToStorage() {
     try {
+        // ====================================================================================
+        // PASO 1: SERIALIZACIÓN Y ALMACENAMIENTO
+        // ====================================================================================
         localStorage.setItem('milSaboresCart', JSON.stringify(cart));
     } catch (e) {
+        // ====================================================================================
+        // PASO 2: MANEJO DE ERRORES
+        // ====================================================================================
         console.error('Error al guardar carrito en localStorage:', e);
     }
 }
 
-// Base de datos de productos y categorías
+// ====================================================================================
+// 📋 SECCIÓN 2: BASE DE DATOS DE PRODUCTOS
+// ====================================================================================
+
+/**
+ * ====================================================================================
+ * 🗄️ BASE DE DATOS DE PRODUCTOS Y CATEGORÍAS
+ * ====================================================================================
+ * 
+ * Esta es la base de datos local que contiene todos los productos organizados por
+ * categorías. Cada producto incluye información completa para la tienda online.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Almacenar información completa de productos
+ * - Organizar productos por categorías
+ * - Proporcionar datos para la interfaz de usuario
+ * - Mantener consistencia en toda la aplicación
+ * 
+ * 📋 ESTRUCTURA DE DATOS:
+ * - categorias: Objeto con categorías de productos
+ * - cada categoría contiene: nombre, icono, productos
+ * - cada producto contiene: id, nombre, precio, imagen, descripción, etc.
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Datos estructurados y organizados
+ * - Información completa de cada producto
+ * - Categorización lógica de productos
+ * - Fácil mantenimiento y actualización
+ * - Integración con sistema de carrito
+ * 
+ * 📄 USADO EN:
+ * - Generación dinámica de productos
+ * - Modales de detalles de productos
+ * - Sistema de carrito de compras
+ * - Navegación entre categorías
+ */
 console.log('🚀 productos.js cargado correctamente');
 
 const productosDB = {
@@ -399,29 +586,220 @@ let precioMinimo = 0;
 let precioMaximo = 999999;
 
 // Función para obtener todos los productos en un objeto plano
+// ====================================================================================
+// 📋 SECCIÓN 3: FUNCIONES DE OBTENCIÓN DE PRODUCTOS
+// ====================================================================================
+
+/**
+ * ====================================================================================
+ * 📦 OBTENCIÓN DE TODOS LOS PRODUCTOS
+ * ====================================================================================
+ * 
+ * Esta función obtiene todos los productos de todas las categorías y los organiza
+ * en un objeto indexado por ID para facilitar el acceso.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Consolidar todos los productos en un solo objeto
+ * - Indexar productos por ID para acceso rápido
+ * - Facilitar búsquedas por ID de producto
+ * - Proporcionar vista unificada de todos los productos
+ * 
+ * 🔄 FLUJO DE FUNCIONAMIENTO:
+ * 
+ * PASO 1: INICIALIZACIÓN
+ * - Crea objeto vacío para almacenar productos
+ * 
+ * PASO 2: ITERACIÓN POR CATEGORÍAS
+ * - Recorre todas las categorías de productosDB
+ * - Extrae productos de cada categoría
+ * 
+ * PASO 3: INDEXACIÓN POR ID
+ * - Asigna cada producto al objeto usando su ID como clave
+ * - Retorna objeto indexado
+ * 
+ * 📋 VALOR DE RETORNO:
+ * - Objeto con productos indexados por ID
+ * - Estructura: {productoId: productoObject, ...}
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Acceso rápido por ID de producto
+ * - Consolidación de datos de múltiples categorías
+ * - Estructura optimizada para búsquedas
+ * - Integración con sistema de carrito
+ * 
+ * 📄 USADO EN:
+ * - Búsqueda de productos por ID
+ * - Generación de contenido dinámico
+ * - Sistema de carrito de compras
+ */
 function getAllProducts() {
+    // ====================================================================================
+    // PASO 1: INICIALIZACIÓN DEL OBJETO DE PRODUCTOS
+    // ====================================================================================
     const productos = {};
+    
+    // ====================================================================================
+    // PASO 2: ITERACIÓN POR CATEGORÍAS Y PRODUCTOS
+    // ====================================================================================
     Object.values(productosDB.categorias).forEach(categoria => {
         categoria.productos.forEach(producto => {
             productos[producto.id] = producto;
         });
     });
+    
+    // ====================================================================================
+    // PASO 3: RETORNO DEL OBJETO INDEXADO
+    // ====================================================================================
     return productos;
 }
 
-// Función para obtener un producto por ID
+/**
+ * ====================================================================================
+ * 🔍 OBTENCIÓN DE PRODUCTO POR ID
+ * ====================================================================================
+ * 
+ * Esta función busca y retorna un producto específico usando su ID único.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Buscar producto específico por ID
+ * - Proporcionar acceso directo a datos del producto
+ * - Facilitar operaciones con productos individuales
+ * - Centralizar lógica de búsqueda por ID
+ * 
+ * 🔄 FLUJO DE FUNCIONAMIENTO:
+ * 
+ * PASO 1: BÚSQUEDA
+ * - Usa getAllProducts() para obtener todos los productos
+ * - Busca producto por ID en el objeto indexado
+ * 
+ * PASO 2: LOGGING
+ * - Registra la búsqueda en consola para debugging
+ * 
+ * PASO 3: RETORNO
+ * - Retorna el producto encontrado o undefined
+ * 
+ * 📋 PARÁMETROS:
+ * - id: ID único del producto (string)
+ * 
+ * 📋 VALOR DE RETORNO:
+ * - Objeto del producto si existe
+ * - undefined si no se encuentra
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Búsqueda rápida por ID
+ * - Logging para debugging
+ * - Manejo seguro de productos no encontrados
+ * - Integración con sistema de carrito
+ * 
+ * 📄 USADO EN:
+ * - Modales de detalles de productos
+ * - Sistema de carrito de compras
+ * - Operaciones de productos individuales
+ * 
+ * @param {string} id - ID único del producto
+ * @returns {object|undefined} - Objeto del producto o undefined
+ */
 function getProductById(id) {
+    // ====================================================================================
+    // PASO 1: BÚSQUEDA DEL PRODUCTO
+    // ====================================================================================
     const producto = getAllProducts()[id];
+    
+    // ====================================================================================
+    // PASO 2: LOGGING PARA DEBUGGING
+    // ====================================================================================
     console.log('getProductById:', id, producto);
+    
+    // ====================================================================================
+    // PASO 3: RETORNO DEL PRODUCTO
+    // ====================================================================================
     return producto;
 }
 
-// Función para obtener productos por categoría
+/**
+ * ====================================================================================
+ * 📂 OBTENCIÓN DE PRODUCTOS POR CATEGORÍA
+ * ====================================================================================
+ * 
+ * Esta función obtiene todos los productos de una categoría específica.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Obtener productos de una categoría específica
+ * - Facilitar navegación por categorías
+ * - Proporcionar datos para tabs de productos
+ * - Centralizar lógica de filtrado por categoría
+ * 
+ * 🔄 FLUJO DE FUNCIONAMIENTO:
+ * 
+ * PASO 1: BÚSQUEDA DE CATEGORÍA
+ * - Busca la categoría en productosDB usando categoryKey
+ * - Usa optional chaining para manejo seguro
+ * 
+ * PASO 2: RETORNO DE PRODUCTOS
+ * - Retorna array de productos de la categoría
+ * - Retorna array vacío si la categoría no existe
+ * 
+ * 📋 PARÁMETROS:
+ * - categoryKey: Clave de la categoría (string)
+ * 
+ * 📋 VALOR DE RETORNO:
+ * - Array de productos de la categoría
+ * - Array vacío si la categoría no existe
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Manejo seguro de categorías inexistentes
+ * - Retorno consistente (siempre array)
+ * - Acceso directo a productos de categoría
+ * - Integración con sistema de tabs
+ * 
+ * 📄 USADO EN:
+ * - Generación de contenido de tabs
+ * - Navegación entre categorías
+ * - Filtrado de productos
+ * 
+ * @param {string} categoryKey - Clave de la categoría
+ * @returns {array} - Array de productos de la categoría
+ */
 function getProductsByCategory(categoryKey) {
     return productosDB.categorias[categoryKey]?.productos || [];
 }
 
-// Función para obtener todas las categorías
+/**
+ * ====================================================================================
+ * 📋 OBTENCIÓN DE TODAS LAS CATEGORÍAS
+ * ====================================================================================
+ * 
+ * Esta función obtiene todas las categorías disponibles en la base de datos.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Obtener todas las categorías de productos
+ * - Facilitar generación de navegación
+ * - Proporcionar datos para dropdowns y tabs
+ * - Centralizar acceso a categorías
+ * 
+ * 🔄 FLUJO DE FUNCIONAMIENTO:
+ * 
+ * PASO 1: ACCESO DIRECTO
+ * - Accede directamente a productosDB.categorias
+ * - Retorna objeto completo de categorías
+ * 
+ * 📋 VALOR DE RETORNO:
+ * - Objeto con todas las categorías
+ * - Estructura: {categoryKey: categoryObject, ...}
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Acceso directo a datos de categorías
+ * - Retorno completo de información
+ * - Integración con sistema de navegación
+ * - Fácil iteración y manipulación
+ * 
+ * 📄 USADO EN:
+ * - Generación de tabs de categorías
+ * - Navegación del navbar
+ * - Dropdowns de categorías
+ * 
+ * @returns {object} - Objeto con todas las categorías
+ */
 function getAllCategories() {
     return productosDB.categorias;
 }
@@ -599,9 +977,67 @@ function generateCategoryHTML(categoriaKey, categoria) {
     `;
 }
 
-// Función para generar HTML de los tabs de categorías
+/**
+ * ====================================================================================
+ * 📋 GENERACIÓN DE HTML DE TABS DE CATEGORÍAS
+ * ====================================================================================
+ * 
+ * Esta función genera dinámicamente el HTML de los tabs de navegación para las
+ * categorías de productos, utilizando la estructura de datos de productosDB.categorias.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Crear tabs de navegación para cada categoría de productos
+ * - Generar tab especial "Todos los Productos" que muestra todos los productos
+ * - Configurar atributos Bootstrap para funcionalidad de tabs
+ * - Integrar iconos Font Awesome para cada categoría
+ * 
+ * 🔄 FLUJO DE FUNCIONAMIENTO:
+ * 1. Crea tab fijo "Todos los Productos" (siempre activo por defecto)
+ * 2. Itera sobre productosDB.categorias para generar tabs dinámicos
+ * 3. Extrae datos específicos de cada categoría (nombre, icono, key)
+ * 4. Genera HTML con atributos Bootstrap para funcionalidad
+ * 5. Combina todos los tabs en una cadena HTML completa
+ * 
+ * 📊 UTILIZACIÓN DEL JSON productosDB.categorias:
+ * - Object.entries(productosDB.categorias): Convierte objeto en array de [key, value]
+ * - [key, categoria]: Destructuring para obtener clave y objeto de categoría
+ * - categoria.nombre: Nombre legible de la categoría (ej: "Tortas Cuadradas")
+ * - categoria.icono: Clase CSS del icono Font Awesome (ej: "fas fa-square")
+ * - key: Identificador único de la categoría (ej: "tortas-cuadradas")
+ * 
+ * ⚡ CARACTERÍSTICAS DEL HTML GENERADO:
+ * - Estructura Bootstrap nav-pills para tabs
+ * - Atributos data-bs-toggle="pill" para funcionalidad Bootstrap
+ * - data-bs-target="#id" para vincular tab con contenido
+ * - IDs únicos para cada tab (ej: "tortas-cuadradas-tab")
+ * - Iconos Font Awesome integrados
+ * - Tab "Todos" marcado como activo por defecto
+ * 
+ * 📋 ESTRUCTURA JSON UTILIZADA:
+ * productosDB.categorias = {
+ *   "tortas-cuadradas": {
+ *     nombre: "Tortas Cuadradas",
+ *     icono: "fas fa-square",
+ *     productos: [...]
+ *   },
+ *   "tortas-circulares": {
+ *     nombre: "Tortas Circulares", 
+ *     icono: "fas fa-circle",
+ *     productos: [...]
+ *   }
+ * }
+ * 
+ * @returns {string} HTML completo de todos los tabs de categorías
+ */
 function generateTabsHTML() {
-    // Tab "Todos los Productos" primero
+    console.log('🔧 Generando HTML de tabs de categorías...');
+    console.log('📊 Categorías disponibles:', Object.keys(productosDB.categorias));
+    
+    // ====================================================================================
+    // 📋 TAB FIJO "TODOS LOS PRODUCTOS"
+    // ====================================================================================
+    // Este tab siempre se genera primero y está activo por defecto.
+    // Muestra todos los productos de todas las categorías combinados.
     const todosTab = `<li class="nav-item" role="presentation">
         <button class="nav-link active" id="todos-tab" data-bs-toggle="pill" 
             data-bs-target="#todos" type="button" role="tab">
@@ -609,34 +1045,138 @@ function generateTabsHTML() {
         </button>
     </li>`;
     
-    // Tabs de categorías individuales
-    const categoriasTabs = Object.entries(productosDB.categorias).map(([key, categoria]) => 
-        `<li class="nav-item" role="presentation">
+    console.log('✅ Tab "Todos los Productos" generado');
+    
+    // ====================================================================================
+    // 📋 GENERACIÓN DINÁMICA DE TABS DE CATEGORÍAS
+    // ====================================================================================
+    // Object.entries() convierte el objeto productosDB.categorias en un array de pares [key, value]
+    // Ejemplo: [["tortas-cuadradas", {nombre: "Tortas Cuadradas", icono: "fas fa-square", productos: [...]}]]
+    const categoriasTabs = Object.entries(productosDB.categorias).map(([key, categoria]) => {
+        console.log(`🔧 Procesando categoría: ${key} -> ${categoria.nombre}`);
+        
+        // ====================================================================================
+        // 📋 DESTRUCTURING DE DATOS DE CATEGORÍA
+        // ====================================================================================
+        // key: Identificador único de la categoría (ej: "tortas-cuadradas")
+        // categoria: Objeto completo de la categoría con propiedades:
+        //   - nombre: Nombre legible (ej: "Tortas Cuadradas")
+        //   - icono: Clase CSS del icono Font Awesome (ej: "fas fa-square")
+        //   - productos: Array de productos de esta categoría
+        
+        return `<li class="nav-item" role="presentation">
             <button class="nav-link" id="${key}-tab" data-bs-toggle="pill" 
                 data-bs-target="#${key}" type="button" role="tab">
                 <i class="${categoria.icono} me-2"></i>${categoria.nombre}
             </button>
-        </li>`
-    ).join('');
+        </li>`;
+    }).join(''); // join('') convierte el array de strings en una sola cadena
     
-    return todosTab + categoriasTabs;
+    console.log(`✅ ${Object.keys(productosDB.categorias).length} tabs de categorías generados`);
+    
+    // ====================================================================================
+    // 📋 COMBINACIÓN Y RETORNO
+    // ====================================================================================
+    // Combina el tab fijo "Todos" con todos los tabs dinámicos de categorías
+    const resultado = todosTab + categoriasTabs;
+    console.log('🎯 HTML de tabs generado exitosamente');
+    
+    return resultado;
 }
 
-// Función para generar HTML del tab "Todos los Productos"
+/**
+ * ====================================================================================
+ * 📋 GENERACIÓN DE HTML DEL TAB "TODOS LOS PRODUCTOS"
+ * ====================================================================================
+ * 
+ * Esta función genera el contenido del tab "Todos los Productos" que muestra
+ * todos los productos de todas las categorías combinados en una sola vista.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Combinar productos de todas las categorías en una vista unificada
+ * - Aplicar filtros de precio a todos los productos
+ * - Generar tarjetas de productos para cada elemento
+ * - Manejar casos donde no hay productos que coincidan con filtros
+ * 
+ * 🔄 FLUJO DE FUNCIONAMIENTO:
+ * 1. Extrae todos los productos de todas las categorías usando Object.values()
+ * 2. Combina arrays de productos usando spread operator (...)
+ * 3. Aplica filtro de precios usando filtrarProductosPorPrecio()
+ * 4. Genera HTML de tarjetas para cada producto usando generateProductCardHTML()
+ * 5. Maneja caso de "sin resultados" con mensaje informativo
+ * 6. Envuelve todo en estructura Bootstrap tab-pane
+ * 
+ * 📊 UTILIZACIÓN DEL JSON productosDB.categorias:
+ * - Object.values(productosDB.categorias): Obtiene solo los valores (objetos de categorías)
+ * - categoria.productos: Array de productos específicos de cada categoría
+ * - ...categoria.productos: Spread operator para combinar arrays
+ * - productosDB.categorias = {
+ *     "tortas-cuadradas": { productos: [producto1, producto2, ...] },
+ *     "tortas-circulares": { productos: [producto3, producto4, ...] }
+ *   }
+ * 
+ * ⚡ CARACTERÍSTICAS DEL HTML GENERADO:
+ * - Estructura Bootstrap tab-pane con clases "fade show active"
+ * - ID "todos" para vinculación con tab correspondiente
+ * - Grid responsivo con clase "row" para tarjetas de productos
+ * - Mensaje de "sin resultados" con iconos Font Awesome
+ * - Integración con sistema de filtros de precio
+ * 
+ * 📋 ESTRUCTURA DE PRODUCTOS UTILIZADA:
+ * Cada producto en categoria.productos tiene la estructura:
+ * {
+ *   id: "unique-id",
+ *   nombre: "Nombre del Producto",
+ *   precio: 15000,
+ *   descripcion: "Descripción detallada",
+ *   imagen: "ruta/imagen.jpg",
+ *   stock: 10,
+ *   categoria: "tortas-cuadradas"
+ * }
+ * 
+ * @returns {string} HTML completo del tab "Todos los Productos"
+ */
 function generateTodosHTML() {
-    // Obtener todos los productos de todas las categorías
+    console.log('🔧 Generando HTML del tab "Todos los Productos"...');
+    
+    // ====================================================================================
+    // 📋 EXTRACCIÓN DE TODOS LOS PRODUCTOS DE TODAS LAS CATEGORÍAS
+    // ====================================================================================
+    // Object.values() obtiene solo los valores (objetos de categorías) del objeto productosDB.categorias
+    // Ejemplo: [{nombre: "Tortas Cuadradas", productos: [...]}, {nombre: "Tortas Circulares", productos: [...]}]
     const todosProductos = [];
     Object.values(productosDB.categorias).forEach(categoria => {
+        console.log(`📦 Extrayendo productos de categoría: ${categoria.nombre} (${categoria.productos.length} productos)`);
+        
+        // Spread operator (...) combina el array de productos de esta categoría con el array principal
+        // Ejemplo: todosProductos = [...todosProductos, producto1, producto2, producto3]
         todosProductos.push(...categoria.productos);
     });
     
-    // Aplicar filtro de precios
-    const productosFiltrados = filtrarProductosPorPrecio(todosProductos);
-    const productosHTML = productosFiltrados.map(producto => 
-        generateProductCardHTML(producto)
-    ).join('');
+    console.log(`📊 Total de productos combinados: ${todosProductos.length}`);
     
-    // Mostrar mensaje si no hay productos que coincidan con el filtro
+    // ====================================================================================
+    // 📋 APLICACIÓN DE FILTROS DE PRECIO
+    // ====================================================================================
+    // filtrarProductosPorPrecio() aplica los filtros de precio configurados por el usuario
+    // Utiliza los valores de los sliders de precio mínimo y máximo
+    const productosFiltrados = filtrarProductosPorPrecio(todosProductos);
+    console.log(`🔍 Productos después del filtro de precio: ${productosFiltrados.length}`);
+    
+    // ====================================================================================
+    // 📋 GENERACIÓN DE HTML DE TARJETAS DE PRODUCTOS
+    // ====================================================================================
+    // map() transforma cada producto en su HTML de tarjeta correspondiente
+    // generateProductCardHTML() crea la estructura completa de tarjeta Bootstrap
+    const productosHTML = productosFiltrados.map(producto => {
+        console.log(`🎨 Generando tarjeta para producto: ${producto.nombre}`);
+        return generateProductCardHTML(producto);
+    }).join(''); // join('') convierte el array de strings en una sola cadena HTML
+    
+    // ====================================================================================
+    // 📋 MANEJO DE CASO "SIN RESULTADOS"
+    // ====================================================================================
+    // Si no hay productos que coincidan con los filtros, muestra mensaje informativo
     const contenidoHTML = productosFiltrados.length > 0 ? 
         `<div class="row">${productosHTML}</div>` :
         `<div class="text-center py-5">
@@ -645,25 +1185,152 @@ function generateTodosHTML() {
             <p class="text-muted">Intenta ajustar el filtro de precio</p>
         </div>`;
     
-    return `
+    console.log(`✅ Contenido HTML generado: ${productosFiltrados.length > 0 ? 'Con productos' : 'Sin resultados'}`);
+    
+    // ====================================================================================
+    // 📋 ESTRUCTURA FINAL DEL TAB
+    // ====================================================================================
+    // Estructura Bootstrap tab-pane con:
+    // - "fade show active": Clases para transición y estado activo
+    // - id="todos": Identificador para vinculación con tab
+    // - role="tabpanel": Atributo de accesibilidad
+    const resultado = `
         <div class="tab-pane fade show active" id="todos" role="tabpanel">
             ${contenidoHTML}
         </div>
     `;
+    
+    console.log('🎯 HTML del tab "Todos los Productos" generado exitosamente');
+    
+    return resultado;
 }
 
-// Función para generar todo el contenido de productos dinámicamente
+/**
+ * ====================================================================================
+ * 📋 GENERACIÓN COMPLETA DE CONTENIDO DE PRODUCTOS DINÁMICAMENTE
+ * ====================================================================================
+ * 
+ * Esta función es el coordinador principal que genera todo el contenido de productos
+ * de forma dinámica, incluyendo tabs de navegación y contenido de cada categoría.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Coordinar la generación de todos los elementos de productos
+ * - Generar tabs de navegación para categorías
+ * - Crear contenido del tab "Todos los Productos"
+ * - Generar contenido específico para cada categoría individual
+ * - Retornar estructura organizada para inserción en DOM
+ * 
+ * 🔄 FLUJO DE FUNCIONAMIENTO:
+ * 1. Genera HTML de tabs de navegación usando generateTabsHTML()
+ * 2. Genera contenido del tab "Todos los Productos" usando generateTodosHTML()
+ * 3. Itera sobre cada categoría para generar contenido específico
+ * 4. Combina todo el contenido en estructura organizada
+ * 5. Retorna objeto con tabs y contenido separados
+ * 
+ * 📊 UTILIZACIÓN DEL JSON productosDB.categorias:
+ * - Object.entries(): Convierte objeto en array de [key, value] para iteración
+ * - [key, categoria]: Destructuring para obtener clave y objeto de categoría
+ * - generateCategoryHTML(key, categoria): Genera contenido específico de cada categoría
+ * - key: Identificador único usado para IDs y navegación
+ * - categoria: Objeto completo con nombre, icono y productos
+ * 
+ * ⚡ CARACTERÍSTICAS DEL RESULTADO:
+ * - Estructura organizada con tabs y contenido separados
+ * - Tabs de navegación con iconos Font Awesome
+ * - Contenido del tab "Todos" activo por defecto
+ * - Contenido específico para cada categoría individual
+ * - HTML listo para inserción directa en DOM
+ * 
+ * 📋 ESTRUCTURA JSON UTILIZADA:
+ * productosDB.categorias = {
+ *   "tortas-cuadradas": {
+ *     nombre: "Tortas Cuadradas",
+ *     icono: "fas fa-square",
+ *     productos: [
+ *       {id: "torta-chocolate", nombre: "Torta de Chocolate", precio: 15000, ...},
+ *       {id: "torta-vainilla", nombre: "Torta de Vainilla", precio: 12000, ...}
+ *     ]
+ *   },
+ *   "tortas-circulares": {
+ *     nombre: "Tortas Circulares",
+ *     icono: "fas fa-circle", 
+ *     productos: [
+ *       {id: "torta-frutilla", nombre: "Torta de Frutilla", precio: 18000, ...}
+ *     ]
+ *   }
+ * }
+ * 
+ * 📤 ESTRUCTURA DE RETORNO:
+ * {
+ *   tabs: "<li>Tab Todos</li><li>Tab Categoría 1</li><li>Tab Categoría 2</li>...",
+ *   categories: "<div id='todos'>Contenido Todos</div><div id='cat1'>Contenido Cat1</div>..."
+ * }
+ * 
+ * @returns {Object} Objeto con propiedades tabs y categories conteniendo HTML
+ */
 function generateProductsContent() {
-    const tabsHTML = generateTabsHTML();
-    const todosHTML = generateTodosHTML();
-    const categoriesHTML = Object.entries(productosDB.categorias).map(([key, categoria]) => 
-        generateCategoryHTML(key, categoria)
-    ).join('');
+    console.log('🚀 Iniciando generación completa de contenido de productos...');
+    console.log('📊 Categorías disponibles:', Object.keys(productosDB.categorias));
     
-    return {
-        tabs: tabsHTML,
-        categories: todosHTML + categoriesHTML
+    // ====================================================================================
+    // 📋 GENERACIÓN DE TABS DE NAVEGACIÓN
+    // ====================================================================================
+    // generateTabsHTML() crea todos los tabs de navegación incluyendo:
+    // - Tab fijo "Todos los Productos" (activo por defecto)
+    // - Tabs dinámicos para cada categoría con iconos Font Awesome
+    // - Atributos Bootstrap para funcionalidad de tabs
+    const tabsHTML = generateTabsHTML();
+    console.log('✅ Tabs de navegación generados');
+    
+    // ====================================================================================
+    // 📋 GENERACIÓN DE CONTENIDO DEL TAB "TODOS LOS PRODUCTOS"
+    // ====================================================================================
+    // generateTodosHTML() crea el contenido del tab que muestra todos los productos
+    // de todas las categorías combinados, con filtros de precio aplicados
+    const todosHTML = generateTodosHTML();
+    console.log('✅ Contenido del tab "Todos los Productos" generado');
+    
+    // ====================================================================================
+    // 📋 GENERACIÓN DE CONTENIDO PARA CADA CATEGORÍA INDIVIDUAL
+    // ====================================================================================
+    // Object.entries() convierte productosDB.categorias en array de [key, value]
+    // map() itera sobre cada categoría y genera su contenido específico
+    // generateCategoryHTML(key, categoria) crea el contenido completo de cada categoría
+    const categoriesHTML = Object.entries(productosDB.categorias).map(([key, categoria]) => {
+        console.log(`🔧 Generando contenido para categoría: ${key} (${categoria.nombre})`);
+        
+        // ====================================================================================
+        // 📋 DESTRUCTURING DE DATOS DE CATEGORÍA
+        // ====================================================================================
+        // key: Identificador único de la categoría (ej: "tortas-cuadradas")
+        // categoria: Objeto completo con propiedades:
+        //   - nombre: Nombre legible (ej: "Tortas Cuadradas")
+        //   - icono: Clase CSS del icono Font Awesome (ej: "fas fa-square")
+        //   - productos: Array de productos específicos de esta categoría
+        
+        return generateCategoryHTML(key, categoria);
+    }).join(''); // join('') convierte el array de strings en una sola cadena HTML
+    
+    console.log(`✅ Contenido de ${Object.keys(productosDB.categorias).length} categorías generado`);
+    
+    // ====================================================================================
+    // 📋 COMBINACIÓN Y ESTRUCTURA DE RETORNO
+    // ====================================================================================
+    // Combina el contenido del tab "Todos" con el contenido de todas las categorías
+    // Estructura organizada para inserción eficiente en DOM
+    const resultado = {
+        tabs: tabsHTML,                    // HTML de tabs de navegación
+        categories: todosHTML + categoriesHTML  // HTML de contenido (Todos + Categorías)
     };
+    
+    console.log('🎯 Generación completa de contenido de productos finalizada exitosamente');
+    console.log('📊 Resumen:', {
+        tabsGenerados: 'Tabs de navegación + Tab Todos',
+        categoriasGeneradas: Object.keys(productosDB.categorias).length,
+        contenidoTotal: 'Tab Todos + Contenido de todas las categorías'
+    });
+    
+    return resultado;
 }
 
 // Función para inicializar el contenido dinámico de productos
@@ -989,7 +1656,75 @@ function handleUrlHash() {
  * @param {string} productId - ID del producto
  * @param {number} quantity - Cantidad a agregar
  */
+// ====================================================================================
+// 📋 SECCIÓN 4: FUNCIONES DEL CARRITO DE COMPRAS
+// ====================================================================================
+
+/**
+ * ====================================================================================
+ * 🛒 AGREGAR PRODUCTO AL CARRITO DE COMPRAS
+ * ====================================================================================
+ * 
+ * Esta función es el corazón del sistema de carrito. Agrega productos al carrito
+ * con validaciones de stock, manejo de cantidades y persistencia automática.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Agregar productos al carrito de compras
+ * - Validar stock disponible
+ * - Manejar cantidades de productos
+ * - Persistir cambios en localStorage
+ * - Proporcionar feedback visual al usuario
+ * 
+ * 🔄 FLUJO DE FUNCIONAMIENTO:
+ * 
+ * PASO 1: VALIDACIÓN DE PRODUCTO
+ * - Busca el producto por ID
+ * - Si no existe → Termina la función
+ * 
+ * PASO 2: OBTENCIÓN DE CANTIDAD
+ * - Busca el input de cantidad en el tab activo
+ * - Usa cantidad proporcionada o valor del input
+ * - Fallback a cantidad 1 si no se encuentra
+ * 
+ * PASO 3: VALIDACIÓN DE STOCK
+ * - Verifica que el producto tenga stock disponible
+ * - Valida que la cantidad no exceda el stock
+ * - Muestra notificaciones de error si es necesario
+ * 
+ * PASO 4: MANEJO DE PRODUCTO EXISTENTE
+ * - Si el producto ya está en el carrito → Suma cantidades
+ * - Si no está en el carrito → Agrega nuevo item
+ * 
+ * PASO 5: ACTUALIZACIÓN DE INTERFAZ
+ * - Actualiza contador del carrito
+ * - Guarda cambios en localStorage
+ * - Actualiza modal del carrito
+ * - Muestra notificación de éxito
+ * 
+ * 📋 PARÁMETROS:
+ * - productId: ID único del producto (string)
+ * - quantity: Cantidad a agregar (number, opcional)
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Validación robusta de stock
+ * - Manejo inteligente de cantidades
+ * - Persistencia automática en localStorage
+ * - Feedback visual inmediato
+ * - Logging detallado para debugging
+ * - Manejo de productos duplicados
+ * 
+ * 📄 USADO EN:
+ * - Botones "Agregar al Carrito" en tarjetas de productos
+ * - Modal de detalles de productos
+ * - Botones de cantidad con +/-
+ * 
+ * @param {string} productId - ID único del producto
+ * @param {number} quantity - Cantidad a agregar (opcional)
+ */
 function addToCart(productId, quantity = null) {
+    // ====================================================================================
+    // PASO 1: VALIDACIÓN DE PRODUCTO
+    // ====================================================================================
     console.log('🛒 addToCart called:', productId, 'quantity param:', quantity);
     const producto = getProductById(productId);
     if (!producto) {
@@ -997,7 +1732,9 @@ function addToCart(productId, quantity = null) {
         return;
     }
 
-    // Buscar el input en el tab activo específicamente
+    // ====================================================================================
+    // PASO 2: OBTENCIÓN DE CANTIDAD DESDE TAB ACTIVO
+    // ====================================================================================
     const activeTab = document.querySelector('.tab-pane.active');
     const inputElement = activeTab ? 
         activeTab.querySelector(`#quantity-${productId}`) : 
@@ -1011,7 +1748,9 @@ function addToCart(productId, quantity = null) {
     console.log('📊 Input value:', inputValue);
     console.log('📊 Final cantidad:', cantidad);
     
-    // Verificar si hay inputs duplicados
+    // ====================================================================================
+    // PASO 3: VERIFICACIÓN DE INPUTS DUPLICADOS
+    // ====================================================================================
     const allInputs = document.querySelectorAll(`#quantity-${productId}`);
     if (allInputs.length > 1) {
         console.log('⚠️ WARNING: Found', allInputs.length, 'inputs with same ID:', productId);
@@ -1020,7 +1759,9 @@ function addToCart(productId, quantity = null) {
         });
     }
     
-    // Validar stock
+    // ====================================================================================
+    // PASO 4: VALIDACIÓN DE STOCK
+    // ====================================================================================
     if (producto.stock === 0) {
         showCartNotification('Este producto no está disponible', 'error');
         return;
@@ -1031,7 +1772,9 @@ function addToCart(productId, quantity = null) {
         return;
     }
 
-    // Verificar si el producto ya está en el carrito
+    // ====================================================================================
+    // PASO 5: MANEJO DE PRODUCTO EXISTENTE O NUEVO
+    // ====================================================================================
     const existingItem = cart.find(item => item.id === productId);
     
     if (existingItem) {
@@ -1053,6 +1796,9 @@ function addToCart(productId, quantity = null) {
         });
     }
 
+    // ====================================================================================
+    // PASO 6: ACTUALIZACIÓN DE INTERFAZ Y PERSISTENCIA
+    // ====================================================================================
     updateCartCounter();
     saveCartToStorage();
     updateCartModal();
@@ -1349,3 +2095,58 @@ document.addEventListener('DOMContentLoaded', function() {
         setupTabChangeListeners();
     }
 });
+
+/**
+ * ====================================================================================
+ * 🎯 RESUMEN FINAL DEL ARCHIVO DE PRODUCTOS
+ * ====================================================================================
+ * 
+ * Este archivo es el corazón del sistema de e-commerce de la aplicación, centralizando
+ * toda la lógica relacionada con productos, carrito de compras y navegación.
+ * 
+ * 📋 FUNCIONALIDADES PRINCIPALES:
+ * - Base de datos de productos con categorías
+ * - Sistema de carrito con persistencia en localStorage
+ * - Modales de detalles de productos
+ * - Navegación entre categorías con tabs
+ * - Notificaciones toast para feedback del usuario
+ * - Gestión de cantidad de productos
+ * - Filtrado de productos por precio
+ * - Generación dinámica de contenido
+ * 
+ * 📋 FUNCIONES PRINCIPALES:
+ * - getAllProducts(): Obtiene todos los productos indexados por ID
+ * - getProductById(): Busca producto específico por ID
+ * - getProductsByCategory(): Obtiene productos de categoría específica
+ * - addToCart(): Agrega productos al carrito con validaciones
+ * - showProductDetails(): Muestra modal de detalles de producto
+ * - updateCartCounter(): Actualiza contador del carrito
+ * - generateProductsContent(): Genera contenido dinámico de productos
+ * - setupQuantityButtons(): Configura botones de cantidad
+ * 
+ * ⚡ CARACTERÍSTICAS DEL ARCHIVO:
+ * - Sistema de carrito persistente
+ * - Navegación fluida entre categorías
+ * - Modales responsivos con Bootstrap
+ * - Notificaciones toast para feedback
+ * - Gestión de cantidad con botones +/-
+ * - Integración con sistema de componentes
+ * - Validación robusta de stock
+ * - Manejo inteligente de cantidades
+ * 
+ * 📄 ARCHIVOS RELACIONADOS:
+ * - index.html: Página principal con sección de productos
+ * - components/navbar.html: Navegación con dropdown de categorías
+ * - components/cart-modal.html: Modal del carrito de compras
+ * - js/components.js: Sistema de componentes y navegación
+ * 
+ * 🔄 FLUJO DE FUNCIONAMIENTO:
+ * 1. Carga productos desde base de datos local
+ * 2. Inicializa carrito desde localStorage
+ * 3. Configura event listeners para interacciones
+ * 4. Maneja navegación entre categorías
+ * 5. Gestiona agregar/quitar productos del carrito
+ * 6. Persiste cambios en localStorage
+ * 7. Actualiza interfaz de usuario en tiempo real
+ */
+console.log('✅ productos.js cargado correctamente - Sistema de productos y carrito disponible');

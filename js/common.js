@@ -1,205 +1,459 @@
-// ========================================
-// COMMON - Pastelería Mil Sabores
-// Funciones compartidas entre login y registro
-// ========================================
-
-// ========================================
-// VALIDACIONES COMUNES
-// ========================================
-
 /**
- * Valida el formato de un email
- * @param {string} email - Email a validar
- * @returns {boolean} true si es válido, false si no
+ * ====================================================================================
+ * 📋 ARCHIVO COMÚN - PASTELERÍA MIL SABORES
+ * ====================================================================================
+ * 
+ * Este archivo contiene funciones compartidas entre login.js y registro.js,
+ * centralizando la lógica común de validación y utilidades de interfaz.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Centralizar funciones de validación comunes
+ * - Evitar duplicación de código entre login y registro
+ * - Mantener consistencia en validaciones
+ * - Facilitar mantenimiento y actualizaciones
+ * 
+ * 📋 FUNCIONES INCLUIDAS:
+ * - validateEmailField(): Validación de campos de email con feedback visual
+ * - validatePassword(): Validación de contraseñas con criterios de seguridad
+ * - validateConfirmPassword(): Validación de confirmación de contraseña
+ * - validateBirthDate(): Validación de fecha de nacimiento y cálculo de edad
+ * - limpiarValidaciones(): Limpieza de estados de validación en formularios
+ * 
+ * 🔄 FLUJO DE USO:
+ * 1. Las funciones son llamadas desde login.js y registro.js
+ * 2. Proporcionan validación con feedback visual inmediato
+ * 3. Retornan resultados estructurados para manejo de errores
+ * 4. Mantienen consistencia en toda la aplicación
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Validaciones robustas con múltiples criterios
+ * - Feedback visual inmediato (campos rojos/verdes)
+ * - Mensajes de error descriptivos y útiles
+ * - Cálculo automático de edad para beneficios
+ * - Limpieza automática de estados de validación
+ * 
+ * 📄 ARCHIVOS QUE USAN ESTAS FUNCIONES:
+ * - js/login.js: Validaciones de email y contraseña
+ * - js/registro.js: Validaciones completas de registro
  */
-function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
+
+// ====================================================================================
+// 📋 SECCIÓN 1: VALIDACIONES COMUNES
+// ====================================================================================
+
 
 /**
- * Valida campo de email con feedback visual
+ * ====================================================================================
+ * 📧 VALIDACIÓN DE CAMPO DE EMAIL CON FEEDBACK VISUAL
+ * ====================================================================================
+ * 
+ * Esta función valida un campo de email específico y proporciona feedback visual
+ * inmediato al usuario, mostrando errores o éxito según corresponda.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Validar formato de email en tiempo real
+ * - Proporcionar feedback visual inmediato (campos rojos/verdes)
+ * - Manejar campos obligatorios y opcionales
+ * - Centralizar lógica de validación de email
+ * 
+ * 🔄 FLUJO DE VALIDACIÓN:
+ * 
+ * PASO 1: OBTENCIÓN DE DATOS
+ * - Busca el elemento por ID en el DOM
+ * - Obtiene el valor del campo y elimina espacios en blanco
+ * 
+ * PASO 2: VALIDACIÓN DE CAMPO VACÍO
+ * - Si está vacío y es obligatorio → Muestra error
+ * - Si está vacío y es opcional → Muestra éxito (válido)
+ * 
+ * PASO 3: VALIDACIÓN DE FORMATO
+ * - Usa validateEmail() para verificar formato correcto
+ * - Si es inválido → Muestra error con mensaje descriptivo
+ * - Si es válido → Muestra éxito
+ * 
+ * 📋 PARÁMETROS:
+ * - fieldId: ID del campo de email en el HTML
+ * - required: Si el campo es obligatorio (default: true)
+ * 
+ * 📋 VALOR DE RETORNO:
+ * - true: Email válido o campo opcional vacío
+ * - false: Email inválido o campo obligatorio vacío
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Feedback visual inmediato (mostrarError/mostrarExito)
+ * - Manejo de campos obligatorios y opcionales
+ * - Mensajes de error descriptivos y útiles
+ * - Validación robusta de formato de email
+ * - Integración con sistema de validación visual
+ * 
+ * 📄 USADO EN:
+ * - js/login.js: Validación de email de login
+ * - js/registro.js: Validación de email de registro
+ * 
  * @param {string} fieldId - ID del campo de email
  * @param {boolean} required - Si el campo es obligatorio
  * @returns {boolean} - true si es válido
  */
 function validateEmailField(fieldId, required = true) {
+    // ====================================================================================
+    // PASO 1: OBTENCIÓN DE DATOS DEL CAMPO
+    // ====================================================================================
     const email = document.getElementById(fieldId);
     const valor = email.value.trim();
     
+    // ====================================================================================
+    // PASO 2: VALIDACIÓN DE CAMPO VACÍO
+    // ====================================================================================
     if (!valor) {
         if (required) {
+            // Campo obligatorio vacío → Error
             mostrarError(email, 'El correo electrónico es obligatorio');
             return false;
         } else {
+            // Campo opcional vacío → Válido
             mostrarExito(email);
             return true;
         }
     }
     
+    // ====================================================================================
+    // PASO 3: VALIDACIÓN DE FORMATO DE EMAIL
+    // ====================================================================================
     if (!validateEmail(valor)) {
+        // Formato inválido → Error con mensaje descriptivo
         mostrarError(email, 'Ingrese un correo electrónico válido (ejemplo: usuario@correo.com)');
         return false;
     }
     
+    // ====================================================================================
+    // PASO 4: EMAIL VÁLIDO → ÉXITO
+    // ====================================================================================
     mostrarExito(email);
     return true;
 }
 
-/**
- * Valida un nombre o apellido
- * @param {string} name - Nombre a validar
- * @param {string} fieldName - Nombre del campo para mensajes
- * @returns {object} {valid: boolean, message: string}
- */
-function validateName(name, fieldName = 'nombre') {
-    const valor = name.trim();
-    
-    if (valor.length < 2) {
-        return { valid: false, message: `El ${fieldName} debe tener al menos 2 caracteres` };
-    }
-    
-    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(valor)) {
-        return { valid: false, message: `El ${fieldName} solo puede contener letras` };
-    }
-    
-    return { valid: true, message: '' };
-}
 
 /**
- * Valida una contraseña
+ * ====================================================================================
+ * 🔐 VALIDACIÓN DE CONTRASEÑA CON CRITERIOS DE SEGURIDAD
+ * ====================================================================================
+ * 
+ * Esta función valida una contraseña aplicando criterios de seguridad estándar
+ * para asegurar que cumpla con los requisitos mínimos de fortaleza.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Validar contraseñas con criterios de seguridad
+ * - Asegurar contraseñas robustas y seguras
+ * - Proporcionar mensajes de error específicos
+ * - Centralizar lógica de validación de contraseñas
+ * 
+ * 🔄 FLUJO DE VALIDACIÓN:
+ * 
+ * PASO 1: VALIDACIÓN DE LONGITUD
+ * - Verifica que la contraseña tenga al menos 8 caracteres
+ * - Si es muy corta → Retorna error con mensaje específico
+ * 
+ * PASO 2: VALIDACIÓN DE COMPLEJIDAD
+ * - Verifica que contenga al menos una letra minúscula
+ * - Verifica que contenga al menos una letra mayúscula
+ * - Verifica que contenga al menos un número
+ * - Si falta alguno → Retorna error con mensaje específico
+ * 
+ * PASO 3: CONTRASEÑA VÁLIDA
+ * - Si pasa todas las validaciones → Retorna éxito
+ * 
+ * 📋 PARÁMETROS:
+ * - password: Contraseña a validar (string)
+ * 
+ * 📋 VALOR DE RETORNO:
+ * - {valid: boolean, message: string}
+ * - valid: true si es válida, false si es inválida
+ * - message: Mensaje de error específico o string vacío si es válida
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Criterios de seguridad estándar
+ * - Mensajes de error específicos y útiles
+ * - Validación robusta con regex
+ * - Retorno estructurado para manejo de errores
+ * - Integración con sistema de validación
+ * 
+ * 📄 USADO EN:
+ * - js/login.js: Validación de contraseña de login
+ * - js/registro.js: Validación de contraseña de registro
+ * 
  * @param {string} password - Contraseña a validar
  * @returns {object} {valid: boolean, message: string}
  */
 function validatePassword(password) {
+    // ====================================================================================
+    // PASO 1: VALIDACIÓN DE LONGITUD MÍNIMA
+    // ====================================================================================
     if (password.length < 8) {
-        return { valid: false, message: 'La contraseña debe tener al menos 8 caracteres' };
+        return { 
+            valid: false, 
+            message: 'La contraseña debe tener al menos 8 caracteres' 
+        };
     }
     
+    // ====================================================================================
+    // PASO 2: VALIDACIÓN DE COMPLEJIDAD (MAYÚSCULAS, MINÚSCULAS Y NÚMEROS)
+    // ====================================================================================
     if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-        return { valid: false, message: 'La contraseña debe incluir mayúsculas, minúsculas y números' };
+        return { 
+            valid: false, 
+            message: 'La contraseña debe incluir mayúsculas, minúsculas y números' 
+        };
     }
     
+    // ====================================================================================
+    // PASO 3: CONTRASEÑA VÁLIDA → ÉXITO
+    // ====================================================================================
     return { valid: true, message: '' };
 }
 
 /**
- * Valida la confirmación de contraseña
+ * ====================================================================================
+ * 🔐 VALIDACIÓN DE CONFIRMACIÓN DE CONTRASEÑA
+ * ====================================================================================
+ * 
+ * Esta función valida que la confirmación de contraseña coincida exactamente
+ * con la contraseña original, asegurando que el usuario haya ingresado
+ * correctamente su contraseña dos veces.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Verificar que ambas contraseñas sean idénticas
+ * - Prevenir errores de tipeo en contraseñas
+ * - Asegurar que el usuario confirme su contraseña correctamente
+ * - Centralizar lógica de validación de confirmación
+ * 
+ * 🔄 FLUJO DE VALIDACIÓN:
+ * 
+ * PASO 1: COMPARACIÓN DIRECTA
+ * - Compara la contraseña original con la confirmación
+ * - Si no coinciden → Retorna error con mensaje específico
+ * 
+ * PASO 2: CONFIRMACIÓN VÁLIDA
+ * - Si coinciden exactamente → Retorna éxito
+ * 
+ * 📋 PARÁMETROS:
+ * - password: Contraseña original (string)
+ * - confirmPassword: Confirmación de contraseña (string)
+ * 
+ * 📋 VALOR DE RETORNO:
+ * - {valid: boolean, message: string}
+ * - valid: true si coinciden, false si no coinciden
+ * - message: Mensaje de error específico o string vacío si es válida
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Comparación exacta de strings
+ * - Mensaje de error claro y específico
+ * - Retorno estructurado para manejo de errores
+ * - Validación simple pero efectiva
+ * - Integración con sistema de validación
+ * 
+ * 📄 USADO EN:
+ * - js/registro.js: Validación de confirmación de contraseña en registro
+ * 
  * @param {string} password - Contraseña original
  * @param {string} confirmPassword - Confirmación de contraseña
  * @returns {object} {valid: boolean, message: string}
  */
 function validateConfirmPassword(password, confirmPassword) {
+    // ====================================================================================
+    // PASO 1: COMPARACIÓN DIRECTA DE CONTRASEÑAS
+    // ====================================================================================
     if (confirmPassword !== password) {
-        return { valid: false, message: 'Las contraseñas no coinciden' };
+        return { 
+            valid: false, 
+            message: 'Las contraseñas no coinciden' 
+        };
     }
+    
+    // ====================================================================================
+    // PASO 2: CONFIRMACIÓN VÁLIDA → ÉXITO
+    // ====================================================================================
     return { valid: true, message: '' };
 }
 
 /**
- * Valida una fecha de nacimiento
+ * ====================================================================================
+ * 📅 VALIDACIÓN DE FECHA DE NACIMIENTO Y CÁLCULO DE EDAD
+ * ====================================================================================
+ * 
+ * Esta función valida una fecha de nacimiento y calcula la edad del usuario,
+ * aplicando restricciones de edad mínima y máxima para el registro.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Validar fechas de nacimiento en formato estándar
+ * - Calcular edad exacta del usuario
+ * - Aplicar restricciones de edad (mínimo 13 años, máximo 120 años)
+ * - Centralizar lógica de validación de fechas
+ * 
+ * 🔄 FLUJO DE VALIDACIÓN:
+ * 
+ * PASO 1: VALIDACIÓN DE CAMPO VACÍO
+ * - Verifica que la fecha no esté vacía
+ * - Si está vacía → Retorna error con mensaje específico
+ * 
+ * PASO 2: CÁLCULO DE EDAD
+ * - Convierte la fecha a objeto Date
+ * - Calcula la diferencia de años con la fecha actual
+ * - Ajusta la edad si el cumpleaños aún no ha llegado este año
+ * 
+ * PASO 3: VALIDACIÓN DE EDAD MÍNIMA
+ * - Verifica que la edad sea al menos 13 años
+ * - Si es menor → Retorna error con mensaje específico
+ * 
+ * PASO 4: VALIDACIÓN DE EDAD MÁXIMA
+ * - Verifica que la edad no exceda 120 años
+ * - Si es mayor → Retorna error con mensaje específico
+ * 
+ * PASO 5: FECHA VÁLIDA
+ * - Si pasa todas las validaciones → Retorna éxito con edad calculada
+ * 
+ * 📋 PARÁMETROS:
+ * - fechaNacimiento: Fecha en formato YYYY-MM-DD (string)
+ * 
+ * 📋 VALOR DE RETORNO:
+ * - {valid: boolean, message: string, edad?: number}
+ * - valid: true si es válida, false si es inválida
+ * - message: Mensaje de error específico o string vacío si es válida
+ * - edad: Edad calculada (solo si es válida)
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Cálculo preciso de edad considerando meses y días
+ * - Restricciones de edad realistas (13-120 años)
+ * - Mensajes de error específicos y útiles
+ * - Retorno estructurado con edad calculada
+ * - Integración con sistema de validación
+ * 
+ * 📄 USADO EN:
+ * - js/registro.js: Validación de fecha de nacimiento en registro
+ * 
  * @param {string} fechaNacimiento - Fecha en formato YYYY-MM-DD
  * @returns {object} {valid: boolean, message: string, edad?: number}
  */
 function validateBirthDate(fechaNacimiento) {
+    // ====================================================================================
+    // PASO 1: VALIDACIÓN DE CAMPO VACÍO
+    // ====================================================================================
     if (!fechaNacimiento) {
-        return { valid: false, message: 'La fecha de nacimiento es requerida' };
+        return { 
+            valid: false, 
+            message: 'La fecha de nacimiento es requerida' 
+        };
     }
     
+    // ====================================================================================
+    // PASO 2: CÁLCULO DE EDAD PRECISO
+    // ====================================================================================
     const fecha = new Date(fechaNacimiento);
     const hoy = new Date();
     let edad = hoy.getFullYear() - fecha.getFullYear();
     const mes = hoy.getMonth() - fecha.getMonth();
     
+    // Ajustar edad si el cumpleaños aún no ha llegado este año
     if (mes < 0 || (mes === 0 && hoy.getDate() < fecha.getDate())) {
         edad--;
     }
     
+    // ====================================================================================
+    // PASO 3: VALIDACIÓN DE EDAD MÍNIMA (13 AÑOS)
+    // ====================================================================================
     if (edad < 13) {
-        return { valid: false, message: 'Debe ser mayor de 13 años para registrarse' };
+        return { 
+            valid: false, 
+            message: 'Debe ser mayor de 13 años para registrarse' 
+        };
     }
     
+    // ====================================================================================
+    // PASO 4: VALIDACIÓN DE EDAD MÁXIMA (120 AÑOS)
+    // ====================================================================================
     if (edad > 120) {
-        return { valid: false, message: 'Ingrese una fecha de nacimiento válida' };
+        return { 
+            valid: false, 
+            message: 'Ingrese una fecha de nacimiento válida' 
+        };
     }
     
-    return { valid: true, message: '', edad: edad };
+    // ====================================================================================
+    // PASO 5: FECHA VÁLIDA → ÉXITO CON EDAD CALCULADA
+    // ====================================================================================
+    return { 
+        valid: true, 
+        message: '', 
+        edad: edad 
+    };
 }
 
-// ========================================
-// UTILIDADES DE INTERFAZ COMUNES
-// ========================================
+// ====================================================================================
+// 📋 SECCIÓN 2: UTILIDADES DE INTERFAZ COMUNES
+// ====================================================================================
 
 /**
- * Alterna la visibilidad de la contraseña
- * @param {string} passwordId - ID del campo de contraseña
- * @param {string} eyeIconId - ID del icono del ojo
- */
-function togglePassword(passwordId, eyeIconId) {
-    const passwordInput = document.getElementById(passwordId);
-    const eyeIcon = document.getElementById(eyeIconId);
-    
-    if (passwordInput && eyeIcon) {
-        const tipo = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', tipo);
-        
-        // Cambia el icono
-        if (tipo === 'text') {
-            eyeIcon.classList.remove('fa-eye');
-            eyeIcon.classList.add('fa-eye-slash');
-        } else {
-            eyeIcon.classList.remove('fa-eye-slash');
-            eyeIcon.classList.add('fa-eye');
-        }
-    }
-}
-
-/**
- * Muestra error en un campo del formulario
- * @param {HTMLElement} campo - Campo del formulario
- * @param {string} mensaje - Mensaje de error
- */
-function mostrarError(campo, mensaje) {
-    campo.classList.remove('is-valid');
-    campo.classList.add('is-invalid');
-    
-    const errorElement = document.getElementById(campo.id + 'Error');
-    if (errorElement) {
-        errorElement.textContent = mensaje;
-        errorElement.style.display = 'block';
-    }
-    
-}
-
-/**
- * Muestra éxito en un campo del formulario
- * @param {HTMLElement} campo - Campo del formulario
- */
-function mostrarExito(campo) {
-    campo.classList.remove('is-invalid');
-    campo.classList.add('is-valid');
-    
-    const errorElement = document.getElementById(campo.id + 'Error');
-    if (errorElement) {
-        errorElement.textContent = '';
-        errorElement.style.display = 'none';
-    }
-    
-}
-
-/**
- * Limpia todas las validaciones de un formulario
+ * ====================================================================================
+ * 🧹 LIMPIEZA DE VALIDACIONES DE FORMULARIO
+ * ====================================================================================
+ * 
+ * Esta función limpia todos los estados de validación visual de un formulario,
+ * removiendo clases de Bootstrap y ocultando mensajes de error.
+ * 
+ * 🎯 PROPÓSITO:
+ * - Limpiar estados visuales de validación
+ * - Remover clases de Bootstrap (is-valid, is-invalid)
+ * - Ocultar mensajes de error
+ * - Preparar formulario para nueva validación
+ * 
+ * 🔄 FLUJO DE LIMPIEZA:
+ * 
+ * PASO 1: OBTENCIÓN DEL FORMULARIO
+ * - Busca el formulario por ID en el DOM
+ * - Si no existe → Termina la función
+ * 
+ * PASO 2: LIMPIEZA DE CAMPOS
+ * - Busca todos los campos de entrada (.form-control, .form-check-input)
+ * - Remueve clases de validación (is-valid, is-invalid)
+ * 
+ * PASO 3: LIMPIEZA DE MENSAJES
+ * - Busca todos los mensajes de error (.invalid-feedback)
+ * - Limpia el contenido de texto
+ * - Oculta los mensajes de error
+ * 
+ * 📋 PARÁMETROS:
+ * - formId: ID del formulario a limpiar (string)
+ * 
+ * ⚡ CARACTERÍSTICAS:
+ * - Limpieza completa de estados visuales
+ * - Manejo seguro de elementos no encontrados
+ * - Compatible con Bootstrap 5
+ * - Función utilitaria reutilizable
+ * - Integración con sistema de validación
+ * 
+ * 📄 USADO EN:
+ * - js/login.js: Limpieza de formulario de login
+ * - js/registro.js: Limpieza de formulario de registro
+ * 
  * @param {string} formId - ID del formulario
  */
 function limpiarValidaciones(formId) {
+    // ====================================================================================
+    // PASO 1: OBTENCIÓN DEL FORMULARIO
+    // ====================================================================================
     const form = document.getElementById(formId);
     if (!form) return;
     
+    // ====================================================================================
+    // PASO 2: LIMPIEZA DE CAMPOS DE ENTRADA
+    // ====================================================================================
     const campos = form.querySelectorAll('.form-control, .form-check-input');
     campos.forEach(campo => {
         campo.classList.remove('is-valid', 'is-invalid');
     });
     
+    // ====================================================================================
+    // PASO 3: LIMPIEZA DE MENSAJES DE ERROR
+    // ====================================================================================
     const errores = form.querySelectorAll('.invalid-feedback');
     errores.forEach(error => {
         error.textContent = '';
@@ -208,104 +462,36 @@ function limpiarValidaciones(formId) {
 }
 
 /**
- * Configura los inputs de fecha con fecha máxima
+ * ====================================================================================
+ * 🎯 RESUMEN FINAL DEL ARCHIVO COMÚN
+ * ====================================================================================
+ * 
+ * Este archivo centraliza funciones de validación y utilidades compartidas
+ * entre login.js y registro.js, manteniendo consistencia en toda la aplicación.
+ * 
+ * 📋 FUNCIONES DISPONIBLES:
+ * - validateEmailField(): Validación de email con feedback visual
+ * - validatePassword(): Validación de contraseña con criterios de seguridad
+ * - validateConfirmPassword(): Validación de confirmación de contraseña
+ * - validateBirthDate(): Validación de fecha de nacimiento y cálculo de edad
+ * - limpiarValidaciones(): Limpieza de estados de validación en formularios
+ * 
+ * ⚡ CARACTERÍSTICAS DEL ARCHIVO:
+ * - Funciones centralizadas para evitar duplicación
+ * - Validaciones robustas con múltiples criterios
+ * - Feedback visual inmediato (campos rojos/verdes)
+ * - Mensajes de error descriptivos y útiles
+ * - Retorno estructurado para manejo de errores
+ * - Integración perfecta con Bootstrap 5
+ * 
+ * 📄 ARCHIVOS QUE USAN ESTAS FUNCIONES:
+ * - js/login.js: Validaciones de email y contraseña
+ * - js/registro.js: Validaciones completas de registro
+ * 
+ * 🔄 FLUJO DE USO:
+ * 1. Las funciones son llamadas desde login.js y registro.js
+ * 2. Proporcionan validación con feedback visual inmediato
+ * 3. Retornan resultados estructurados para manejo de errores
+ * 4. Mantienen consistencia en toda la aplicación
  */
-function setupDateInputs() {
-    const fechaMaxima = new Date().toISOString().split('T')[0];
-    const dateInputs = document.querySelectorAll('input[type="date"]');
-    dateInputs.forEach(input => {
-        input.setAttribute('max', fechaMaxima);
-    });
-}
-
-/**
- * Muestra alertas en la página
- * @param {string} message - Mensaje a mostrar
- * @param {string} type - Tipo de alerta (info, success, warning, danger)
- * @param {string} containerId - ID del contenedor de alertas
- */
-function showAlert(message, type = 'info', containerId = 'alertContainer') {
-    const alertContainer = document.getElementById(containerId);
-    if (alertContainer) {
-        alertContainer.innerHTML = `
-            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        `;
-    }
-}
-
-
-
-// ========================================
-// BENEFICIOS ESPECIALES COMUNES
-// ========================================
-
-/**
- * Muestra beneficio de descuento por edad (50+ años)
- */
-function mostrarDescuentoEdad() {
-    Swal.fire({
-        title: '🎉 ¡Descuento Especial!',
-        text: 'Por ser mayor de 50 años, recibes un 50% de descuento en todos nuestros productos.',
-        icon: 'success',
-        confirmButtonText: '¡Genial!',
-        timer: 5000,
-        timerProgressBar: true
-    });
-}
-
-/**
- * Muestra beneficio de torta gratis para estudiantes Duoc
- */
-function mostrarTortaGratis() {
-    Swal.fire({
-        title: '🎂 ¡Torta Gratis!',
-        text: 'Como estudiante de Duoc, recibes una torta gratis en tu cumpleaños.',
-        icon: 'success',
-        confirmButtonText: '¡Excelente!',
-        timer: 5000,
-        timerProgressBar: true
-    });
-}
-
-/**
- * Muestra beneficio de descuento por código FELICES50
- */
-function mostrarDescuentoCodigo() {
-    Swal.fire({
-        title: '🎊 ¡Código Válido!',
-        text: 'Con el código FELICES50 recibes un 10% de descuento de por vida.',
-        icon: 'success',
-        confirmButtonText: '¡Perfecto!',
-        timer: 5000,
-        timerProgressBar: true
-    });
-}
-
-/**
- * Muestra mensaje de código inválido
- */
-function mostrarCodigoInvalido() {
-    Swal.fire({
-        title: '❌ Código Inválido',
-        text: 'El código ingresado no es válido. Intenta con FELICES50.',
-        icon: 'error',
-        confirmButtonText: 'Entendido',
-        timer: 3000,
-        timerProgressBar: true
-    });
-}
-
-// ========================================
-// UTILIDADES ADICIONALES
-// ========================================
-
-/**
- * Muestra alerta con SweetAlert2
- * @param {string} tipo - Tipo de alerta (success, error, info, warning)
- * @param {string} mensaje - Mensaje a mostrar
- */
-
-console.log('✅ common.js cargado correctamente - Funciones compartidas disponibles');
+console.log('✅ common.js cargado correctamente - Funciones de validación disponibles');

@@ -1,97 +1,323 @@
 <!DOCTYPE html>
 <html lang="es">
 
+<!-- ====================================================================================
+     📄 PÁGINA DE LOGIN - PASTELERÍA MIL SABORES
+     ====================================================================================
+     
+     Esta es la página de inicio de sesión de la aplicación web de la Pastelería Mil Sabores.
+     Contiene un formulario de login con validaciones completas y funcionalidad simulada
+     para demostración académica.
+     
+     🎯 PROPÓSITO:
+     - Proporcionar acceso de usuarios al sistema
+     - Validar credenciales de usuario
+     - Mantener sesión de usuario
+     - Integrar con sistema de componentes
+     
+     📋 ESTRUCTURA PRINCIPAL:
+     - HEAD: Metadatos, CSS y recursos externos
+     - BODY: Contenido principal con clase auth-page
+     - MAIN: Formulario de login centrado
+     - COMPONENTES: Navbar, carrito y footer dinámicos
+     
+     🔄 INTEGRACIÓN CON SISTEMA:
+     - Componentes dinámicos cargados por js/components.js
+     - Validaciones por js/login.js
+     - Funciones compartidas en js/common.js
+     - Estilos personalizados en css/style.css
+     
+     ⚡ CARACTERÍSTICAS:
+     - Diseño responsivo con Bootstrap
+     - Validaciones en tiempo real (onblur)
+     - Toggle de visibilidad de contraseña
+     - Sistema de login simulado (botón dummy)
+     - Integración con SweetAlert2
+     - Componentes dinámicos integrados
+-->
+
 <head>
+    <!-- ====================================================================================
+         📋 METADATOS Y RECURSOS EXTERNOS
+         ==================================================================================== -->
+    
+    <!-- Configuración de caracteres y viewport -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título específico de la página de login -->
     <title>Iniciar Sesión - Pastelería Mil Sabores</title>
+    
+    <!-- Bootstrap 5.3.0 - Framework CSS principal -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Font Awesome 6.0.0 - Iconos vectoriales -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Estilos personalizados de la aplicación -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="auth-page">
-    <!-- Navbar Component -->
+    <!-- ====================================================================================
+         📋 CONTENEDOR DE NAVBAR DINÁMICO
+         ====================================================================================
+         
+         Este div es el contenedor donde se carga dinámicamente el navbar desde
+         components/navbar.html usando el sistema de componentes de js/components.js
+         
+         🔄 PROCESO DE CARGA:
+         1. js/components.js detecta este contenedor
+         2. Carga navbar.html usando fetch() o fallback embebido
+         3. Inserta el HTML del navbar en este contenedor
+         4. Configura event listeners para navegación
+         
+         ⚡ CARACTERÍSTICAS:
+         - Carga dinámica de componente
+         - Integración con sistema de navegación
+         - Consistencia visual en toda la aplicación
+         - Manejo de errores con fallback
+    -->
     <div id="navbar-container"></div>
 
-    <!-- Main Content -->
-    <!-- Main Content -->
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="card shadow-lg border-0">
-                    <div class="card-body p-5">
-                        <div class="text-center mb-4">
-                            <i class="fas fa-user-circle fa-3x text-pink mb-3"></i>
-                            <h2 class="card-title">Iniciar Sesión</h2>
-                            <p class="text-muted">Accede y disfruta de nuestros productos</p>
-                        </div>
-
-                        <!-- Alert para mensajes -->
-                        <div id="alertContainer"></div>
-
-                        <!-- Formulario de Login -->
-                        <form id="loginForm" novalidate>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">
-                                    <i class="fas fa-envelope me-1"></i>Correo Electrónico
-                                </label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Ingrese su correo electrónico" required>
-                                <div class="invalid-feedback" id="emailError"></div>
+    <!-- ====================================================================================
+         📋 CONTENIDO PRINCIPAL DE LA PÁGINA DE LOGIN
+         ====================================================================================
+         
+         Esta sección contiene el formulario de login centrado en la página con diseño
+         responsivo y funcionalidad completa de validación.
+         
+         🎯 PROPÓSITO:
+         - Proporcionar interfaz de login intuitiva
+         - Validar credenciales de usuario
+         - Mostrar feedback visual de validación
+         - Facilitar navegación a registro
+         
+         ⚡ CARACTERÍSTICAS:
+         - Diseño centrado y responsivo
+         - Card con sombra y bordes redondeados
+         - Validaciones en tiempo real
+         - Toggle de visibilidad de contraseña
+         - Integración con sistema de validación
+    -->
+    <main>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <!-- ====================================================================================
+                     📋 CARD PRINCIPAL DEL FORMULARIO DE LOGIN
+                     ====================================================================================
+                     
+                     Card centrado que contiene todo el formulario de login con diseño
+                     responsivo y estilos atractivos.
+                -->
+                <div class="col-md-6 col-lg-5">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-body p-5">
+                            <!-- ====================================================================================
+                                 📋 ENCABEZADO DEL FORMULARIO
+                                 ==================================================================================== -->
+                            <div class="text-center mb-4">
+                                <i class="fas fa-user-circle fa-3x text-pink mb-3"></i>
+                                <h2 class="card-title">Iniciar Sesión</h2>
+                                <p class="text-muted">Accede y disfruta de nuestros productos</p>
                             </div>
-
-                            <div class="mb-3">
-                                <label for="password" class="form-label">
-                                    <i class="fas fa-lock me-1"></i>Contraseña
-                                </label>
-                                <div class="input-group">
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Ingrese su contraseña" required>
-                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                        <i class="fas fa-eye" id="eyeIcon"></i>
+    
+                            <!-- ====================================================================================
+                                 📋 CONTENEDOR DE ALERTAS DINÁMICAS
+                                 ==================================================================================== -->
+                            <div id="alertContainer"></div>
+    
+                            <!-- ====================================================================================
+                                 📋 FORMULARIO DE LOGIN CON VALIDACIONES
+                                 ====================================================================================
+                                 
+                                 Formulario con validaciones completas que se ejecutan en tiempo real
+                                 y al enviar el formulario. Integrado con js/login.js.
+                                 
+                                 🔄 INTEGRACIÓN CON JAVASCRIPT:
+                                 - Event listeners onblur para validación en tiempo real
+                                 - Event listener submit para validación completa
+                                 - Funciones de validación en js/login.js
+                                 - Feedback visual con clases Bootstrap
+                            -->
+                            <form id="loginForm" novalidate>
+                                <!-- ====================================================================================
+                                     📋 CAMPO DE CORREO ELECTRÓNICO
+                                     ==================================================================================== -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">
+                                        <i class="fas fa-envelope me-1"></i>Correo Electrónico
+                                    </label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="Ingrese su correo electrónico" required>
+                                    <!-- Contenedor para mensajes de error de validación -->
+                                    <div class="invalid-feedback" id="emailError"></div>
+                                </div>
+    
+                                <!-- ====================================================================================
+                                     📋 CAMPO DE CONTRASEÑA CON TOGGLE DE VISIBILIDAD
+                                     ==================================================================================== -->
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">
+                                        <i class="fas fa-lock me-1"></i>Contraseña
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="password" name="password"
+                                            placeholder="Ingrese su contraseña" required>
+                                        <!-- Botón para toggle de visibilidad de contraseña -->
+                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                            <i class="fas fa-eye" id="eyeIcon"></i>
+                                        </button>
+                                    </div>
+                                    <!-- Contenedor para mensajes de error de validación -->
+                                    <div class="invalid-feedback" id="passwordError"></div>
+                                </div>
+                                
+                                <!-- ====================================================================================
+                                     📋 BOTÓN DE INICIAR SESIÓN
+                                     ==================================================================================== -->
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg" id="loginBtn">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
                                     </button>
                                 </div>
-                                <div class="invalid-feedback" id="passwordError"></div>
+                            </form>
+    
+                            <!-- ====================================================================================
+                                 📋 SEPARADOR VISUAL
+                                 ==================================================================================== -->
+                            <hr class="my-4">
+                            
+                            <!-- ====================================================================================
+                                 📋 SECCIÓN DE NAVEGACIÓN A REGISTRO
+                                 ==================================================================================== -->
+                            <div class="text-center">
+                                <p class="mb-2">¿No tienes una cuenta?</p>
+                                <a href="registro.html" class="btn btn-outline-primary">
+                                    <i class="fas fa-user-plus me-1"></i>Crear Cuenta
+                                </a>
                             </div>
-                            <!--boton de iniciar sesion-->
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary btn-lg" id="loginBtn">
-                                    <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
-                                </button>
-                            </div>
-                        </form>
-
-                        <hr class="my-4">
-
-                        <div class="text-center">
-                            <p class="mb-2">¿No tienes una cuenta?</p>
-                            <a href="registro.html" class="btn btn-outline-primary">
-                                <i class="fas fa-user-plus me-1"></i>Crear Cuenta
-                            </a>
+    
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Cart Modal Component -->
+    <!-- ====================================================================================
+         📋 COMPONENTES DINÁMICOS DE LA PÁGINA
+         ====================================================================================
+         
+         Contenedores para componentes que se cargan dinámicamente desde archivos HTML
+         separados usando el sistema de componentes de js/components.js.
+         
+         🎯 PROPÓSITO:
+         - Modularizar componentes reutilizables
+         - Facilitar mantenimiento y actualizaciones
+         - Mantener consistencia visual en toda la aplicación
+         - Separar lógica de presentación
+         
+         ⚡ CARACTERÍSTICAS:
+         - Carga dinámica con fetch() y fallback
+         - Manejo de errores con fallback embebido
+         - Integración con sistema de navegación
+         - Consistencia visual en toda la aplicación
+    -->
+    
+    <!-- ====================================================================================
+         📋 CONTENEDOR DEL MODAL DE CARRITO DE COMPRAS
+         ==================================================================================== -->
     <div id="cart-modal-container"></div>
 
-    <!-- Footer Component -->
+    <!-- ====================================================================================
+         📋 CONTENEDOR DEL FOOTER
+         ==================================================================================== -->
     <div id="footer-container"></div>
 
-    <!-- scripts -->
-    <!-- SweetAlert2 JS -->
+    <!-- ====================================================================================
+         📋 SCRIPTS DE LA PÁGINA DE LOGIN
+         ====================================================================================
+         
+         Secuencia de carga de scripts que proporcionan toda la funcionalidad
+         necesaria para la página de login.
+         
+         🔄 ORDEN DE CARGA:
+         1. SweetAlert2: Librería para alertas mejoradas
+         2. Bootstrap: Framework CSS/JS para componentes UI
+         3. productos.js: Funcionalidad de carrito y productos
+         4. common.js: Funciones compartidas de validación
+         5. components.js: Sistema de componentes dinámicos
+         6. login.js: Lógica específica de la página de login
+         
+         ⚡ CARACTERÍSTICAS:
+         - Carga desde CDN para mejor rendimiento
+         - Orden específico para dependencias
+         - Integración completa con funcionalidad
+    -->
+    
+    <!-- SweetAlert2 - Librería para alertas mejoradas -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Bootstrap 5.3.0 - Framework CSS/JS para componentes UI -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Funcionalidad de carrito y productos -->
     <script src="js/productos.js"></script>
+    
+    <!-- Funciones compartidas de validación -->
     <script src="js/common.js"></script>
+    
+    <!-- Sistema de componentes dinámicos -->
     <script src="js/components.js"></script>
+    
+    <!-- Lógica específica de la página de login -->
     <script src="js/login.js"></script>
 </body>
 
 </html>
+
+<!-- ====================================================================================
+     📋 RESUMEN FINAL DE LA PÁGINA DE LOGIN
+     ====================================================================================
+     
+     Esta página de login está completamente documentada y estructurada para
+     proporcionar una experiencia de usuario completa y funcional.
+     
+     🎯 FUNCIONALIDADES IMPLEMENTADAS:
+     - Formulario de login con validaciones completas
+     - Validación en tiempo real (onblur) para email y contraseña
+     - Toggle de visibilidad de contraseña
+     - Sistema de login simulado con SweetAlert2
+     - Integración completa con sistema de componentes
+     - Diseño responsivo con Bootstrap 5.3.0
+     - Navegación a página de registro
+     
+     🔄 INTEGRACIÓN CON SISTEMA:
+     - Componentes dinámicos (navbar, carrito, footer)
+     - Sistema de validación compartido (common.js)
+     - Funcionalidad de carrito de compras
+     - Sistema de navegación entre páginas
+     
+     ⚡ CARACTERÍSTICAS TÉCNICAS:
+     - Estructura HTML5 semántica
+     - CSS personalizado con variables
+     - JavaScript modular y documentado
+     - Manejo de errores con fallback
+     - Carga optimizada de recursos
+     
+     📄 ARCHIVOS RELACIONADOS:
+     - js/login.js: Lógica específica de login
+     - js/common.js: Funciones de validación compartidas
+     - js/components.js: Sistema de componentes dinámicos
+     - js/productos.js: Funcionalidad de carrito
+     - css/style.css: Estilos personalizados
+     - components/navbar.html: Navegación dinámica
+     - components/cart-modal.html: Modal de carrito
+     - components/footer.html: Footer dinámico
+     
+     🎓 NOTA ACADÉMICA:
+     Este es un sistema de login SIMULADO diseñado para demostración académica.
+     Incluye todas las validaciones necesarias pero no realiza autenticación real.
+     Es ideal para proyectos de aprendizaje y demostración de conceptos.
+-->

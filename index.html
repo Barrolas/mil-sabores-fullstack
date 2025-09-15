@@ -1,23 +1,132 @@
 <!DOCTYPE html>
 <html lang="es">
 
+<!-- ====================================================================================
+     📄 PÁGINA PRINCIPAL - PASTELERÍA MIL SABORES
+     ====================================================================================
+     
+     Esta es la página principal de la aplicación web de la Pastelería Mil Sabores.
+     Contiene toda la estructura HTML5 semántica, componentes dinámicos y secciones
+     principales de la tienda online.
+     
+     🎯 PROPÓSITO:
+     - Página principal de la tienda online
+     - Mostrar productos destacados en carrusel
+     - Presentar información de la empresa
+     - Proporcionar acceso a catálogo de productos
+     - Integrar sistema de componentes dinámicos
+     
+     📋 ESTRUCTURA PRINCIPAL:
+     - HEAD: Metadatos, CSS y recursos externos
+     - BODY: Contenido principal con estructura semántica
+     - HEADER: Carrusel de productos destacados
+     - MAIN: Secciones principales (Sobre Nosotros, Productos)
+     - COMPONENTES: Navbar, carrito y footer dinámicos
+     
+     🔄 INTEGRACIÓN CON SISTEMA:
+     - Componentes dinámicos cargados por js/components.js
+     - Funcionalidad de productos por js/productos.js
+     - Estilos personalizados en css/style.css
+     - Bootstrap 5.3.0 para layout responsivo
+     
+     ⚡ CARACTERÍSTICAS:
+     - Estructura HTML5 semántica
+     - Diseño responsivo con Bootstrap
+     - Componentes dinámicos integrados
+     - Carrusel interactivo con productos
+     - Sistema de tabs para categorías
+     - Modales para detalles de productos
+     - Integración completa con JavaScript
+-->
+
 <head>
+    <!-- ====================================================================================
+         📋 METADATOS Y RECURSOS EXTERNOS
+         ==================================================================================== -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pastelería Mil Sabores - Inicio</title>
+    <!-- Bootstrap 5.3.0 - Framework CSS principal -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Font Awesome 6.0.0 - Iconos vectoriales -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="page-home">
-    <!-- Navbar Component -->
+    <!-- ====================================================================================
+         📋 CONTENEDOR DE NAVBAR DINÁMICO
+         ====================================================================================
+         
+         Este div es el contenedor donde se carga dinámicamente el navbar desde
+         components/navbar.html usando el sistema de componentes de js/components.js
+         
+         🔄 PROCESO DE CARGA:
+         1. js/components.js detecta este contenedor
+         2. Carga navbar.html usando fetch() o fallback embebido
+         3. Inserta el HTML del navbar en este contenedor
+         4. Configura event listeners para navegación
+         
+         ⚡ CARACTERÍSTICAS:
+         - Carga dinámica de componente
+         - Integración con sistema de navegación
+         - Consistencia visual en toda la aplicación
+         - Manejo de errores con fallback
+    -->
     <div id="navbar-container"></div>
 
+    <!-- ====================================================================================
+         📋 HEADER PRINCIPAL CON CARRUSEL DE PRODUCTOS DESTACADOS
+         ====================================================================================
+         
+         Esta sección contiene el carrusel principal que muestra productos destacados
+         de la pastelería. Cada imagen es clickeable y abre el modal de detalles
+         del producto correspondiente.
+         
+         🎯 PROPÓSITO:
+         - Mostrar productos destacados de forma atractiva
+         - Proporcionar navegación visual a productos específicos
+         - Crear impacto visual en la página principal
+         - Facilitar acceso rápido a productos populares
+         
+         🔄 FUNCIONALIDAD:
+         - Carrusel automático con Bootstrap
+         - Imágenes clickeables que abren modales
+         - Indicadores de posición
+         - Navegación por teclado y mouse
+         
+         ⚡ CARACTERÍSTICAS:
+         - Diseño responsivo
+         - Imágenes optimizadas
+         - Accesibilidad mejorada
+         - Integración con sistema de productos
+    -->
     <header>
         <section class="container-fluid p-0">
+            <!-- ====================================================================================
+                 📋 CARRUSEL PRINCIPAL DE PRODUCTOS DESTACADOS
+                 ====================================================================================
+                 
+                 Carrusel Bootstrap con 4 productos destacados. Cada imagen tiene:
+                 - onclick="showProductDetails('ID')" para abrir modal
+                 - class="carousel-clickable" para estilo de cursor
+                 - title="Click para ver detalles" para tooltip
+                 - alt descriptivo para accesibilidad
+                 
+                 🔄 INTEGRACIÓN CON JAVASCRIPT:
+                 - showProductDetails() está en js/productos.js
+                 - Abre modal con detalles del producto
+                 - Muestra información completa del producto
+            -->
             <div id="carruselPrincipal" class="carousel slide" data-bs-ride="carousel">
+                <!-- ====================================================================================
+                     📋 INDICADORES DEL CARRUSEL
+                     ====================================================================================
+                     
+                     Botones que permiten navegar directamente a cada slide del carrusel.
+                     Bootstrap maneja automáticamente la funcionalidad.
+                -->
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#carruselPrincipal" data-bs-slide-to="0" class="active"
                         aria-current="true" aria-label="Slide 1"></button>
@@ -28,24 +137,67 @@
                     <button type="button" data-bs-target="#carruselPrincipal" data-bs-slide-to="3"
                         aria-label="Slide 4"></button>
                 </div>
+                <!-- ====================================================================================
+                     📋 CONTENIDO DEL CARRUSEL - IMÁGENES DE PRODUCTOS DESTACADOS
+                     ====================================================================================
+                     
+                     Cada carousel-item contiene una imagen de producto destacado con:
+                     - onclick="showProductDetails('ID')" para abrir modal de detalles
+                     - class="carousel-clickable" para estilo de cursor pointer
+                     - title="Click para ver detalles" para tooltip informativo
+                     - alt descriptivo para accesibilidad
+                     
+                     🔄 PRODUCTOS DESTACADOS:
+                     1. TE002 - Torta Especial de Boda
+                     2. PSA002 - Cheesecake de Maracuyá Sin Azúcar
+                     3. TT003 - Torta Circular de Frutilla
+                     4. TE001 - Torta Especial de Cumpleaños
+                -->
                 <div class="carousel-inner">
+                    <!-- ====================================================================================
+                         📋 SLIDE 1: TORTA ESPECIAL DE BODA (ACTIVO)
+                         ==================================================================================== -->
                     <div class="carousel-item active">
-                        <img src="assets/images/carrusel1.png" class="d-block w-100 carousel-clickable" alt="Torta Especial de Boda" 
-                             onclick="showProductDetails('TE002')" style="cursor: pointer;" title="Click para ver detalles">
+                        <img src="assets/images/carrusel1.png" class="d-block w-100 carousel-clickable"
+                            alt="Torta Especial de Boda" onclick="showProductDetails('TE002')" style="cursor: pointer;"
+                            title="Click para ver detalles">
                     </div>
+
+                    <!-- ====================================================================================
+                         📋 SLIDE 2: CHEESECAKE DE MARACUYÁ SIN AZÚCAR
+                         ==================================================================================== -->
                     <div class="carousel-item">
-                        <img src="assets/images/carrusel2.png" class="d-block w-100 carousel-clickable" alt="Cheesecake de Maracuyá Sin Azúcar" 
-                             onclick="showProductDetails('PSA002')" style="cursor: pointer;" title="Click para ver detalles">
+                        <img src="assets/images/carrusel2.png" class="d-block w-100 carousel-clickable"
+                            alt="Cheesecake de Maracuyá Sin Azúcar" onclick="showProductDetails('PSA002')"
+                            style="cursor: pointer;" title="Click para ver detalles">
                     </div>
+
+                    <!-- ====================================================================================
+                         📋 SLIDE 3: TORTA CIRCULAR DE FRUTILLA
+                         ==================================================================================== -->
                     <div class="carousel-item">
-                        <img src="assets/images/carrusel3.png" class="d-block w-100 carousel-clickable" alt="Torta Circular de Frutilla" 
-                             onclick="showProductDetails('TT003')" style="cursor: pointer;" title="Click para ver detalles">
+                        <img src="assets/images/carrusel3.png" class="d-block w-100 carousel-clickable"
+                            alt="Torta Circular de Frutilla" onclick="showProductDetails('TT003')"
+                            style="cursor: pointer;" title="Click para ver detalles">
                     </div>
+
+                    <!-- ====================================================================================
+                         📋 SLIDE 4: TORTA ESPECIAL DE CUMPLEAÑOS
+                         ==================================================================================== -->
                     <div class="carousel-item">
-                        <img src="assets/images/carrusel4.png" class="d-block w-100 carousel-clickable" alt="Torta Especial de Cumpleaños" 
-                             onclick="showProductDetails('TE001')" style="cursor: pointer;" title="Click para ver detalles">
+                        <img src="assets/images/carrusel4.png" class="d-block w-100 carousel-clickable"
+                            alt="Torta Especial de Cumpleaños" onclick="showProductDetails('TE001')"
+                            style="cursor: pointer;" title="Click para ver detalles">
                     </div>
                 </div>
+
+                <!-- ====================================================================================
+                     📋 CONTROLES DE NAVEGACIÓN DEL CARRUSEL
+                     ====================================================================================
+                     
+                     Botones de navegación anterior/siguiente para el carrusel.
+                     Bootstrap maneja automáticamente la funcionalidad.
+                -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#carruselPrincipal"
                     data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -60,10 +212,41 @@
         </section>
     </header>
 
-    <!-- Sección de Productos -->
+    <!-- ====================================================================================
+         📋 SECCIÓN PRINCIPAL DE PRODUCTOS
+         ====================================================================================
+         
+         Esta es la sección principal que contiene el catálogo de productos organizados
+         por categorías con sistema de tabs, filtros de precio y funcionalidad completa
+         de carrito de compras.
+         
+         🎯 PROPÓSITO:
+         - Mostrar catálogo completo de productos
+         - Organizar productos por categorías
+         - Proporcionar filtros de búsqueda
+         - Facilitar agregar productos al carrito
+         - Mostrar detalles de productos
+         
+         🔄 INTEGRACIÓN CON JAVASCRIPT:
+         - js/productos.js maneja toda la funcionalidad
+         - Sistema de tabs dinámico
+         - Filtros de precio en tiempo real
+         - Modales de detalles de productos
+         - Sistema de carrito de compras
+    -->
     <main>
+        <!-- ====================================================================================
+             📋 SECCIÓN DE PRODUCTOS CON ID PARA NAVEGACIÓN
+             ====================================================================================
+             
+             Esta sección tiene id="productos" para permitir navegación directa desde
+             el navbar usando anclas (#productos).
+        -->
         <section id="productos" class="py-5">
             <div class="container">
+                <!-- ====================================================================================
+                     📋 ENCABEZADO DE LA SECCIÓN DE PRODUCTOS
+                     ==================================================================================== -->
                 <div class="row">
                     <div class="col-12 text-center mb-5">
                         <h2 class="display-4 fw-bold text-dark mb-3">Nuestros Productos</h2>
@@ -114,70 +297,144 @@
                             </div>
                         </div>
 
-                        <!-- Tabs de Categorías (se generan dinámicamente) -->
+                        <!-- ====================================================================================
+                             📋 TABS DE CATEGORÍAS DINÁMICOS
+                             ====================================================================================
+                             
+                             Esta lista de tabs se genera dinámicamente desde js/productos.js
+                             basándose en las categorías disponibles en la base de datos.
+                             
+                             🔄 PROCESO DE GENERACIÓN:
+                             1. js/productos.js lee productosDB.categorias
+                             2. Genera tabs para cada categoría + "Todos los Productos"
+                             3. Configura event listeners para navegación
+                             4. Activa tab según navegación desde navbar
+                             
+                             ⚡ CARACTERÍSTICAS:
+                             - Generación automática desde JavaScript
+                             - Navegación fluida entre categorías
+                             - Integración con sistema de filtros
+                             - Diseño responsivo con Bootstrap
+                        -->
                         <ul class="nav nav-pills nav-fill" id="productTabs" role="tablist">
                             <!-- Los tabs se generan dinámicamente desde JavaScript -->
                         </ul>
                     </div>
                 </div>
 
-                <!-- Contenido de Tabs (se genera dinámicamente) -->
+                <!-- ====================================================================================
+                     📋 CONTENIDO DE TABS DINÁMICO
+                     ====================================================================================
+                     
+                     Este contenedor se llena dinámicamente con el contenido de cada
+                     categoría de productos. Cada tab contiene tarjetas de productos
+                     con funcionalidad completa de carrito.
+                     
+                     🔄 PROCESO DE GENERACIÓN:
+                     1. js/productos.js genera contenido para cada categoría
+                     2. Crea tarjetas de productos con información completa
+                     3. Configura botones de cantidad y "Agregar al Carrito"
+                     4. Integra con sistema de modales de detalles
+                     
+                     ⚡ CARACTERÍSTICAS:
+                     - Contenido generado dinámicamente
+                     - Tarjetas de productos responsivas
+                     - Funcionalidad completa de carrito
+                     - Integración con filtros de precio
+                -->
                 <div class="tab-content" id="productTabsContent">
                     <!-- El contenido se genera dinámicamente desde JavaScript -->
                 </div>
             </div>
 
-            <!-- Modal de Detalles del Producto -->
+            <!-- ====================================================================================
+                 📋 MODAL DE DETALLES DEL PRODUCTO
+                 ====================================================================================
+                 
+                 Este modal se abre cuando el usuario hace clic en "Ver Detalles" de cualquier
+                 producto o en las imágenes del carrusel. Muestra información completa del
+                 producto incluyendo imagen, descripción, precio y funcionalidad de carrito.
+                 
+                 🎯 PROPÓSITO:
+                 - Mostrar detalles completos del producto
+                 - Permitir agregar producto al carrito
+                 - Mostrar reseñas de clientes (mockup)
+                 - Proporcionar información detallada
+                 
+                 🔄 INTEGRACIÓN CON JAVASCRIPT:
+                 - showProductDetails() en js/productos.js abre este modal
+                 - Se llena dinámicamente con datos del producto
+                 - Botón "Agregar al Carrito" conectado a addToCart()
+                 - Controles de cantidad integrados
+                 
+                 ⚡ CARACTERÍSTICAS:
+                 - Modal responsivo con Bootstrap
+                 - Información completa del producto
+                 - Funcionalidad de carrito integrada
+                 - Sistema de reseñas (mockup visual)
+                 - Diseño atractivo y profesional
+            -->
             <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
+                        <!-- ====================================================================================
+                             📋 ENCABEZADO DEL MODAL
+                             ==================================================================================== -->
                         <div class="modal-header">
                             <h5 class="modal-title" id="productModalLabel">Detalles del Producto</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+
+                        <!-- ====================================================================================
+                             📋 CUERPO DEL MODAL CON INFORMACIÓN DEL PRODUCTO
+                             ==================================================================================== -->
                         <div class="modal-body">
                             <div class="row">
+                                <!-- ====================================================================================
+                                     📋 IMAGEN DEL PRODUCTO
+                                     ==================================================================================== -->
                                 <div class="col-md-6">
                                     <img id="modalProductImage" src="" class="img-fluid rounded" alt="Producto">
-                                    
+
                                     <!-- Reseñas debajo de la imagen -->
                                     <div class="mt-4">
                                         <h6>Reseñas de Clientes</h6>
                                         <div id="modalProductReviews">
                                             <!-- Las reseñas se cargarán dinámicamente -->
                                         </div>
-                                        
+
                                         <!-- Formulario para agregar reseña (Mockup) -->
                                         <div class="mt-4 p-3 bg-light rounded">
                                             <h6 class="mb-3">Agregar tu reseña</h6>
-                                            
+
                                             <!-- Rating selector -->
                                             <div class="mb-3">
                                                 <label class="form-label">Calificación</label>
                                                 <div class="rating-selector">
                                                     <input type="radio" id="star5" name="rating" value="5" checked>
                                                     <label for="star5" class="star-label">⭐</label>
-                                                    
+
                                                     <input type="radio" id="star4" name="rating" value="4" checked>
                                                     <label for="star4" class="star-label">⭐</label>
-                                                    
+
                                                     <input type="radio" id="star3" name="rating" value="3" checked>
                                                     <label for="star3" class="star-label">⭐</label>
-                                                    
+
                                                     <input type="radio" id="star2" name="rating" value="2" checked>
                                                     <label for="star2" class="star-label">⭐</label>
-                                                    
+
                                                     <input type="radio" id="star1" name="rating" value="1" checked>
                                                     <label for="star1" class="star-label">⭐</label>
                                                 </div>
                                             </div>
-                                            
+
                                             <!-- Comentario -->
                                             <div class="mb-3">
                                                 <label class="form-label">Tu comentario</label>
-                                                <textarea class="form-control" rows="3" placeholder="Comparte tu experiencia con este producto..."></textarea>
+                                                <textarea class="form-control" rows="3"
+                                                    placeholder="Comparte tu experiencia con este producto..."></textarea>
                                             </div>
-                                            
+
                                             <!-- Botón habilitado (sin funcionalidad) -->
                                             <button type="button" class="btn btn-primary">
                                                 <i class="fas fa-star me-2"></i>Publicar Reseña
@@ -232,19 +489,61 @@
                 </div>
             </div>
         </section>
+
+        <!-- ====================================================================================
+             📋 SECCIÓN "SOBRE NOSOTROS" CON ID PARA NAVEGACIÓN
+             ====================================================================================
+             
+             Esta sección presenta información sobre la empresa y tiene id="sobre-nosotros"
+             para permitir navegación directa desde el navbar usando anclas (#sobre-nosotros).
+             
+             🎯 PROPÓSITO:
+             - Presentar información de la empresa
+             - Establecer confianza con los clientes
+             - Mostrar la historia y valores de la pastelería
+             - Proporcionar contexto sobre los productos
+             
+             ⚡ CARACTERÍSTICAS:
+             - Diseño responsivo con Bootstrap Grid
+             - Imagen y texto organizados en columnas
+             - Navegación directa desde navbar
+             - Diseño atractivo y profesional
+        -->
         <section id="sobre-nosotros" class="py-5">
             <div class="container">
                 <div class="row">
-                    <!-- Imagen: col-12 en móvil/tablet, col-6 en desktop -->
+                    <!-- ====================================================================================
+                         📋 IMAGEN DE LA EMPRESA (RESPONSIVA)
+                         ====================================================================================
+                         
+                         Imagen que representa la empresa. Se adapta responsivamente:
+                         - col-12: Ocupa todo el ancho en móvil/tablet
+                         - col-lg-6: Ocupa la mitad en desktop
+                    -->
                     <div class="col-12 col-lg-6 text-center mb-4 mb-lg-5">
-                       <img src="https://pasteleriatialucy.cl/img/cms/Sobre%20nosotros_%20(1).png" alt="Sobre Nosotros" class="img-fluid">
+                        <img src="https://pasteleriatialucy.cl/img/cms/Sobre%20nosotros_%20(1).png" alt="Sobre Nosotros"
+                            class="img-fluid">
                     </div>
-                    <!-- Texto: col-12 en móvil/tablet, col-6 en desktop -->
+
+                    <!-- ====================================================================================
+                         📋 TEXTO DESCRIPTIVO DE LA EMPRESA (RESPONSIVO)
+                         ====================================================================================
+                         
+                         Texto que describe la historia y valores de la pastelería. Se adapta responsivamente:
+                         - col-12: Ocupa todo el ancho en móvil/tablet
+                         - col-lg-6: Ocupa la mitad en desktop
+                    -->
                     <div class="col-12 col-lg-6 mb-5">
                         <h2 class="display-4 fw-bold text-dark mb-3">Sobre Nosotros</h2>
-                        <p class="lead text-muted">Hace más de tres décadas, Pastelería Mil sabores  se ha distinguido como una de las pastelerías más queridas en la comuna de La Florida y sus alrededores. Nuestros productos combinan la tradición familiar con un compromiso en la calidad, la creatividad y la cuidadosa elección de ingredientes.
+                        <p class="lead text-muted">Hace más de tres décadas, Pastelería Mil sabores se ha distinguido
+                            como una de las pastelerías más queridas en la comuna de La Florida y sus alrededores.
+                            Nuestros productos combinan la tradición familiar con un compromiso en la calidad, la
+                            creatividad y la cuidadosa elección de ingredientes.
 
-                            En Pastelería Mil sabores buscamos ser parte de momentos especiales, tales como cumpleaños, matrimonios y otros tipos de celebración. Nuestra variada selección de productos abarca desde las clásicas tortas hasta decoraciones únicas, exquisita coctelería, pasteles artesanales, deliciosas empanadas y otras delicias de temporada.</p>
+                            En Pastelería Mil sabores buscamos ser parte de momentos especiales, tales como cumpleaños,
+                            matrimonios y otros tipos de celebración. Nuestra variada selección de productos abarca
+                            desde las clásicas tortas hasta decoraciones únicas, exquisita coctelería, pasteles
+                            artesanales, deliciosas empanadas y otras delicias de temporada.</p>
                     </div>
                 </div>
             </div>
@@ -252,41 +551,96 @@
 
     </main>
 
-    <!-- Modal del Carrito -->
+    <!-- ====================================================================================
+         📋 MODAL DEL CARRITO DE COMPRAS
+         ====================================================================================
+         
+         Este modal se abre cuando el usuario hace clic en el icono del carrito en el navbar.
+         Muestra todos los productos agregados al carrito con funcionalidad completa de
+         gestión (cambiar cantidades, eliminar productos, ver total).
+         
+         🎯 PROPÓSITO:
+         - Mostrar productos en el carrito
+         - Permitir modificar cantidades
+         - Eliminar productos del carrito
+         - Mostrar total de la compra
+         - Proporcionar opciones de checkout
+         
+         🔄 INTEGRACIÓN CON JAVASCRIPT:
+         - updateCartModal() en js/productos.js actualiza el contenido
+         - changeCartItemQuantity() maneja cambios de cantidad
+         - removeFromCart() elimina productos
+         - clearCart() vacía el carrito completo
+         
+         ⚡ CARACTERÍSTICAS:
+         - Modal responsivo con Bootstrap
+         - Lista dinámica de productos
+         - Controles de cantidad integrados
+         - Cálculo automático de totales
+         - Persistencia en localStorage
+    -->
     <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
+                <!-- ====================================================================================
+                     📋 ENCABEZADO DEL MODAL DEL CARRITO
+                     ==================================================================================== -->
                 <div class="modal-header">
                     <h5 class="modal-title" id="cartModalLabel">
                         <i class="fas fa-shopping-cart me-2"></i>Mi Carrito
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <!-- ====================================================================================
+                     📋 CUERPO DEL MODAL CON LISTA DE PRODUCTOS
+                     ==================================================================================== -->
                 <div class="modal-body">
-                    <!-- Lista de productos del carrito -->
+                    <!-- ====================================================================================
+                         📋 LISTA DE PRODUCTOS DEL CARRITO (DINÁMICA)
+                         ==================================================================================== -->
                     <div id="cartItemsList">
                         <!-- Los productos se cargarán dinámicamente aquí -->
                     </div>
-                    
-                    <!-- Mensaje cuando el carrito está vacío -->
+
+                    <!-- ====================================================================================
+                         📋 MENSAJE DE CARRITO VACÍO
+                         ==================================================================================== -->
                     <div id="cartEmptyMessage" class="text-center py-5" style="display: none;">
                         <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
                         <h5 class="text-muted">Tu carrito está vacío</h5>
                         <p class="text-muted">Agrega algunos productos para comenzar</p>
                     </div>
                 </div>
+
+                <!-- ====================================================================================
+                     📋 PIE DEL MODAL CON TOTAL Y BOTONES DE ACCIÓN
+                     ==================================================================================== -->
                 <div class="modal-footer">
                     <div class="d-flex justify-content-between align-items-center w-100">
+                        <!-- ====================================================================================
+                             📋 TOTAL DE LA COMPRA
+                             ==================================================================================== -->
                         <div>
                             <strong>Total: <span id="cartModalTotal">$0</span></strong>
                         </div>
+
+                        <!-- ====================================================================================
+                             📋 BOTONES DE ACCIÓN
+                             ==================================================================================== -->
                         <div>
-                            <button type="button" class="btn btn-outline-danger me-2" onclick="clearCart()" id="clearCartBtn" style="display: none;">
+                            <!-- Botón para vaciar carrito - conectado a clearCart() -->
+                            <button type="button" class="btn btn-outline-danger me-2" onclick="clearCart()"
+                                id="clearCartBtn" style="display: none;">
                                 <i class="fas fa-trash me-1"></i>Vaciar Carrito
                             </button>
+
+                            <!-- Botón de checkout (puramente visual) -->
                             <button type="button" class="btn btn-success me-2" id="checkoutBtn" style="display: none;">
                                 <i class="fas fa-credit-card me-1"></i>Ir a Pagar
                             </button>
+
+                            <!-- Botón para cerrar modal -->
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
@@ -295,16 +649,41 @@
         </div>
     </div>
 
-    <!-- Cart Modal Component -->
+    <!-- ====================================================================================
+         📋 CONTENEDORES DE COMPONENTES DINÁMICOS
+         ====================================================================================
+         
+         Estos divs son contenedores donde se cargan dinámicamente los componentes
+         desde la carpeta components/ usando el sistema de js/components.js
+    -->
+
+    <!-- Contenedor del modal del carrito (componente dinámico) -->
     <div id="cart-modal-container"></div>
 
-    <!-- Footer Component -->
+    <!-- Contenedor del footer (componente dinámico) -->
     <div id="footer-container"></div>
 
-    <!-- scripts -->
+    <!-- ====================================================================================
+         📋 SCRIPTS DE JAVASCRIPT
+         ====================================================================================
+         
+         Orden de carga de scripts:
+         1. Bootstrap: Framework CSS/JS principal
+         2. productos.js: Funcionalidad de productos y carrito
+         3. common.js: Funciones compartidas de validación
+         4. components.js: Sistema de componentes dinámicos
+    -->
+
+    <!-- Bootstrap 5.3.0 - Framework JavaScript principal -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Sistema de productos y carrito de compras -->
     <script src="js/productos.js"></script>
+
+    <!-- Funciones compartidas de validación -->
     <script src="js/common.js"></script>
+
+    <!-- Sistema de componentes dinámicos y navegación -->
     <script src="js/components.js"></script>
 </body>
 
