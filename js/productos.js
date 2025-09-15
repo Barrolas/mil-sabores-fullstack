@@ -1,69 +1,3 @@
-/**
- * ====================================================================================
- * 🛒 ARCHIVO DE PRODUCTOS - PASTELERÍA MIL SABORES
- * ====================================================================================
- * 
- * Este archivo centraliza toda la lógica relacionada con productos, carrito de compras
- * y navegación entre categorías. Es el corazón del sistema de e-commerce de la aplicación.
- * 
- * 🎯 PROPÓSITO:
- * - Gestionar la base de datos de productos y categorías
- * - Implementar funcionalidad completa del carrito de compras
- * - Manejar navegación entre categorías de productos
- * - Proporcionar modales de detalles de productos
- * - Persistir datos del carrito en localStorage
- * 
- * 📋 FUNCIONALIDADES PRINCIPALES:
- * - Base de datos de productos con categorías
- * - Sistema de carrito con persistencia
- * - Modales de detalles de productos
- * - Navegación entre categorías con tabs
- * - Notificaciones toast para feedback del usuario
- * - Gestión de cantidad de productos
- * 
- * 🔄 FLUJO DE FUNCIONAMIENTO:
- * 1. Carga productos desde base de datos local
- * 2. Inicializa carrito desde localStorage
- * 3. Configura event listeners para interacciones
- * 4. Maneja navegación entre categorías
- * 5. Gestiona agregar/quitar productos del carrito
- * 6. Persiste cambios en localStorage
- * 
- * ⚡ CARACTERÍSTICAS:
- * - Sistema de carrito persistente
- * - Navegación fluida entre categorías
- * - Modales responsivos con Bootstrap
- * - Notificaciones toast para feedback
- * - Gestión de cantidad con botones +/-
- * - Integración con sistema de componentes
- * 
- * 📄 ARCHIVOS RELACIONADOS:
- * - index.html: Página principal con sección de productos
- * - components/navbar.html: Navegación con dropdown de categorías
- * - components/cart-modal.html: Modal del carrito de compras
- * - js/components.js: Sistema de componentes y navegación
- */
-
-// ====================================================================================
-// 📋 SECCIÓN 1: VARIABLES GLOBALES Y PERSISTENCIA
-// ====================================================================================
-
-/**
- * ====================================================================================
- * 🛒 VARIABLES GLOBALES DEL SISTEMA
- * ====================================================================================
- * 
- * Estas variables mantienen el estado global del sistema de productos y carrito.
- * 
- * 📋 VARIABLES DISPONIBLES:
- * - cart: Array que contiene los productos en el carrito
- * - currentModalProductId: ID del producto actualmente mostrado en el modal
- * 
- * ⚡ CARACTERÍSTICAS:
- * - Estado global accesible desde todas las funciones
- * - Persistencia automática en localStorage
- * - Sincronización con interfaz de usuario
- */
 
 // Array que contiene los productos en el carrito
 let cart = [];
@@ -71,45 +5,6 @@ let cart = [];
 // ID del producto actualmente mostrado en el modal de detalles
 let currentModalProductId = null;
 
-/**
- * ====================================================================================
- * 💾 CARGA DE CARRITO DESDE LOCALSTORAGE
- * ====================================================================================
- * 
- * Esta función recupera el carrito de compras guardado en localStorage al inicializar
- * la aplicación, asegurando que el usuario mantenga sus productos seleccionados
- * entre sesiones.
- * 
- * 🎯 PROPÓSITO:
- * - Recuperar carrito de compras de sesiones anteriores
- * - Mantener persistencia de datos del usuario
- * - Inicializar el estado global del carrito
- * - Manejar errores de parsing de JSON
- * 
- * 🔄 FLUJO DE FUNCIONAMIENTO:
- * 
- * PASO 1: RECUPERACIÓN DE DATOS
- * - Busca el carrito guardado en localStorage con clave 'milSaboresCart'
- * - Si no existe → Mantiene carrito vacío
- * 
- * PASO 2: PARSING DE JSON
- * - Intenta convertir el string JSON a objeto JavaScript
- * - Si hay error → Muestra error en consola y resetea carrito
- * 
- * PASO 3: INICIALIZACIÓN
- * - Asigna el carrito recuperado a la variable global
- * - Actualiza la interfaz de usuario
- * 
- * ⚡ CARACTERÍSTICAS:
- * - Manejo seguro de errores de parsing
- * - Fallback a carrito vacío en caso de error
- * - Logs informativos para debugging
- * - Persistencia automática entre sesiones
- * 
- * 📄 USADO EN:
- * - Inicialización de la aplicación
- * - Recuperación de estado después de recarga de página
- */
 function loadCartFromStorage() {
     // ====================================================================================
     // PASO 1: RECUPERACIÓN DE DATOS DESDE LOCALSTORAGE
@@ -131,42 +26,6 @@ function loadCartFromStorage() {
     }
 }
 
-/**
- * ====================================================================================
- * 💾 GUARDADO DE CARRITO EN LOCALSTORAGE
- * ====================================================================================
- * 
- * Esta función guarda el estado actual del carrito en localStorage para mantener
- * persistencia entre sesiones y recargas de página.
- * 
- * 🎯 PROPÓSITO:
- * - Guardar estado actual del carrito en localStorage
- * - Mantener persistencia de datos del usuario
- * - Sincronizar cambios con almacenamiento local
- * - Manejar errores de escritura en localStorage
- * 
- * 🔄 FLUJO DE FUNCIONAMIENTO:
- * 
- * PASO 1: SERIALIZACIÓN
- * - Convierte el array del carrito a string JSON
- * - Prepara datos para almacenamiento
- * 
- * PASO 2: ALMACENAMIENTO
- * - Guarda el carrito en localStorage con clave 'milSaboresCart'
- * - Si hay error → Muestra error en consola
- * 
- * ⚡ CARACTERÍSTICAS:
- * - Manejo seguro de errores de escritura
- * - Serialización automática a JSON
- * - Logs informativos para debugging
- * - Persistencia automática en cada cambio
- * 
- * 📄 USADO EN:
- * - Después de agregar productos al carrito
- * - Después de modificar cantidades
- * - Después de eliminar productos
- * - Al cerrar la aplicación
- */
 function saveCartToStorage() {
     try {
         // ====================================================================================
@@ -181,111 +40,385 @@ function saveCartToStorage() {
     }
 }
 
-// ====================================================================================
-// 📋 SECCIÓN 2: BASE DE DATOS DE PRODUCTOS
-// ====================================================================================
-
-/**
- * ====================================================================================
- * 🗄️ BASE DE DATOS DE PRODUCTOS Y CATEGORÍAS
- * ====================================================================================
- * 
- * Esta es la base de datos local que contiene todos los productos organizados por
- * categorías. Cada producto incluye información completa para la tienda online.
- * 
- * 🎯 PROPÓSITO:
- * - Almacenar información completa de productos
- * - Organizar productos por categorías
- * - Proporcionar datos para la interfaz de usuario
- * - Mantener consistencia en toda la aplicación
- * 
- * 📋 ESTRUCTURA DE DATOS:
- * - categorias: Objeto con categorías de productos
- * - cada categoría contiene: nombre, icono, productos
- * - cada producto contiene: id, nombre, precio, imagen, descripción, etc.
- * 
- * ⚡ CARACTERÍSTICAS:
- * - Datos estructurados y organizados
- * - Información completa de cada producto
- * - Categorización lógica de productos
- * - Fácil mantenimiento y actualización
- * - Integración con sistema de carrito
- * 
- * 📄 USADO EN:
- * - Generación dinámica de productos
- * - Modales de detalles de productos
- * - Sistema de carrito de compras
- * - Navegación entre categorías
- */
 console.log('🚀 productos.js cargado correctamente');
 
-// Base de datos de productos cargada dinámicamente desde JSON
-let productosDB = null;
-
-/**
- * ====================================================================================
- * 🗄️ CARGAR BASE DE DATOS DE PRODUCTOS
- * ====================================================================================
- * 
- * Carga la base de datos de productos desde el archivo JSON externo.
- * Esta función se ejecuta al inicializar la aplicación.
- */
-async function loadProductosDB() {
-    try {
-        console.log('📁 Cargando base de datos de productos...');
-        const response = await fetch('productos.json');
-        
-        if (!response.ok) {
-            throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
+// Base de datos de productos embebida directamente en el JavaScript
+let productosDB = 
+{
+    "categorias": {
+        "tortas-cuadradas": {
+            "nombre": "Tortas Cuadradas",
+            "icono": "fas fa-square",
+            "productos": [
+                {
+                    "id": "TC001",
+                    "nombre": "Torta Cuadrada de Chocolate",
+                    "precio": 45990,
+                    "imagen": "https://delicakesysnacks.com/wp-content/uploads/2025/01/vitxekmdoeio3sgmh5dr-1.webp",
+                    "descripcion": "Deliciosa torta de chocolate con relleno de crema.",
+                    "descripcionDetallada": "Exquisita torta de chocolate premium elaborada con los mejores ingredientes. Capas de bizcocho de chocolate esponjoso, relleno de crema de chocolate belga y decoración artesanal con virutas de chocolate. Perfecta para celebraciones especiales, cumpleaños y eventos importantes. Cada bocado es una experiencia de sabor inolvidable.",
+                    "rating": 4.8,
+                    "reviews": 24,
+                    "stock": 15,
+                    "porciones": "10-15 personas",
+                    "calorias": "350 cal/porción",
+                    "ingredientes": "Chocolate premium, harina, huevos, azúcar, mantequilla, crema de leche, cacao en polvo",
+                    "reseñas": [
+                        { "autor": "María González", "fecha": "2024-01-15", "rating": 5, "comentario": "¡Increíble! La mejor torta de chocolate que he probado." },
+                        { "autor": "Carlos López", "fecha": "2024-01-10", "rating": 4, "comentario": "Muy buena calidad, la recomiendo." },
+                        { "autor": "Ana Martínez", "fecha": "2024-01-08", "rating": 5, "comentario": "Perfecta para ocasiones especiales." }
+                    ]
+                },
+                {
+                    "id": "TC002",
+                    "nombre": "Torta Cuadrada de Frutas",
+                    "precio": 22990,
+                    "imagen": "https://thumbs.dreamstime.com/b/este-delicioso-pastel-de-fruta-cuadrada-con-capas-esponja-ligera-y-crema-delicada-adornado-generosidad-est%C3%A1-decorado-una-gran-398214730.jpg",
+                    "descripcion": "Torta fresca con frutas de temporada y crema chantilly.",
+                    "descripcionDetallada": "Hermosa torta cuadrada decorada con una selección de frutas frescas de temporada como fresas, kiwis, duraznos y arándanos. Base de bizcocho esponjoso de vainilla, relleno de crema chantilly casera y decoración artesanal con frutas frescas. Perfecta para celebraciones de verano, cumpleaños y eventos al aire libre. Cada porción es una explosión de sabores frescos y naturales.",
+                    "rating": 4.7,
+                    "reviews": 19,
+                    "stock": 7,
+                    "porciones": "10-15 personas",
+                    "calorias": "320 cal/porción",
+                    "ingredientes": "Frutas frescas de temporada, crema chantilly, harina, huevos, azúcar, vainilla, gelatina",
+                    "reseñas": [
+                        { "autor": "Laura Sánchez", "fecha": "2024-01-12", "rating": 5, "comentario": "Muy fresca y deliciosa." },
+                        { "autor": "Pedro Rodríguez", "fecha": "2024-01-09", "rating": 4, "comentario": "Excelente sabor y presentación." }
+                    ]
+                }
+            ]
+        },
+        "tortas-circulares": {
+            "nombre": "Tortas Circulares",
+            "icono": "fas fa-circle",
+            "productos": [
+                {
+                    "id": "TT001",
+                    "nombre": "Torta Circular de Vainilla",
+                    "precio": 18990,
+                    "imagen": "https://wiltonenespanol.com/wp-content/uploads/2017/02/pastel-de-vainilla.jpg",
+                    "descripcion": "Torta tradicional de vainilla con buttercream y frutas frescas.",
+                    "descripcionDetallada": "Clásica torta circular de vainilla, elaborada con extracto de vainilla natural y decorada con buttercream suave. Capas de bizcocho esponjoso de vainilla, relleno de crema de vainilla y decoración elegante con frutas frescas de temporada. Un postre atemporal que nunca pasa de moda, perfecto para cualquier celebración.",
+                    "rating": 4.6,
+                    "reviews": 18,
+                    "stock": 25,
+                    "porciones": "8-10 personas",
+                    "calorias": "320 cal/porción",
+                    "ingredientes": "Vainilla natural, harina, huevos, azúcar, mantequilla, frutas frescas",
+                    "reseñas": [
+                        { "autor": "Laura Sánchez", "fecha": "2024-01-12", "rating": 4, "comentario": "Muy rica y fresca." },
+                        { "autor": "Pedro Rodríguez", "fecha": "2024-01-09", "rating": 5, "comentario": "Excelente sabor y presentación." }
+                    ]
+                },
+                {
+                    "id": "TT002",
+                    "nombre": "Torta Circular de Manjar",
+                    "precio": 15990,
+                    "imagen": "https://www.elingenio.cl/productos/bizcocho-manjar-lucuma.jpg",
+                    "descripcion": "Torta circular con manjar casero y decoración elegante.",
+                    "descripcionDetallada": "Exquisita torta circular de manjar casero, elaborada con la receta tradicional chilena. Capas de bizcocho esponjoso, relleno generoso de manjar casero y decoración elegante con nueces y almendras. Un clásico de la repostería chilena que evoca los sabores de la infancia. Perfecta para celebraciones familiares y ocasiones especiales.",
+                    "rating": 4.9,
+                    "reviews": 31,
+                    "stock": 1,
+                    "porciones": "8-10 personas",
+                    "calorias": "380 cal/porción",
+                    "ingredientes": "Manjar casero, harina, huevos, azúcar, mantequilla, nueces, almendras",
+                    "reseñas": [
+                        { "autor": "Carmen Díaz", "fecha": "2024-01-14", "rating": 5, "comentario": "Absolutamente deliciosa, muy elegante." },
+                        { "autor": "Roberto Silva", "fecha": "2024-01-11", "rating": 5, "comentario": "Perfecta para eventos especiales." }
+                    ]
+                },
+                {
+                    "id": "TT003",
+                    "nombre": "Torta Circular de Frutilla",
+                    "precio": 19990,
+                    "imagen": "https://www.annarecetasfaciles.com/files/tarta-de-fresas-y-nata-3.jpg",
+                    "descripcion": "Torta circular de frutillas frescas con crema chantilly.",
+                    "descripcionDetallada": "Deliciosa torta circular de frutillas frescas, elaborada con las mejores frutillas de temporada. Base de bizcocho esponjoso de vainilla, relleno de crema chantilly casera y decorada con frutillas frescas enteras y en rodajas. Un postre fresco y elegante que combina la dulzura natural de las frutillas con la suavidad de la crema. Perfecta para celebraciones de primavera y verano, cumpleaños y eventos especiales.",
+                    "rating": 4.7,
+                    "reviews": 28,
+                    "stock": 12,
+                    "porciones": "15 personas",
+                    "featured": true,
+                    "calorias": "320 cal/porción",
+                    "ingredientes": "Frutillas frescas, crema chantilly, harina, huevos, azúcar, vainilla, gelatina",
+                    "reseñas": [
+                        { "autor": "María González", "fecha": "2024-01-15", "rating": 5, "comentario": "¡Increíble! Las frutillas están perfectas." },
+                        { "autor": "Carlos López", "fecha": "2024-01-12", "rating": 4, "comentario": "Muy fresca y deliciosa, perfecta para el verano." },
+                        { "autor": "Ana Martínez", "fecha": "2024-01-10", "rating": 5, "comentario": "La mejor torta de frutillas que he probado." }
+                    ]
+                }
+            ]
+        },
+        "postres-individuales": {
+            "nombre": "Postres Individuales",
+            "icono": "fas fa-cookie-bite",
+            "productos": [
+                {
+                    "id": "PI001",
+                    "nombre": "Mousse de Chocolate",
+                    "precio": 5990,
+                    "imagen": "https://images.aws.nestle.recipes/original/2024_10_18T11_53_16_badun_images.badun.es_4ed41e942636_mousse_de_chocolate_intenso.jpg",
+                    "descripcion": "Delicioso mousse de chocolate con decoración de frutas.",
+                    "descripcionDetallada": "Exquisito mousse de chocolate intenso, elaborado con chocolate premium y crema fresca. Textura suave y aterciopelada que se derrite en el paladar. Decorado con frutas frescas de temporada y virutas de chocolate. Perfecto como postre individual o para compartir en ocasiones especiales. Una experiencia de sabor que deleitará a los amantes del chocolate.",
+                    "rating": 4.5,
+                    "reviews": 12,
+                    "stock": 30,
+                    "porciones": "1 persona",
+                    "featured": true,
+                    "calorias": "280 cal/porción",
+                    "ingredientes": "Chocolate premium, crema de leche, huevos, azúcar, frutas frescas",
+                    "reseñas": [
+                        { "autor": "Isabel Torres", "fecha": "2024-01-13", "rating": 4, "comentario": "Sabor único y muy refrescante." }
+                    ]
+                },
+                {
+                    "id": "PI002",
+                    "nombre": "Tiramisú Clásico",
+                    "precio": 7990,
+                    "imagen": "https://www.kingarthurbaking.com/sites/default/files/2023-03/Tiramisu_1426.jpg",
+                    "descripcion": "Tiramisú tradicional italiano con café y mascarpone.",
+                    "descripcionDetallada": "Auténtico tiramisú italiano, elaborado siguiendo la receta tradicional. Capas de bizcocho savoiardi empapado en café espresso, crema de mascarpone suave y espolvoreado con cacao en polvo. Un postre elegante y sofisticado que transporta a las cafeterías de Italia. Perfecto para los amantes del café y la repostería italiana.",
+                    "rating": 4.8,
+                    "reviews": 22,
+                    "stock": 5,
+                    "porciones": "1 persona",
+                    "calorias": "320 cal/porción",
+                    "ingredientes": "Café espresso, mascarpone, cacao en polvo, bizcocho savoiardi, huevos, azúcar",
+                    "reseñas": [
+                        { "autor": "Fernando Castro", "fecha": "2024-01-16", "rating": 5, "comentario": "Muy buena calidad y sabor." }
+                    ]
+                }
+            ]
+        },
+        "productos-sin-azucar": {
+            "nombre": "Productos Sin Azúcar",
+            "icono": "fas fa-heart",
+            "productos": [
+                {
+                    "id": "PSA001",
+                    "nombre": "Torta Sin Azúcar de Naranja",
+                    "precio": 25990,
+                    "imagen": "https://santaisabel.vtexassets.com/arquivos/ids/447848-900-900?width=900&height=900&aspect=true",
+                    "descripcion": "Torta saludable sin azúcar con sabor a naranja natural.",
+                    "descripcionDetallada": "Deliciosa torta de naranja sin azúcar, elaborada con naranjas frescas y edulcorantes naturales. Perfecta para personas con diabetes o que buscan opciones más saludables. Base de bizcocho esponjoso de naranja, relleno de crema de naranja natural y decoración con gajos de naranja fresca. Un postre refrescante y saludable que no compromete el sabor.",
+                    "rating": 4.6,
+                    "reviews": 15,
+                    "stock": 35,
+                    "porciones": "8-10 personas",
+                    "calorias": "250 cal/porción",
+                    "ingredientes": "Naranja natural, edulcorante stevia, harina integral, huevos, aceite de oliva",
+                    "reseñas": [
+                        { "autor": "María González", "fecha": "2024-01-15", "rating": 5, "comentario": "¡Increíble! La mejor torta de chocolate que he probado." }
+                    ]
+                },
+                {
+                    "id": "PSA002",
+                    "nombre": "Cheesecake de Maracuyá Sin Azúcar",
+                    "precio": 12990,
+                    "imagen": "https://bechef.cl/wp-content/uploads/2022/02/CCMM-1.png",
+                    "descripcion": "Cheesecake de maracuyá sin azúcar, saludable y delicioso.",
+                    "descripcionDetallada": "Delicioso cheesecake de maracuyá sin azúcar, perfecto para quienes buscan un postre saludable sin comprometer el sabor. Elaborado con edulcorantes naturales como stevia y la frescura única del maracuyá natural. Base de galletas integrales sin azúcar, crema de queso suave y topping de maracuyá fresco. Ideal para personas con diabetes, dietas bajas en carbohidratos o simplemente para quienes prefieren opciones más saludables sin sacrificar el sabor.",
+                    "rating": 4.8,
+                    "reviews": 22,
+                    "stock": 4,
+                    "porciones": "8 personas",
+                    "featured": true,
+                    "calorias": "220 cal/porción",
+                    "ingredientes": "Queso crema, maracuyá natural, edulcorante stevia, galletas integrales sin azúcar, huevos, gelatina sin sabor",
+                    "reseñas": [
+                        { "autor": "Carlos López", "fecha": "2024-01-10", "rating": 5, "comentario": "¡Increíble! No se nota que no tiene azúcar. El sabor del maracuyá es perfecto." },
+                        { "autor": "María Fernández", "fecha": "2024-01-08", "rating": 4, "comentario": "Muy rico y saludable. Perfecto para mi dieta." },
+                        { "autor": "Ana Martínez", "fecha": "2024-01-08", "rating": 5, "comentario": "Perfecta para ocasiones especiales." }
+                    ]
+                }
+            ]
+        },
+        "pasteleria-tradicional": {
+            "nombre": "Pastelería Tradicional",
+            "icono": "fas fa-home",
+            "productos": [
+                {
+                    "id": "PT001",
+                    "nombre": "Empanada de Manzana",
+                    "precio": 1890,
+                    "imagen": "https://cocinachilena.cl/wp-content/uploads/2012/11/empanadas-manzana-3-scaled.jpg",
+                    "descripcion": "Empanada tradicional de manzana con canela y azúcar.",
+                    "descripcionDetallada": "Deliciosa empanada de manzana casera, elaborada con masa fresca y relleno de manzanas cortadas en cubos con canela, azúcar y un toque de limón. Horneada hasta obtener una textura dorada y crujiente. Un clásico de la repostería chilena que combina perfectamente con una taza de té o café. Ideal para la hora del té o como postre ligero.",
+                    "rating": 4.4,
+                    "reviews": 28,
+                    "stock": 30,
+                    "porciones": "1 persona",
+                    "calorias": "180 cal/porción",
+                    "ingredientes": "Manzana, canela, azúcar, masa de empanada, limón, mantequilla",
+                    "reseñas": [
+                        { "autor": "Ana Martínez", "fecha": "2024-01-08", "rating": 5, "comentario": "Perfecta para ocasiones especiales." }
+                    ]
+                },
+                {
+                    "id": "PT002",
+                    "nombre": "Tarta de Santiago",
+                    "precio": 11990,
+                    "imagen": "https://recetasdecocina.elmundo.es/wp-content/uploads/2025/03/tarta-de-santiago.jpg",
+                    "descripcion": "Tarta tradicional española con almendras y limón.",
+                    "descripcionDetallada": "Auténtica Tarta de Santiago, el postre más emblemático de Galicia. Elaborada con almendras molidas, huevos, azúcar y un toque de limón. Decorada con la cruz de Santiago en azúcar glass. Una tarta sin harina, perfecta para celíacos, con una textura húmeda y un sabor intenso a almendras. Un clásico de la repostería española que conquista paladares.",
+                    "rating": 4.8,
+                    "reviews": 16,
+                    "stock": 18,
+                    "porciones": "6-8 personas",
+                    "calorias": "320 cal/porción",
+                    "ingredientes": "Almendras molidas, limón, azúcar, huevos, azúcar glass",
+                    "reseñas": [
+                        { "autor": "Laura Sánchez", "fecha": "2024-01-12", "rating": 4, "comentario": "Muy rica y fresca." }
+                    ]
+                }
+            ]
+        },
+        "productos-sin-gluten": {
+            "nombre": "Productos Sin Gluten",
+            "icono": "fas fa-leaf",
+            "productos": [
+                {
+                    "id": "PG001",
+                    "nombre": "Brownie Sin Gluten",
+                    "precio": 2990,
+                    "imagen": "https://www.justspices.es/media/recipe/brownie-chocolate.jpg",
+                    "descripcion": "Brownie delicioso sin gluten con chocolate premium.",
+                    "descripcionDetallada": "Exquisito brownie sin gluten elaborado con chocolate premium y harina de arroz. Textura húmeda y densa en el centro, con una corteza crujiente en la superficie. Perfecto para personas celíacas o que siguen una dieta sin gluten. Decorado con nueces y chips de chocolate. Un postre que no compromete el sabor ni la textura tradicional del brownie.",
+                    "rating": 4.5,
+                    "reviews": 14,
+                    "stock": 8,
+                    "porciones": "4-6 personas",
+                    "calorias": "300 cal/porción",
+                    "ingredientes": "Chocolate premium, harina de arroz, huevos, azúcar, mantequilla, nueces",
+                    "reseñas": [
+                        { "autor": "Pedro Rodríguez", "fecha": "2024-01-09", "rating": 5, "comentario": "Excelente sabor y presentación." }
+                    ]
+                },
+                {
+                    "id": "PG002",
+                    "nombre": "Pan Sin Gluten",
+                    "precio": 3590,
+                    "imagen": "https://imag.bonviveur.com/pan-sin-gluten.jpg",
+                    "descripcion": "Pan artesanal sin gluten con semillas y frutos secos.",
+                    "descripcionDetallada": "Pan artesanal sin gluten elaborado con una mezcla de harinas especiales, semillas de girasol, chía y sésamo, además de frutos secos como nueces y almendras. Textura esponjosa y sabor natural. Perfecto para el desayuno o acompañar cualquier comida. Ideal para personas celíacas o que buscan opciones más saludables sin comprometer el sabor.",
+                    "rating": 4.3,
+                    "reviews": 11,
+                    "stock": 22,
+                    "porciones": "8-10 rebanadas",
+                    "calorias": "200 cal/porción",
+                    "ingredientes": "Harina sin gluten, semillas de girasol, chía, sésamo, nueces, almendras, levadura",
+                    "reseñas": [
+                        { "autor": "Carmen Díaz", "fecha": "2024-01-14", "rating": 4, "comentario": "Absolutamente deliciosa, muy elegante." }
+                    ]
+                }
+            ]
+        },
+        "productos-veganos": {
+            "nombre": "Productos Veganos",
+            "icono": "fas fa-seedling",
+            "productos": [
+                {
+                    "id": "PV001",
+                    "nombre": "Torta Vegana de Chocolate",
+                    "precio": 22990,
+                    "imagen": "https://www.lagloriavegana.com/wp-content/uploads/2020/08/Bizcocho-muerte-por-chocolate-1280x1280.jpg",
+                    "descripcion": "Torta de chocolate 100% vegana con ingredientes naturales.",
+                    "descripcionDetallada": "Exquisita torta de chocolate 100% vegana, elaborada sin productos de origen animal. Utiliza chocolate vegano, leche de almendras, azúcar de coco y harina integral. Decorada con crema de coco y frutas frescas. Perfecta para veganos, vegetarianos o cualquier persona que busque opciones más saludables y sostenibles sin comprometer el sabor delicioso del chocolate.",
+                    "rating": 4.7,
+                    "reviews": 20,
+                    "stock": 6,
+                    "porciones": "8-10 personas",
+                    "calorias": "280 cal/porción",
+                    "ingredientes": "Chocolate vegano, harina integral, leche de almendras, azúcar de coco, aceite de coco",
+                    "reseñas": [
+                        { "autor": "Roberto Silva", "fecha": "2024-01-11", "rating": 5, "comentario": "Perfecta para eventos especiales." }
+                    ]
+                },
+                {
+                    "id": "PV002",
+                    "nombre": "Galletas Veganas de Avena",
+                    "precio": 890,
+                    "imagen": "https://luciacomparada.com/wp-content/uploads/2024/01/galletas-de-avena-veganas-05.jpg",
+                    "descripcion": "Galletas saludables de avena con pasas y canela.",
+                    "descripcionDetallada": "Deliciosas galletas veganas de avena, elaboradas con avena integral, pasas, canela y endulzadas con azúcar de coco. Sin huevos, leche ni mantequilla. Perfectas para el desayuno, merienda o como snack saludable. Textura crujiente por fuera y suave por dentro. Ideales para veganos, vegetarianos o cualquier persona que busque opciones más saludables y nutritivas.",
+                    "rating": 4.4,
+                    "reviews": 17,
+                    "stock": 40,
+                    "porciones": "12 galletas",
+                    "featured": true,
+                    "calorias": "120 cal/porción",
+                    "ingredientes": "Avena integral, pasas, canela, aceite de coco, azúcar de coco, harina de avena",
+                    "reseñas": [
+                        { "autor": "Isabel Torres", "fecha": "2024-01-13", "rating": 4, "comentario": "Sabor único y muy refrescante." }
+                    ]
+                }
+            ]
+        },
+        "tortas-especiales": {
+            "nombre": "Tortas Especiales",
+            "icono": "fas fa-star",
+            "productos": [
+                {
+                    "id": "TE001",
+                    "nombre": "Torta Especial de Cumpleaños",
+                    "precio": 29990,
+                    "imagen": "assets/images/torta-cumpleaños.webp",
+                    "descripcion": "Torta personalizada para cumpleaños con decoración especial.",
+                    "descripcionDetallada": "Torta especial de cumpleaños personalizada según tus gustos y preferencias. Elaborada con los mejores ingredientes y decorada con crema, frutas frescas, chocolates y elementos decorativos temáticos. Perfecta para hacer de tu cumpleaños un día inolvidable. Incluye decoración personalizada con el nombre del cumpleañero y velas. Una experiencia única que combina sabor excepcional con presentación espectacular.",
+                    "rating": 4.9,
+                    "reviews": 35,
+                    "stock": 3,
+                    "porciones": "12-15 personas",
+                    "featured": true,
+                    "calorias": "400 cal/porción",
+                    "ingredientes": "Harina premium, huevos frescos, azúcar, mantequilla, crema chantilly, frutas frescas, chocolates, decoración personalizada",
+                    "reseñas": [
+                        { "autor": "Fernando Castro", "fecha": "2024-01-16", "rating": 5, "comentario": "Muy buena calidad y sabor." }
+                    ]
+                },
+                {
+                    "id": "TE002",
+                    "nombre": "Torta Especial de Boda",
+                    "precio": 79990,
+                    "imagen": "https://bodasyweddings.com/wp-content/uploads/2015/04/Si-prefieres-un-diseno-simple-hazlo-inolvidable.jpg",
+                    "descripcion": "Torta elegante para bodas con decoración premium.",
+                    "descripcionDetallada": "Exquisita torta de boda elaborada con la máxima elegancia y sofisticación. Diseño personalizado según el estilo de la boda, con decoración artesanal que incluye flores comestibles, detalles en fondant y acabados de lujo. Perfecta para hacer de tu día especial un momento inolvidable. Cada detalle está cuidadosamente elaborado para crear una obra de arte comestible que refleje la personalidad de los novios.",
+                    "rating": 5.0,
+                    "reviews": 42,
+                    "stock": 2,
+                    "porciones": "20-25 personas",
+                    "featured": true,
+                    "calorias": "350 cal/porción",
+                    "ingredientes": "Harina premium, huevos frescos, azúcar, mantequilla, crema chantilly, fondant, flores comestibles, decoración artesanal",
+                    "reseñas": [
+                        { "autor": "María González", "fecha": "2024-01-15", "rating": 5, "comentario": "¡Increíble! La mejor torta de bodas que he probado." }
+                    ]
+                }
+            ]
         }
-        
-        productosDB = await response.json();
-        console.log('✅ Base de datos de productos cargada correctamente');
-        console.log(`📊 Categorías disponibles: ${Object.keys(productosDB.categorias).length}`);
-        
-        return productosDB;
-    } catch (error) {
-        console.error('❌ Error al cargar la base de datos de productos:', error);
-        showDatabaseError();
-        throw new Error(`No se pudo cargar productos.json: ${error.message}`);
     }
 }
 
+;
+
 /**
  * ====================================================================================
- * 🚨 MOSTRAR ERROR DE BASE DE DATOS
+ * 🗄️ INICIALIZAR BASE DE DATOS DE PRODUCTOS
  * ====================================================================================
  * 
- * Muestra un error visible cuando no se puede cargar la base de datos de productos.
+ * Inicializa la base de datos de productos embebida.
+ * Esta función se ejecuta al inicializar la aplicación.
  */
-function showDatabaseError() {
-    console.error('🚨 ERROR CRÍTICO: Base de datos de productos no disponible');
-    console.error('📁 Verificar que el archivo productos.json existe y es accesible');
+function initializeProductosDB() {
+    console.log('📁 Inicializando base de datos de productos embebida...');
+    console.log('✅ Base de datos de productos cargada correctamente');
+    console.log(`📊 Categorías disponibles: ${Object.keys(productosDB.categorias).length}`);
     
-    // Mostrar error con SweetAlert2
-    Swal.fire({
-        icon: 'error',
-        title: 'Error de Base de Datos',
-        html: `
-            <p><strong>No se pudo cargar el archivo productos.json</strong></p>
-            <hr>
-            <p class="mb-2">Posibles causas:</p>
-            <ul class="text-start">
-                <li>El archivo productos.json no existe</li>
-                <li>Error de permisos de acceso</li>
-                <li>Problema de conexión o servidor</li>
-                <li>Formato JSON inválido</li>
-            </ul>
-            <hr>
-            <small class="text-muted">
-                <i class="fas fa-info-circle"></i> 
-                Verifica la consola del navegador para más detalles técnicos
-            </small>
-        `,
-        confirmButtonText: 'Entendido',
-        confirmButtonColor: '#e74c3c'
-    });
+    return productosDB;
 }
+
 
 
 // ========================================
@@ -297,53 +430,6 @@ let filtroPrecioActivo = false;
 let precioMinimo = 0;
 let precioMaximo = 999999;
 
-// Función para obtener todos los productos en un objeto plano
-// ====================================================================================
-// 📋 SECCIÓN 3: FUNCIONES DE OBTENCIÓN DE PRODUCTOS
-// ====================================================================================
-
-/**
- * ====================================================================================
- * 📦 OBTENCIÓN DE TODOS LOS PRODUCTOS
- * ====================================================================================
- * 
- * Esta función obtiene todos los productos de todas las categorías y los organiza
- * en un objeto indexado por ID para facilitar el acceso.
- * 
- * 🎯 PROPÓSITO:
- * - Consolidar todos los productos en un solo objeto
- * - Indexar productos por ID para acceso rápido
- * - Facilitar búsquedas por ID de producto
- * - Proporcionar vista unificada de todos los productos
- * 
- * 🔄 FLUJO DE FUNCIONAMIENTO:
- * 
- * PASO 1: INICIALIZACIÓN
- * - Crea objeto vacío para almacenar productos
- * 
- * PASO 2: ITERACIÓN POR CATEGORÍAS
- * - Recorre todas las categorías de productosDB
- * - Extrae productos de cada categoría
- * 
- * PASO 3: INDEXACIÓN POR ID
- * - Asigna cada producto al objeto usando su ID como clave
- * - Retorna objeto indexado
- * 
- * 📋 VALOR DE RETORNO:
- * - Objeto con productos indexados por ID
- * - Estructura: {productoId: productoObject, ...}
- * 
- * ⚡ CARACTERÍSTICAS:
- * - Acceso rápido por ID de producto
- * - Consolidación de datos de múltiples categorías
- * - Estructura optimizada para búsquedas
- * - Integración con sistema de carrito
- * 
- * 📄 USADO EN:
- * - Búsqueda de productos por ID
- * - Generación de contenido dinámico
- * - Sistema de carrito de compras
- */
 function getAllProducts() {
     // ====================================================================================
     // PASO 1: INICIALIZACIÓN DEL OBJETO DE PRODUCTOS
@@ -365,52 +451,6 @@ function getAllProducts() {
     return productos;
 }
 
-/**
- * ====================================================================================
- * 🔍 OBTENCIÓN DE PRODUCTO POR ID
- * ====================================================================================
- * 
- * Esta función busca y retorna un producto específico usando su ID único.
- * 
- * 🎯 PROPÓSITO:
- * - Buscar producto específico por ID
- * - Proporcionar acceso directo a datos del producto
- * - Facilitar operaciones con productos individuales
- * - Centralizar lógica de búsqueda por ID
- * 
- * 🔄 FLUJO DE FUNCIONAMIENTO:
- * 
- * PASO 1: BÚSQUEDA
- * - Usa getAllProducts() para obtener todos los productos
- * - Busca producto por ID en el objeto indexado
- * 
- * PASO 2: LOGGING
- * - Registra la búsqueda en consola para debugging
- * 
- * PASO 3: RETORNO
- * - Retorna el producto encontrado o undefined
- * 
- * 📋 PARÁMETROS:
- * - id: ID único del producto (string)
- * 
- * 📋 VALOR DE RETORNO:
- * - Objeto del producto si existe
- * - undefined si no se encuentra
- * 
- * ⚡ CARACTERÍSTICAS:
- * - Búsqueda rápida por ID
- * - Logging para debugging
- * - Manejo seguro de productos no encontrados
- * - Integración con sistema de carrito
- * 
- * 📄 USADO EN:
- * - Modales de detalles de productos
- * - Sistema de carrito de compras
- * - Operaciones de productos individuales
- * 
- * @param {string} id - ID único del producto
- * @returns {object|undefined} - Objeto del producto o undefined
- */
 function getProductById(id) {
     // ====================================================================================
     // PASO 1: BÚSQUEDA DEL PRODUCTO
@@ -428,90 +468,10 @@ function getProductById(id) {
     return producto;
 }
 
-/**
- * ====================================================================================
- * 📂 OBTENCIÓN DE PRODUCTOS POR CATEGORÍA
- * ====================================================================================
- * 
- * Esta función obtiene todos los productos de una categoría específica.
- * 
- * 🎯 PROPÓSITO:
- * - Obtener productos de una categoría específica
- * - Facilitar navegación por categorías
- * - Proporcionar datos para tabs de productos
- * - Centralizar lógica de filtrado por categoría
- * 
- * 🔄 FLUJO DE FUNCIONAMIENTO:
- * 
- * PASO 1: BÚSQUEDA DE CATEGORÍA
- * - Busca la categoría en productosDB usando categoryKey
- * - Usa optional chaining para manejo seguro
- * 
- * PASO 2: RETORNO DE PRODUCTOS
- * - Retorna array de productos de la categoría
- * - Retorna array vacío si la categoría no existe
- * 
- * 📋 PARÁMETROS:
- * - categoryKey: Clave de la categoría (string)
- * 
- * 📋 VALOR DE RETORNO:
- * - Array de productos de la categoría
- * - Array vacío si la categoría no existe
- * 
- * ⚡ CARACTERÍSTICAS:
- * - Manejo seguro de categorías inexistentes
- * - Retorno consistente (siempre array)
- * - Acceso directo a productos de categoría
- * - Integración con sistema de tabs
- * 
- * 📄 USADO EN:
- * - Generación de contenido de tabs
- * - Navegación entre categorías
- * - Filtrado de productos
- * 
- * @param {string} categoryKey - Clave de la categoría
- * @returns {array} - Array de productos de la categoría
- */
 function getProductsByCategory(categoryKey) {
     return productosDB.categorias[categoryKey]?.productos || [];
 }
 
-/**
- * ====================================================================================
- * 📋 OBTENCIÓN DE TODAS LAS CATEGORÍAS
- * ====================================================================================
- * 
- * Esta función obtiene todas las categorías disponibles en la base de datos.
- * 
- * 🎯 PROPÓSITO:
- * - Obtener todas las categorías de productos
- * - Facilitar generación de navegación
- * - Proporcionar datos para dropdowns y tabs
- * - Centralizar acceso a categorías
- * 
- * 🔄 FLUJO DE FUNCIONAMIENTO:
- * 
- * PASO 1: ACCESO DIRECTO
- * - Accede directamente a productosDB.categorias
- * - Retorna objeto completo de categorías
- * 
- * 📋 VALOR DE RETORNO:
- * - Objeto con todas las categorías
- * - Estructura: {categoryKey: categoryObject, ...}
- * 
- * ⚡ CARACTERÍSTICAS:
- * - Acceso directo a datos de categorías
- * - Retorno completo de información
- * - Integración con sistema de navegación
- * - Fácil iteración y manipulación
- * 
- * 📄 USADO EN:
- * - Generación de tabs de categorías
- * - Navegación del navbar
- * - Dropdowns de categorías
- * 
- * @returns {object} - Objeto con todas las categorías
- */
 function getAllCategories() {
     return productosDB.categorias;
 }
@@ -537,7 +497,7 @@ function aplicarFiltroPrecio() {
     
     // Validar que el mínimo no sea mayor al máximo
     if (min > max) {
-        showCartNotification('El precio mínimo no puede ser mayor al máximo', 'error');
+        console.error('❌ El precio mínimo no puede ser mayor al máximo');
         return;
     }
     
@@ -551,7 +511,7 @@ function aplicarFiltroPrecio() {
     
     // Mostrar notificación
     const cantidadFiltrada = contarProductosFiltrados();
-    showCartNotification(`Filtro aplicado: ${cantidadFiltrada} productos encontrados`, 'success');
+    console.log(`✅ Filtro aplicado: ${cantidadFiltrada} productos encontrados`);
 }
 
 // Función para limpiar filtro de precio
@@ -570,7 +530,7 @@ function limpiarFiltroPrecio() {
     // Regenerar contenido
     regenerateProductsContent();
     
-    showCartNotification('Filtro de precio limpiado', 'info');
+    console.log('ℹ️ Filtro de precio limpiado');
 }
 
 // Función para contar productos filtrados
@@ -689,58 +649,6 @@ function generateCategoryHTML(categoriaKey, categoria) {
     `;
 }
 
-/**
- * ====================================================================================
- * 📋 GENERACIÓN DE HTML DE TABS DE CATEGORÍAS
- * ====================================================================================
- * 
- * Esta función genera dinámicamente el HTML de los tabs de navegación para las
- * categorías de productos, utilizando la estructura de datos de productosDB.categorias.
- * 
- * 🎯 PROPÓSITO:
- * - Crear tabs de navegación para cada categoría de productos
- * - Generar tab especial "Todos los Productos" que muestra todos los productos
- * - Configurar atributos Bootstrap para funcionalidad de tabs
- * - Integrar iconos Font Awesome para cada categoría
- * 
- * 🔄 FLUJO DE FUNCIONAMIENTO:
- * 1. Crea tab fijo "Todos los Productos" (siempre activo por defecto)
- * 2. Itera sobre productosDB.categorias para generar tabs dinámicos
- * 3. Extrae datos específicos de cada categoría (nombre, icono, key)
- * 4. Genera HTML con atributos Bootstrap para funcionalidad
- * 5. Combina todos los tabs en una cadena HTML completa
- * 
- * 📊 UTILIZACIÓN DEL JSON productosDB.categorias:
- * - Object.entries(productosDB.categorias): Convierte objeto en array de [key, value]
- * - [key, categoria]: Destructuring para obtener clave y objeto de categoría
- * - categoria.nombre: Nombre legible de la categoría (ej: "Tortas Cuadradas")
- * - categoria.icono: Clase CSS del icono Font Awesome (ej: "fas fa-square")
- * - key: Identificador único de la categoría (ej: "tortas-cuadradas")
- * 
- * ⚡ CARACTERÍSTICAS DEL HTML GENERADO:
- * - Estructura Bootstrap nav-pills para tabs
- * - Atributos data-bs-toggle="pill" para funcionalidad Bootstrap
- * - data-bs-target="#id" para vincular tab con contenido
- * - IDs únicos para cada tab (ej: "tortas-cuadradas-tab")
- * - Iconos Font Awesome integrados
- * - Tab "Todos" marcado como activo por defecto
- * 
- * 📋 ESTRUCTURA JSON UTILIZADA:
- * productosDB.categorias = {
- *   "tortas-cuadradas": {
- *     nombre: "Tortas Cuadradas",
- *     icono: "fas fa-square",
- *     productos: [...]
- *   },
- *   "tortas-circulares": {
- *     nombre: "Tortas Circulares", 
- *     icono: "fas fa-circle",
- *     productos: [...]
- *   }
- * }
- * 
- * @returns {string} HTML completo de todos los tabs de categorías
- */
 function generateTabsHTML() {
     console.log('🔧 Generando HTML de tabs de categorías...');
     console.log('📊 Categorías disponibles:', Object.keys(productosDB.categorias));
@@ -796,58 +704,6 @@ function generateTabsHTML() {
     return resultado;
 }
 
-/**
- * ====================================================================================
- * 📋 GENERACIÓN DE HTML DEL TAB "TODOS LOS PRODUCTOS"
- * ====================================================================================
- * 
- * Esta función genera el contenido del tab "Todos los Productos" que muestra
- * todos los productos de todas las categorías combinados en una sola vista.
- * 
- * 🎯 PROPÓSITO:
- * - Combinar productos de todas las categorías en una vista unificada
- * - Aplicar filtros de precio a todos los productos
- * - Generar tarjetas de productos para cada elemento
- * - Manejar casos donde no hay productos que coincidan con filtros
- * 
- * 🔄 FLUJO DE FUNCIONAMIENTO:
- * 1. Extrae todos los productos de todas las categorías usando Object.values()
- * 2. Combina arrays de productos usando spread operator (...)
- * 3. Aplica filtro de precios usando filtrarProductosPorPrecio()
- * 4. Genera HTML de tarjetas para cada producto usando generateProductCardHTML()
- * 5. Maneja caso de "sin resultados" con mensaje informativo
- * 6. Envuelve todo en estructura Bootstrap tab-pane
- * 
- * 📊 UTILIZACIÓN DEL JSON productosDB.categorias:
- * - Object.values(productosDB.categorias): Obtiene solo los valores (objetos de categorías)
- * - categoria.productos: Array de productos específicos de cada categoría
- * - ...categoria.productos: Spread operator para combinar arrays
- * - productosDB.categorias = {
- *     "tortas-cuadradas": { productos: [producto1, producto2, ...] },
- *     "tortas-circulares": { productos: [producto3, producto4, ...] }
- *   }
- * 
- * ⚡ CARACTERÍSTICAS DEL HTML GENERADO:
- * - Estructura Bootstrap tab-pane con clases "fade show active"
- * - ID "todos" para vinculación con tab correspondiente
- * - Grid responsivo con clase "row" para tarjetas de productos
- * - Mensaje de "sin resultados" con iconos Font Awesome
- * - Integración con sistema de filtros de precio
- * 
- * 📋 ESTRUCTURA DE PRODUCTOS UTILIZADA:
- * Cada producto en categoria.productos tiene la estructura:
- * {
- *   id: "unique-id",
- *   nombre: "Nombre del Producto",
- *   precio: 15000,
- *   descripcion: "Descripción detallada",
- *   imagen: "ruta/imagen.jpg",
- *   stock: 10,
- *   categoria: "tortas-cuadradas"
- * }
- * 
- * @returns {string} HTML completo del tab "Todos los Productos"
- */
 function generateTodosHTML() {
     console.log('🔧 Generando HTML del tab "Todos los Productos"...');
     
@@ -917,69 +773,6 @@ function generateTodosHTML() {
     return resultado;
 }
 
-/**
- * ====================================================================================
- * 📋 GENERACIÓN COMPLETA DE CONTENIDO DE PRODUCTOS DINÁMICAMENTE
- * ====================================================================================
- * 
- * Esta función es el coordinador principal que genera todo el contenido de productos
- * de forma dinámica, incluyendo tabs de navegación y contenido de cada categoría.
- * 
- * 🎯 PROPÓSITO:
- * - Coordinar la generación de todos los elementos de productos
- * - Generar tabs de navegación para categorías
- * - Crear contenido del tab "Todos los Productos"
- * - Generar contenido específico para cada categoría individual
- * - Retornar estructura organizada para inserción en DOM
- * 
- * 🔄 FLUJO DE FUNCIONAMIENTO:
- * 1. Genera HTML de tabs de navegación usando generateTabsHTML()
- * 2. Genera contenido del tab "Todos los Productos" usando generateTodosHTML()
- * 3. Itera sobre cada categoría para generar contenido específico
- * 4. Combina todo el contenido en estructura organizada
- * 5. Retorna objeto con tabs y contenido separados
- * 
- * 📊 UTILIZACIÓN DEL JSON productosDB.categorias:
- * - Object.entries(): Convierte objeto en array de [key, value] para iteración
- * - [key, categoria]: Destructuring para obtener clave y objeto de categoría
- * - generateCategoryHTML(key, categoria): Genera contenido específico de cada categoría
- * - key: Identificador único usado para IDs y navegación
- * - categoria: Objeto completo con nombre, icono y productos
- * 
- * ⚡ CARACTERÍSTICAS DEL RESULTADO:
- * - Estructura organizada con tabs y contenido separados
- * - Tabs de navegación con iconos Font Awesome
- * - Contenido del tab "Todos" activo por defecto
- * - Contenido específico para cada categoría individual
- * - HTML listo para inserción directa en DOM
- * 
- * 📋 ESTRUCTURA JSON UTILIZADA:
- * productosDB.categorias = {
- *   "tortas-cuadradas": {
- *     nombre: "Tortas Cuadradas",
- *     icono: "fas fa-square",
- *     productos: [
- *       {id: "torta-chocolate", nombre: "Torta de Chocolate", precio: 15000, ...},
- *       {id: "torta-vainilla", nombre: "Torta de Vainilla", precio: 12000, ...}
- *     ]
- *   },
- *   "tortas-circulares": {
- *     nombre: "Tortas Circulares",
- *     icono: "fas fa-circle", 
- *     productos: [
- *       {id: "torta-frutilla", nombre: "Torta de Frutilla", precio: 18000, ...}
- *     ]
- *   }
- * }
- * 
- * 📤 ESTRUCTURA DE RETORNO:
- * {
- *   tabs: "<li>Tab Todos</li><li>Tab Categoría 1</li><li>Tab Categoría 2</li>...",
- *   categories: "<div id='todos'>Contenido Todos</div><div id='cat1'>Contenido Cat1</div>..."
- * }
- * 
- * @returns {Object} Objeto con propiedades tabs y categories conteniendo HTML
- */
 function generateProductsContent() {
     console.log('🚀 Iniciando generación completa de contenido de productos...');
     
@@ -1378,80 +1171,6 @@ function handleUrlHash() {
     }
 }
 
-// ========================================
-// FUNCIONES DEL CARRITO
-// ========================================
-
-/**
- * Agrega un producto al carrito
- * @param {string} productId - ID del producto
- * @param {number} quantity - Cantidad a agregar
- */
-// ====================================================================================
-// 📋 SECCIÓN 4: FUNCIONES DEL CARRITO DE COMPRAS
-// ====================================================================================
-
-/**
- * ====================================================================================
- * 🛒 AGREGAR PRODUCTO AL CARRITO DE COMPRAS
- * ====================================================================================
- * 
- * Esta función es el corazón del sistema de carrito. Agrega productos al carrito
- * con validaciones de stock, manejo de cantidades y persistencia automática.
- * 
- * 🎯 PROPÓSITO:
- * - Agregar productos al carrito de compras
- * - Validar stock disponible
- * - Manejar cantidades de productos
- * - Persistir cambios en localStorage
- * - Proporcionar feedback visual al usuario
- * 
- * 🔄 FLUJO DE FUNCIONAMIENTO:
- * 
- * PASO 1: VALIDACIÓN DE PRODUCTO
- * - Busca el producto por ID
- * - Si no existe → Termina la función
- * 
- * PASO 2: OBTENCIÓN DE CANTIDAD
- * - Busca el input de cantidad en el tab activo
- * - Usa cantidad proporcionada o valor del input
- * - Fallback a cantidad 1 si no se encuentra
- * 
- * PASO 3: VALIDACIÓN DE STOCK
- * - Verifica que el producto tenga stock disponible
- * - Valida que la cantidad no exceda el stock
- * - Muestra notificaciones de error si es necesario
- * 
- * PASO 4: MANEJO DE PRODUCTO EXISTENTE
- * - Si el producto ya está en el carrito → Suma cantidades
- * - Si no está en el carrito → Agrega nuevo item
- * 
- * PASO 5: ACTUALIZACIÓN DE INTERFAZ
- * - Actualiza contador del carrito
- * - Guarda cambios en localStorage
- * - Actualiza modal del carrito
- * - Muestra notificación de éxito
- * 
- * 📋 PARÁMETROS:
- * - productId: ID único del producto (string)
- * - quantity: Cantidad a agregar (number, opcional)
- * 
- * ⚡ CARACTERÍSTICAS:
- * - Validación robusta de stock
- * - Manejo inteligente de cantidades
- * - Persistencia automática en localStorage
- * - Feedback visual inmediato
- * - Logging detallado para debugging
- * - Manejo de productos duplicados
- * 
- * 📄 USADO EN:
- * - Botones "Agregar al Carrito" en tarjetas de productos
- * - Modal de detalles de productos
- * - Botones de cantidad con +/-
- * 
- * @param {string} productId - ID único del producto
- * @param {number} quantity - Cantidad a agregar (opcional)
- */
 function addToCart(productId, quantity = null) {
     // ====================================================================================
     // PASO 1: VALIDACIÓN DE PRODUCTO
@@ -1494,12 +1213,12 @@ function addToCart(productId, quantity = null) {
     // PASO 4: VALIDACIÓN DE STOCK
     // ====================================================================================
     if (producto.stock === 0) {
-        showCartNotification('Este producto no está disponible', 'error');
+        console.error('❌ Este producto no está disponible');
         return;
     }
     
     if (cantidad > producto.stock) {
-        showCartNotification(`Solo hay ${producto.stock} unidades disponibles`, 'error');
+        console.error(`❌ Solo hay ${producto.stock} unidades disponibles`);
         return;
     }
 
@@ -1511,7 +1230,7 @@ function addToCart(productId, quantity = null) {
     if (existingItem) {
         // Verificar si al agregar más cantidad no excede el stock
         if (existingItem.cantidad + cantidad > producto.stock) {
-            showCartNotification(`Solo puedes agregar ${producto.stock - existingItem.cantidad} unidades más`, 'warning');
+            console.warn(`⚠️ Solo puedes agregar ${producto.stock - existingItem.cantidad} unidades más`);
             return;
         }
         console.log('➕ Adding to existing item:', existingItem.cantidad, '+', cantidad, '=', existingItem.cantidad + cantidad);
@@ -1533,51 +1252,9 @@ function addToCart(productId, quantity = null) {
     updateCartCounter();
     saveCartToStorage();
     updateCartModal();
-    showCartNotification(`${producto.nombre} agregado al carrito`, 'success');
+    console.log(`✅ ${producto.nombre} agregado al carrito`);
 }
 
-/**
- * Muestra notificación del carrito
- * @param {string} message - Mensaje a mostrar
- * @param {string} type - Tipo de notificación (success, error, warning)
- */
-function showCartNotification(message, type = 'success') {
-    // Crear toast si no existe
-    let toastContainer = document.getElementById('toastContainer');
-    if (!toastContainer) {
-        toastContainer = document.createElement('div');
-        toastContainer.id = 'toastContainer';
-        toastContainer.className = 'toast-container position-fixed top-0 start-0 p-3';
-        toastContainer.style.zIndex = '9999';
-        document.body.appendChild(toastContainer);
-    }
-
-    const toastId = 'toast-' + Date.now();
-    const bgClass = type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : 'bg-warning';
-    const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-exclamation-triangle';
-
-    toastContainer.innerHTML += `
-        <div class="toast ${bgClass} text-white" id="${toastId}" role="alert">
-            <div class="toast-header ${bgClass} text-white border-0">
-                <i class="fas ${icon} me-2"></i>
-                <strong class="me-auto">Carrito</strong>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-            </div>
-            <div class="toast-body">
-                ${message}
-            </div>
-        </div>
-    `;
-
-    const toastElement = document.getElementById(toastId);
-    const toast = new bootstrap.Toast(toastElement);
-    toast.show();
-
-    // Remover el toast del DOM después de que se oculte
-    toastElement.addEventListener('hidden.bs.toast', () => {
-        toastElement.remove();
-    });
-}
 
 
 /**
@@ -1605,7 +1282,7 @@ function removeFromCart(productId) {
         updateCartCounter();
         saveCartToStorage();
         updateCartModal();
-        showCartNotification(`${producto.nombre} eliminado del carrito`, 'info');
+        console.log(`ℹ️ ${producto.nombre} eliminado del carrito`);
     }
 }
 
@@ -1624,7 +1301,7 @@ function clearCart() {
     cart = [];
     updateCartCounter();
     saveCartToStorage();
-    showCartNotification('Carrito vaciado', 'info');
+    console.log('ℹ️ Carrito vaciado');
     updateCartModal();
 }
 
@@ -1716,7 +1393,7 @@ function changeCartItemQuantity(productId, change) {
     }
     
     if (newQuantity > producto.stock) {
-        showCartNotification(`Solo hay ${producto.stock} unidades disponibles`, 'error');
+        console.error(`❌ Solo hay ${producto.stock} unidades disponibles`);
         return;
     }
     
@@ -1766,14 +1443,9 @@ function updateCartCounter() {
 
 
 // Inicializar productos cuando se carga el DOM
-document.addEventListener('DOMContentLoaded', async function() {
-    // Cargar base de datos de productos desde JSON
-    try {
-        await loadProductosDB();
-    } catch (error) {
-        console.error('❌ No se pudo cargar la base de datos de productos:', error);
-        return; // Salir si no se puede cargar la base de datos
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar base de datos de productos embebida
+    initializeProductosDB();
     
     // Cargar carrito desde localStorage
     loadCartFromStorage();
@@ -1843,57 +1515,4 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 });
 
-/**
- * ====================================================================================
- * 🎯 RESUMEN FINAL DEL ARCHIVO DE PRODUCTOS
- * ====================================================================================
- * 
- * Este archivo es el corazón del sistema de e-commerce de la aplicación, centralizando
- * toda la lógica relacionada con productos, carrito de compras y navegación.
- * 
- * 📋 FUNCIONALIDADES PRINCIPALES:
- * - Base de datos de productos con categorías
- * - Sistema de carrito con persistencia en localStorage
- * - Modales de detalles de productos
- * - Navegación entre categorías con tabs
- * - Notificaciones toast para feedback del usuario
- * - Gestión de cantidad de productos
- * - Filtrado de productos por precio
- * - Generación dinámica de contenido
- * 
- * 📋 FUNCIONES PRINCIPALES:
- * - getAllProducts(): Obtiene todos los productos indexados por ID
- * - getProductById(): Busca producto específico por ID
- * - getProductsByCategory(): Obtiene productos de categoría específica
- * - addToCart(): Agrega productos al carrito con validaciones
- * - showProductDetails(): Muestra modal de detalles de producto
- * - updateCartCounter(): Actualiza contador del carrito
- * - generateProductsContent(): Genera contenido dinámico de productos
- * - setupQuantityButtons(): Configura botones de cantidad
- * 
- * ⚡ CARACTERÍSTICAS DEL ARCHIVO:
- * - Sistema de carrito persistente
- * - Navegación fluida entre categorías
- * - Modales responsivos con Bootstrap
- * - Notificaciones toast para feedback
- * - Gestión de cantidad con botones +/-
- * - Integración con sistema de componentes
- * - Validación robusta de stock
- * - Manejo inteligente de cantidades
- * 
- * 📄 ARCHIVOS RELACIONADOS:
- * - index.html: Página principal con sección de productos
- * - components/navbar.html: Navegación con dropdown de categorías
- * - components/cart-modal.html: Modal del carrito de compras
- * - js/components.js: Sistema de componentes y navegación
- * 
- * 🔄 FLUJO DE FUNCIONAMIENTO:
- * 1. Carga productos desde base de datos local
- * 2. Inicializa carrito desde localStorage
- * 3. Configura event listeners para interacciones
- * 4. Maneja navegación entre categorías
- * 5. Gestiona agregar/quitar productos del carrito
- * 6. Persiste cambios en localStorage
- * 7. Actualiza interfaz de usuario en tiempo real
- */
 console.log('✅ productos.js cargado correctamente - Sistema de productos y carrito disponible');
