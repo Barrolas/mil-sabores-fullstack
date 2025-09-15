@@ -59,7 +59,6 @@ let productosDB =
                     "descripcionDetallada": "Exquisita torta de chocolate premium elaborada con los mejores ingredientes. Capas de bizcocho de chocolate esponjoso, relleno de crema de chocolate belga y decoración artesanal con virutas de chocolate. Perfecta para celebraciones especiales, cumpleaños y eventos importantes. Cada bocado es una experiencia de sabor inolvidable.",
                     "rating": 4.8,
                     "reviews": 24,
-                    "stock": 15,
                     "porciones": "10-15 personas",
                     "calorias": "350 cal/porción",
                     "ingredientes": "Chocolate premium, harina, huevos, azúcar, mantequilla, crema de leche, cacao en polvo",
@@ -78,7 +77,6 @@ let productosDB =
                     "descripcionDetallada": "Hermosa torta cuadrada decorada con una selección de frutas frescas de temporada como fresas, kiwis, duraznos y arándanos. Base de bizcocho esponjoso de vainilla, relleno de crema chantilly casera y decoración artesanal con frutas frescas. Perfecta para celebraciones de verano, cumpleaños y eventos al aire libre. Cada porción es una explosión de sabores frescos y naturales.",
                     "rating": 4.7,
                     "reviews": 19,
-                    "stock": 7,
                     "porciones": "10-15 personas",
                     "calorias": "320 cal/porción",
                     "ingredientes": "Frutas frescas de temporada, crema chantilly, harina, huevos, azúcar, vainilla, gelatina",
@@ -102,7 +100,6 @@ let productosDB =
                     "descripcionDetallada": "Clásica torta circular de vainilla, elaborada con extracto de vainilla natural y decorada con buttercream suave. Capas de bizcocho esponjoso de vainilla, relleno de crema de vainilla y decoración elegante con frutas frescas de temporada. Un postre atemporal que nunca pasa de moda, perfecto para cualquier celebración.",
                     "rating": 4.6,
                     "reviews": 18,
-                    "stock": 25,
                     "porciones": "8-10 personas",
                     "calorias": "320 cal/porción",
                     "ingredientes": "Vainilla natural, harina, huevos, azúcar, mantequilla, frutas frescas",
@@ -120,7 +117,6 @@ let productosDB =
                     "descripcionDetallada": "Exquisita torta circular de manjar casero, elaborada con la receta tradicional chilena. Capas de bizcocho esponjoso, relleno generoso de manjar casero y decoración elegante con nueces y almendras. Un clásico de la repostería chilena que evoca los sabores de la infancia. Perfecta para celebraciones familiares y ocasiones especiales.",
                     "rating": 4.9,
                     "reviews": 31,
-                    "stock": 1,
                     "porciones": "8-10 personas",
                     "calorias": "380 cal/porción",
                     "ingredientes": "Manjar casero, harina, huevos, azúcar, mantequilla, nueces, almendras",
@@ -138,7 +134,6 @@ let productosDB =
                     "descripcionDetallada": "Deliciosa torta circular de frutillas frescas, elaborada con las mejores frutillas de temporada. Base de bizcocho esponjoso de vainilla, relleno de crema chantilly casera y decorada con frutillas frescas enteras y en rodajas. Un postre fresco y elegante que combina la dulzura natural de las frutillas con la suavidad de la crema. Perfecta para celebraciones de primavera y verano, cumpleaños y eventos especiales.",
                     "rating": 4.7,
                     "reviews": 28,
-                    "stock": 12,
                     "porciones": "15 personas",
                     "featured": true,
                     "calorias": "320 cal/porción",
@@ -164,7 +159,6 @@ let productosDB =
                     "descripcionDetallada": "Exquisito mousse de chocolate intenso, elaborado con chocolate premium y crema fresca. Textura suave y aterciopelada que se derrite en el paladar. Decorado con frutas frescas de temporada y virutas de chocolate. Perfecto como postre individual o para compartir en ocasiones especiales. Una experiencia de sabor que deleitará a los amantes del chocolate.",
                     "rating": 4.5,
                     "reviews": 12,
-                    "stock": 30,
                     "porciones": "1 persona",
                     "featured": true,
                     "calorias": "280 cal/porción",
@@ -182,7 +176,6 @@ let productosDB =
                     "descripcionDetallada": "Auténtico tiramisú italiano, elaborado siguiendo la receta tradicional. Capas de bizcocho savoiardi empapado en café espresso, crema de mascarpone suave y espolvoreado con cacao en polvo. Un postre elegante y sofisticado que transporta a las cafeterías de Italia. Perfecto para los amantes del café y la repostería italiana.",
                     "rating": 4.8,
                     "reviews": 22,
-                    "stock": 5,
                     "porciones": "1 persona",
                     "calorias": "320 cal/porción",
                     "ingredientes": "Café espresso, mascarpone, cacao en polvo, bizcocho savoiardi, huevos, azúcar",
@@ -205,7 +198,6 @@ let productosDB =
                     "descripcionDetallada": "Deliciosa torta de naranja sin azúcar, elaborada con naranjas frescas y edulcorantes naturales. Perfecta para personas con diabetes o que buscan opciones más saludables. Base de bizcocho esponjoso de naranja, relleno de crema de naranja natural y decoración con gajos de naranja fresca. Un postre refrescante y saludable que no compromete el sabor.",
                     "rating": 4.6,
                     "reviews": 15,
-                    "stock": 35,
                     "porciones": "8-10 personas",
                     "calorias": "250 cal/porción",
                     "ingredientes": "Naranja natural, edulcorante stevia, harina integral, huevos, aceite de oliva",
@@ -222,7 +214,6 @@ let productosDB =
                     "descripcionDetallada": "Delicioso cheesecake de maracuyá sin azúcar, perfecto para quienes buscan un postre saludable sin comprometer el sabor. Elaborado con edulcorantes naturales como stevia y la frescura única del maracuyá natural. Base de galletas integrales sin azúcar, crema de queso suave y topping de maracuyá fresco. Ideal para personas con diabetes, dietas bajas en carbohidratos o simplemente para quienes prefieren opciones más saludables sin sacrificar el sabor.",
                     "rating": 4.8,
                     "reviews": 22,
-                    "stock": 4,
                     "porciones": "8 personas",
                     "featured": true,
                     "calorias": "220 cal/porción",
@@ -248,7 +239,6 @@ let productosDB =
                     "descripcionDetallada": "Deliciosa empanada de manzana casera, elaborada con masa fresca y relleno de manzanas cortadas en cubos con canela, azúcar y un toque de limón. Horneada hasta obtener una textura dorada y crujiente. Un clásico de la repostería chilena que combina perfectamente con una taza de té o café. Ideal para la hora del té o como postre ligero.",
                     "rating": 4.4,
                     "reviews": 28,
-                    "stock": 30,
                     "porciones": "1 persona",
                     "calorias": "180 cal/porción",
                     "ingredientes": "Manzana, canela, azúcar, masa de empanada, limón, mantequilla",
@@ -265,7 +255,6 @@ let productosDB =
                     "descripcionDetallada": "Auténtica Tarta de Santiago, el postre más emblemático de Galicia. Elaborada con almendras molidas, huevos, azúcar y un toque de limón. Decorada con la cruz de Santiago en azúcar glass. Una tarta sin harina, perfecta para celíacos, con una textura húmeda y un sabor intenso a almendras. Un clásico de la repostería española que conquista paladares.",
                     "rating": 4.8,
                     "reviews": 16,
-                    "stock": 18,
                     "porciones": "6-8 personas",
                     "calorias": "320 cal/porción",
                     "ingredientes": "Almendras molidas, limón, azúcar, huevos, azúcar glass",
@@ -288,7 +277,6 @@ let productosDB =
                     "descripcionDetallada": "Exquisito brownie sin gluten elaborado con chocolate premium y harina de arroz. Textura húmeda y densa en el centro, con una corteza crujiente en la superficie. Perfecto para personas celíacas o que siguen una dieta sin gluten. Decorado con nueces y chips de chocolate. Un postre que no compromete el sabor ni la textura tradicional del brownie.",
                     "rating": 4.5,
                     "reviews": 14,
-                    "stock": 8,
                     "porciones": "4-6 personas",
                     "calorias": "300 cal/porción",
                     "ingredientes": "Chocolate premium, harina de arroz, huevos, azúcar, mantequilla, nueces",
@@ -305,7 +293,6 @@ let productosDB =
                     "descripcionDetallada": "Pan artesanal sin gluten elaborado con una mezcla de harinas especiales, semillas de girasol, chía y sésamo, además de frutos secos como nueces y almendras. Textura esponjosa y sabor natural. Perfecto para el desayuno o acompañar cualquier comida. Ideal para personas celíacas o que buscan opciones más saludables sin comprometer el sabor.",
                     "rating": 4.3,
                     "reviews": 11,
-                    "stock": 22,
                     "porciones": "8-10 rebanadas",
                     "calorias": "200 cal/porción",
                     "ingredientes": "Harina sin gluten, semillas de girasol, chía, sésamo, nueces, almendras, levadura",
@@ -328,7 +315,6 @@ let productosDB =
                     "descripcionDetallada": "Exquisita torta de chocolate 100% vegana, elaborada sin productos de origen animal. Utiliza chocolate vegano, leche de almendras, azúcar de coco y harina integral. Decorada con crema de coco y frutas frescas. Perfecta para veganos, vegetarianos o cualquier persona que busque opciones más saludables y sostenibles sin comprometer el sabor delicioso del chocolate.",
                     "rating": 4.7,
                     "reviews": 20,
-                    "stock": 6,
                     "porciones": "8-10 personas",
                     "calorias": "280 cal/porción",
                     "ingredientes": "Chocolate vegano, harina integral, leche de almendras, azúcar de coco, aceite de coco",
@@ -345,7 +331,6 @@ let productosDB =
                     "descripcionDetallada": "Deliciosas galletas veganas de avena, elaboradas con avena integral, pasas, canela y endulzadas con azúcar de coco. Sin huevos, leche ni mantequilla. Perfectas para el desayuno, merienda o como snack saludable. Textura crujiente por fuera y suave por dentro. Ideales para veganos, vegetarianos o cualquier persona que busque opciones más saludables y nutritivas.",
                     "rating": 4.4,
                     "reviews": 17,
-                    "stock": 40,
                     "porciones": "12 galletas",
                     "featured": true,
                     "calorias": "120 cal/porción",
@@ -369,7 +354,6 @@ let productosDB =
                     "descripcionDetallada": "Torta especial de cumpleaños personalizada según tus gustos y preferencias. Elaborada con los mejores ingredientes y decorada con crema, frutas frescas, chocolates y elementos decorativos temáticos. Perfecta para hacer de tu cumpleaños un día inolvidable. Incluye decoración personalizada con el nombre del cumpleañero y velas. Una experiencia única que combina sabor excepcional con presentación espectacular.",
                     "rating": 4.9,
                     "reviews": 35,
-                    "stock": 3,
                     "porciones": "12-15 personas",
                     "featured": true,
                     "calorias": "400 cal/porción",
@@ -387,7 +371,6 @@ let productosDB =
                     "descripcionDetallada": "Exquisita torta de boda elaborada con la máxima elegancia y sofisticación. Diseño personalizado según el estilo de la boda, con decoración artesanal que incluye flores comestibles, detalles en fondant y acabados de lujo. Perfecta para hacer de tu día especial un momento inolvidable. Cada detalle está cuidadosamente elaborado para crear una obra de arte comestible que refleje la personalidad de los novios.",
                     "rating": 5.0,
                     "reviews": 42,
-                    "stock": 2,
                     "porciones": "20-25 personas",
                     "featured": true,
                     "calorias": "350 cal/porción",
@@ -545,31 +528,14 @@ function contarProductosFiltrados() {
 
 // Función para regenerar contenido de productos
 function regenerateProductsContent() {
-    const productTabsContent = document.getElementById('productTabsContent');
-    if (!productTabsContent) return;
-    
-    const todosHTML = generateTodosHTML();
-    const categoriesHTML = Object.entries(productosDB.categorias).map(([key, categoria]) => 
-        generateCategoryHTML(key, categoria)
-    ).join('');
-    
-    productTabsContent.innerHTML = todosHTML + categoriesHTML;
-    
-    // Configurar botones de cantidad después de regenerar el HTML
-    setupQuantityButtons();
-    
-    // Configurar listeners de cambio de tabs
-    setupTabChangeListeners();
+    // Simplemente volver a mostrar los productos según la categoría seleccionada
+    filtrarPorCategoria();
 }
 
 // Función para generar HTML de una card de producto
 function generateProductCardHTML(producto) {
     let stockBadge = '';
-    if (producto.stock === 0) {
-        stockBadge = `<div class="product-badge out-of-stock">Sin Stock</div>`;
-    } else if (producto.stock < 10) {
-        stockBadge = `<div class="product-badge low-stock">Poco Stock</div>`;
-    } else if (producto.featured) {
+    if (producto.featured) {
         stockBadge = `<div class="product-badge featured">Destacado</div>`;
     }
     
@@ -594,26 +560,11 @@ function generateProductCardHTML(producto) {
                     <div class="product-price mb-3">
                         <span class="h4">$${producto.precio.toLocaleString('es-CL')}</span>
                     </div>
-                    <div class="stock-info mb-3">
-                        <small class="text-muted">
-                            <i class="fas fa-box me-1"></i>
-                            Stock: <strong>${producto.stock} unidades</strong>
-                        </small>
-                    </div>
-                    
                     <!-- Botones de acción -->
                     <div class="mt-auto">
-                        <!-- Fila con cantidad y agregar al carrito -->
-                        <div class="row g-2 mb-2 align-items-end">
-                            <div class="col-3">
-                                <input type="number" class="form-control form-control-sm py-2" id="quantity-${producto.id}" value="1" min="1" max="${producto.stock}" placeholder="Cant.">
-                            </div>
-                            <div class="col-9">
-                                <button class="btn btn-primary w-100 py-2" onclick="addToCart('${producto.id}')">
-                                    <i class="fas fa-shopping-cart me-1"></i>Agregar al Carrito
-                                </button>
-                            </div>
-                        </div>
+                        <button class="btn btn-primary w-100 py-2" onclick="addToCart('${producto.id}')">
+                            <i class="fas fa-shopping-cart me-1"></i>Agregar al Carrito
+                        </button>
                         
                         <!-- Botón ver detalles -->
                         <button class="btn btn-outline-primary w-100 mt-2" onclick="showProductDetails('${producto.id}')">
@@ -626,14 +577,31 @@ function generateProductCardHTML(producto) {
     `;
 }
 
-// Función para generar HTML de una categoría completa
-function generateCategoryHTML(categoriaKey, categoria) {
-    const productosFiltrados = filtrarProductosPorPrecio(categoria.productos);
+
+// Función simple para generar opciones del dropdown de categorías
+function generateCategoryOptions() {
+    console.log('🔧 Generando opciones del dropdown de categorías...');
+    
+    const options = Object.entries(productosDB.categorias).map(([key, categoria]) => {
+        return `<option value="${key}">${categoria.nombre}</option>`;
+    }).join('');
+    
+    console.log('✅ Opciones de categorías generadas');
+    return options;
+}
+
+// Función simple para mostrar todos los productos
+function showAllProducts() {
+    console.log('🔧 Mostrando todos los productos...');
+    
+    const todosLosProductos = Object.values(productosDB.categorias)
+        .flatMap(categoria => categoria.productos);
+    
+    const productosFiltrados = filtrarProductosPorPrecio(todosLosProductos);
     const productosHTML = productosFiltrados.map(producto => 
         generateProductCardHTML(producto)
     ).join('');
     
-    // Mostrar mensaje si no hay productos que coincidan con el filtro
     const contenidoHTML = productosFiltrados.length > 0 ? 
         `<div class="row">${productosHTML}</div>` :
         `<div class="text-center py-5">
@@ -642,421 +610,75 @@ function generateCategoryHTML(categoriaKey, categoria) {
             <p class="text-muted">Intenta ajustar el filtro de precio</p>
         </div>`;
     
-    return `
-        <div class="tab-pane fade" id="${categoriaKey}" role="tabpanel">
-            ${contenidoHTML}
-        </div>
-    `;
+    document.getElementById('productosContainer').innerHTML = contenidoHTML;
+    console.log('✅ Todos los productos mostrados');
 }
 
-function generateTabsHTML() {
-    console.log('🔧 Generando HTML de tabs de categorías...');
-    console.log('📊 Categorías disponibles:', Object.keys(productosDB.categorias));
+// Función simple para inicializar el sistema de productos
+function initializeProducts() {
+    console.log('🚀 Inicializando sistema de productos...');
     
-    // ====================================================================================
-    // 📋 TAB FIJO "TODOS LOS PRODUCTOS"
-    // ====================================================================================
-    // Este tab siempre se genera primero y está activo por defecto.
-    // Muestra todos los productos de todas las categorías combinados.
-    const todosTab = `<li class="nav-item" role="presentation">
-        <button class="nav-link active" id="todos-tab" data-bs-toggle="pill" 
-            data-bs-target="#todos" type="button" role="tab">
-            <i class="fas fa-th-large me-2"></i>Todos los Productos
-        </button>
-    </li>`;
-    
-    console.log('✅ Tab "Todos los Productos" generado');
-    
-    // ====================================================================================
-    // 📋 GENERACIÓN DINÁMICA DE TABS DE CATEGORÍAS
-    // ====================================================================================
-    // Object.entries() convierte el objeto productosDB.categorias en un array de pares [key, value]
-    // Ejemplo: [["tortas-cuadradas", {nombre: "Tortas Cuadradas", icono: "fas fa-square", productos: [...]}]]
-    const categoriasTabs = Object.entries(productosDB.categorias).map(([key, categoria]) => {
-        console.log(`🔧 Procesando categoría: ${key} -> ${categoria.nombre}`);
-        
-        // ====================================================================================
-        // 📋 DESTRUCTURING DE DATOS DE CATEGORÍA
-        // ====================================================================================
-        // key: Identificador único de la categoría (ej: "tortas-cuadradas")
-        // categoria: Objeto completo de la categoría con propiedades:
-        //   - nombre: Nombre legible (ej: "Tortas Cuadradas")
-        //   - icono: Clase CSS del icono Font Awesome (ej: "fas fa-square")
-        //   - productos: Array de productos de esta categoría
-        
-        return `<li class="nav-item" role="presentation">
-            <button class="nav-link" id="${key}-tab" data-bs-toggle="pill" 
-                data-bs-target="#${key}" type="button" role="tab">
-                <i class="${categoria.icono} me-2"></i>${categoria.nombre}
-            </button>
-        </li>`;
-    }).join(''); // join('') convierte el array de strings en una sola cadena
-    
-    console.log(`✅ ${Object.keys(productosDB.categorias).length} tabs de categorías generados`);
-    
-    // ====================================================================================
-    // 📋 COMBINACIÓN Y RETORNO
-    // ====================================================================================
-    // Combina el tab fijo "Todos" con todos los tabs dinámicos de categorías
-    const resultado = todosTab + categoriasTabs;
-    console.log('🎯 HTML de tabs generado exitosamente');
-    
-    return resultado;
-}
-
-function generateTodosHTML() {
-    console.log('🔧 Generando HTML del tab "Todos los Productos"...');
-    
-    // ====================================================================================
-    // 📋 EXTRACCIÓN DE TODOS LOS PRODUCTOS DE TODAS LAS CATEGORÍAS
-    // ====================================================================================
-    // Object.values() obtiene solo los valores (objetos de categorías) del objeto productosDB.categorias
-    // Ejemplo: [{nombre: "Tortas Cuadradas", productos: [...]}, {nombre: "Tortas Circulares", productos: [...]}]
-    const todosProductos = [];
-    Object.values(productosDB.categorias).forEach(categoria => {
-        console.log(`📦 Extrayendo productos de categoría: ${categoria.nombre} (${categoria.productos.length} productos)`);
-        
-        // Spread operator (...) combina el array de productos de esta categoría con el array principal
-        // Ejemplo: todosProductos = [...todosProductos, producto1, producto2, producto3]
-        todosProductos.push(...categoria.productos);
-    });
-    
-    console.log(`📊 Total de productos combinados: ${todosProductos.length}`);
-    
-    // ====================================================================================
-    // 📋 APLICACIÓN DE FILTROS DE PRECIO
-    // ====================================================================================
-    // filtrarProductosPorPrecio() aplica los filtros de precio configurados por el usuario
-    // Utiliza los valores de los sliders de precio mínimo y máximo
-    const productosFiltrados = filtrarProductosPorPrecio(todosProductos);
-    console.log(`🔍 Productos después del filtro de precio: ${productosFiltrados.length}`);
-    
-    // ====================================================================================
-    // 📋 GENERACIÓN DE HTML DE TARJETAS DE PRODUCTOS
-    // ====================================================================================
-    // map() transforma cada producto en su HTML de tarjeta correspondiente
-    // generateProductCardHTML() crea la estructura completa de tarjeta Bootstrap
-    const productosHTML = productosFiltrados.map(producto => {
-        console.log(`🎨 Generando tarjeta para producto: ${producto.nombre}`);
-        return generateProductCardHTML(producto);
-    }).join(''); // join('') convierte el array de strings en una sola cadena HTML
-    
-    // ====================================================================================
-    // 📋 MANEJO DE CASO "SIN RESULTADOS"
-    // ====================================================================================
-    // Si no hay productos que coincidan con los filtros, muestra mensaje informativo
-    const contenidoHTML = productosFiltrados.length > 0 ? 
-        `<div class="row">${productosHTML}</div>` :
-        `<div class="text-center py-5">
-            <i class="fas fa-search fa-3x text-muted mb-3"></i>
-            <h5 class="text-muted">No se encontraron productos</h5>
-            <p class="text-muted">Intenta ajustar el filtro de precio</p>
-        </div>`;
-    
-    console.log(`✅ Contenido HTML generado: ${productosFiltrados.length > 0 ? 'Con productos' : 'Sin resultados'}`);
-    
-    // ====================================================================================
-    // 📋 ESTRUCTURA FINAL DEL TAB
-    // ====================================================================================
-    // Estructura Bootstrap tab-pane con:
-    // - "fade show active": Clases para transición y estado activo
-    // - id="todos": Identificador para vinculación con tab
-    // - role="tabpanel": Atributo de accesibilidad
-    const resultado = `
-        <div class="tab-pane fade show active" id="todos" role="tabpanel">
-            ${contenidoHTML}
-        </div>
-    `;
-    
-    console.log('🎯 HTML del tab "Todos los Productos" generado exitosamente');
-    
-    return resultado;
-}
-
-function generateProductsContent() {
-    console.log('🚀 Iniciando generación completa de contenido de productos...');
-    
-    // Verificar que productosDB esté cargado
-    if (!productosDB || !productosDB.categorias) {
-        console.error('❌ productosDB no está cargado o no tiene categorías');
-        return { tabs: '', content: '' };
+    // Generar opciones del dropdown
+    const categoriaFilter = document.getElementById('categoriaFilter');
+    if (categoriaFilter) {
+        categoriaFilter.innerHTML = '<option value="todos">Todos los Productos</option>' + generateCategoryOptions();
     }
     
-    console.log('📊 Categorías disponibles:', Object.keys(productosDB.categorias));
+    // Mostrar todos los productos por defecto
+    showAllProducts();
     
-    // ====================================================================================
-    // 📋 GENERACIÓN DE TABS DE NAVEGACIÓN
-    // ====================================================================================
-    // generateTabsHTML() crea todos los tabs de navegación incluyendo:
-    // - Tab fijo "Todos los Productos" (activo por defecto)
-    // - Tabs dinámicos para cada categoría con iconos Font Awesome
-    // - Atributos Bootstrap para funcionalidad de tabs
-    const tabsHTML = generateTabsHTML();
-    console.log('✅ Tabs de navegación generados');
-    
-    // ====================================================================================
-    // 📋 GENERACIÓN DE CONTENIDO DEL TAB "TODOS LOS PRODUCTOS"
-    // ====================================================================================
-    // generateTodosHTML() crea el contenido del tab que muestra todos los productos
-    // de todas las categorías combinados, con filtros de precio aplicados
-    const todosHTML = generateTodosHTML();
-    console.log('✅ Contenido del tab "Todos los Productos" generado');
-    
-    // ====================================================================================
-    // 📋 GENERACIÓN DE CONTENIDO PARA CADA CATEGORÍA INDIVIDUAL
-    // ====================================================================================
-    // Object.entries() convierte productosDB.categorias en array de [key, value]
-    // map() itera sobre cada categoría y genera su contenido específico
-    // generateCategoryHTML(key, categoria) crea el contenido completo de cada categoría
-    const categoriesHTML = Object.entries(productosDB.categorias).map(([key, categoria]) => {
-        console.log(`🔧 Generando contenido para categoría: ${key} (${categoria.nombre})`);
-        
-        // ====================================================================================
-        // 📋 DESTRUCTURING DE DATOS DE CATEGORÍA
-        // ====================================================================================
-        // key: Identificador único de la categoría (ej: "tortas-cuadradas")
-        // categoria: Objeto completo con propiedades:
-        //   - nombre: Nombre legible (ej: "Tortas Cuadradas")
-        //   - icono: Clase CSS del icono Font Awesome (ej: "fas fa-square")
-        //   - productos: Array de productos específicos de esta categoría
-        
-        return generateCategoryHTML(key, categoria);
-    }).join(''); // join('') convierte el array de strings en una sola cadena HTML
-    
-    console.log(`✅ Contenido de ${Object.keys(productosDB.categorias).length} categorías generado`);
-    
-    // ====================================================================================
-    // 📋 COMBINACIÓN Y ESTRUCTURA DE RETORNO
-    // ====================================================================================
-    // Combina el contenido del tab "Todos" con el contenido de todas las categorías
-    // Estructura organizada para inserción eficiente en DOM
-    const resultado = {
-        tabs: tabsHTML,                    // HTML de tabs de navegación
-        categories: todosHTML + categoriesHTML  // HTML de contenido (Todos + Categorías)
-    };
-    
-    console.log('🎯 Generación completa de contenido de productos finalizada exitosamente');
-    console.log('📊 Resumen:', {
-        tabsGenerados: 'Tabs de navegación + Tab Todos',
-        categoriasGeneradas: Object.keys(productosDB.categorias).length,
-        contenidoTotal: 'Tab Todos + Contenido de todas las categorías'
-    });
-    
-    return resultado;
+    console.log('✅ Sistema de productos inicializado');
 }
 
-// Función para inicializar el contenido dinámico de productos
+// Función simple para filtrar por categoría
+function filtrarPorCategoria() {
+    const categoriaFilter = document.getElementById('categoriaFilter');
+    const categoriaSeleccionada = categoriaFilter.value;
+    
+    console.log(`🔍 Filtrando por categoría: ${categoriaSeleccionada}`);
+    
+    if (categoriaSeleccionada === 'todos') {
+        showAllProducts();
+    } else {
+        const categoria = productosDB.categorias[categoriaSeleccionada];
+        if (categoria) {
+            const productosFiltrados = filtrarProductosPorPrecio(categoria.productos);
+    const productosHTML = productosFiltrados.map(producto => 
+        generateProductCardHTML(producto)
+    ).join('');
+    
+    const contenidoHTML = productosFiltrados.length > 0 ? 
+        `<div class="row">${productosHTML}</div>` :
+        `<div class="text-center py-5">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">No se encontraron productos</h5>
+            <p class="text-muted">Intenta ajustar el filtro de precio</p>
+        </div>`;
+    
+            document.getElementById('productosContainer').innerHTML = contenidoHTML;
+            console.log(`✅ Mostrando ${productosFiltrados.length} productos de ${categoria.nombre}`);
+        }
+    }
+}
+
+// Función para inicializar el contenido dinámico de productos (simplificada)
 function initializeDynamicProducts() {
     console.log('🔧 Inicializando productos dinámicos...');
-    console.log('📊 productosDB estado:', productosDB ? 'Cargado' : 'No cargado');
     
-    const productTabs = document.getElementById('productTabs');
-    const productTabsContent = document.getElementById('productTabsContent');
-    
-    console.log('🎯 Elementos encontrados:', {
-        productTabs: productTabs ? 'Sí' : 'No',
-        productTabsContent: productTabsContent ? 'Sí' : 'No'
-    });
-    
-    if (productTabs && productTabsContent) {
-        const content = generateProductsContent();
-        console.log('📝 Contenido generado:', {
-            tabsLength: content.tabs ? content.tabs.length : 0,
-            categoriesLength: content.categories ? content.categories.length : 0
-        });
-        
-        // Reemplazar tabs
-        productTabs.innerHTML = content.tabs;
-        
-        // Reemplazar contenido de categorías
-        productTabsContent.innerHTML = content.categories;
-        
-        // Configurar botones de cantidad después de regenerar el HTML
-        setupQuantityButtons();
-        
-        // Configurar listeners de cambio de tabs
-        setupTabChangeListeners();
-    }
-}
-
-/**
- * Configura los inputs de cantidad después de regenerar el HTML
- */
-function setupQuantityButtons() {
-    console.log('🔧 Setting up quantity inputs...');
-    
-    // Configurar todos los inputs de cantidad existentes
-    const inputs = document.querySelectorAll('input[id^="quantity-"]');
-    console.log('🔍 Found quantity inputs:', inputs.length);
-    
-    // Verificar qué tab está activo
-    const activeTab = document.querySelector('.tab-pane.active');
-    console.log('📋 Active tab:', activeTab ? activeTab.id : 'none');
-    
-    inputs.forEach((input, index) => {
-        console.log(`Input ${index} configured:`, input.id, input.value);
-        
-        // Asegurar que el input tenga los atributos correctos
-        if (input.id && input.id.startsWith('quantity-')) {
-            const productId = input.id.replace('quantity-', '');
-            const producto = getProductById(productId);
-            if (producto) {
-                input.min = 1;
-                input.max = producto.stock;
-                input.value = input.value || 1;
-                console.log(`✅ Input ${productId} configured: min=${input.min}, max=${input.max}, value=${input.value}`);
-            }
-        }
-    });
-    
-    console.log('Quantity inputs setup complete');
-}
-
-/**
- * Configura los inputs de cantidad solo del tab activo
- */
-function setupActiveTabQuantityButtons() {
-    console.log('🎯 Setting up active tab quantity inputs...');
-    
-    // Buscar solo los inputs del tab activo
-    const activeTab = document.querySelector('.tab-pane.active');
-    if (!activeTab) {
-        console.log('❌ No active tab found');
+    if (!productosDB || !productosDB.categorias) {
+        console.error('❌ productosDB no está disponible para inicializar productos');
         return;
     }
     
-    const inputs = activeTab.querySelectorAll('input[id^="quantity-"]');
-    console.log('🔍 Found quantity inputs in active tab:', inputs.length, 'for tab:', activeTab.id);
+    // Usar la nueva función simple
+    initializeProducts();
     
-    inputs.forEach((input, index) => {
-        console.log(`Input ${index} configured in tab ${activeTab.id}:`, input.id, input.value);
-        
-        // Asegurar que el input tenga los atributos correctos
-        if (input.id && input.id.startsWith('quantity-')) {
-            const productId = input.id.replace('quantity-', '');
-            const producto = getProductById(productId);
-            if (producto) {
-                input.min = 1;
-                input.max = producto.stock;
-                input.value = input.value || 1;
-                console.log(`✅ Input ${productId} configured: min=${input.min}, max=${input.max}, value=${input.value}`);
-            }
-        }
-    });
+    // Configurar event listeners para botones de cantidad
     
-    console.log('Active tab quantity inputs setup complete');
+    console.log('✅ Inicialización de productos dinámicos completada');
 }
 
-/**
- * Verifica que los inputs de cantidad estén funcionando correctamente
- */
-function verifyQuantityInputs() {
-    console.log('🔍 Verifying quantity inputs...');
-    
-    const activeTab = document.querySelector('.tab-pane.active');
-    if (!activeTab) {
-        console.log('❌ No active tab found');
-        return;
-    }
-    
-    const inputs = activeTab.querySelectorAll('input[id^="quantity-"]');
-    console.log(`📊 Found ${inputs.length} inputs in tab ${activeTab.id}`);
-    
-    inputs.forEach((input, index) => {
-        const productId = input.id.replace('quantity-', '');
-        console.log(`Input ${index}:`, {
-            id: input.id,
-            productId: productId,
-            value: input.value,
-            min: input.min,
-            max: input.max,
-            visible: input.offsetParent !== null
-        });
-    });
-}
 
-/**
- * Limpia inputs duplicados manteniendo solo los del tab activo
- */
-function cleanupDuplicateInputs() {
-    console.log('🧹 Cleaning up duplicate inputs...');
-    
-    const activeTab = document.querySelector('.tab-pane.active');
-    if (!activeTab) {
-        console.log('❌ No active tab found');
-        return;
-    }
-    
-    // Obtener todos los inputs de cantidad
-    const allInputs = document.querySelectorAll('input[id^="quantity-"]');
-    const inputsByProduct = {};
-    
-    // Agrupar inputs por producto
-    allInputs.forEach(input => {
-        const productId = input.id.replace('quantity-', '');
-        if (!inputsByProduct[productId]) {
-            inputsByProduct[productId] = [];
-        }
-        inputsByProduct[productId].push(input);
-    });
-    
-    // Para cada producto, mantener solo el input del tab activo
-    Object.entries(inputsByProduct).forEach(([productId, inputs]) => {
-        if (inputs.length > 1) {
-            console.log(`🔧 Found ${inputs.length} inputs for product ${productId}`);
-            
-            // Encontrar el input del tab activo
-            const activeInput = activeTab.querySelector(`#quantity-${productId}`);
-            
-            if (activeInput) {
-                // Ocultar o remover los otros inputs
-                inputs.forEach(input => {
-                    if (input !== activeInput) {
-                        console.log(`🗑️ Removing duplicate input for ${productId}`);
-                        input.remove();
-                    }
-                });
-            }
-        }
-    });
-    
-    console.log('🧹 Cleanup complete');
-}
-
-/**
- * Configura los event listeners para el cambio de tabs
- */
-function setupTabChangeListeners() {
-    console.log('📑 Setting up tab change listeners...');
-    
-    // Configurar eventos para todos los tabs de productos
-    const tabButtons = document.querySelectorAll('#productTabs button[data-bs-toggle="pill"]');
-    
-    tabButtons.forEach(tabButton => {
-        // Remover event listener anterior si existe
-        tabButton.removeEventListener('shown.bs.tab', handleTabShown);
-        
-        // Agregar nuevo event listener
-        tabButton.addEventListener('shown.bs.tab', handleTabShown);
-    });
-    
-    console.log('Tab change listeners configured for', tabButtons.length, 'tabs');
-}
-
-/**
- * Maneja el evento de mostrar un tab
- */
-function handleTabShown(event) {
-    console.log('🎯 Tab shown:', event.target.id);
-    
-    // Configurar botones de cantidad después de que se muestre el tab
-    setTimeout(() => {
-        console.log('⏰ Configurando botones después de cambio de tab...');
-        cleanupDuplicateInputs();
-        setupActiveTabQuantityButtons();
-        verifyQuantityInputs();
-    }, 200);
-}
 
 
 // Función para mostrar detalles del producto en modal
@@ -1072,13 +694,6 @@ function showProductDetails(productId) {
     document.getElementById('modalProductTitle').textContent = producto.nombre;
      document.getElementById('modalProductPrice').textContent = `$${producto.precio.toLocaleString('es-CL')}`;
     
-    // Mostrar stock en el modal
-    const stockElement = document.getElementById('modalProductStock');
-    if (stockElement) {
-        stockElement.textContent = `${producto.stock} unidades disponibles`;
-        stockElement.className = producto.stock === 0 ? 'text-danger' : 
-                                 producto.stock < 10 ? 'text-warning' : 'text-success';
-    }
     
     // Usar descripción detallada si existe, sino usar la descripción normal
     const descripcionModal = producto.descripcionDetallada || producto.descripcion;
@@ -1110,10 +725,6 @@ function showProductDetails(productId) {
     ).join('');
     document.getElementById('modalProductReviews').innerHTML = reviewsHtml;
 
-    // Configurar selector de cantidad del modal
-    const modalQuantityInput = document.getElementById('modalQuantity');
-    modalQuantityInput.value = 1;
-    modalQuantityInput.max = producto.stock;
 
     // Mostrar el modal
     const modal = new bootstrap.Modal(document.getElementById('productModal'));
@@ -1171,84 +782,36 @@ function handleUrlHash() {
     }
 }
 
-function addToCart(productId, quantity = null) {
-    // ====================================================================================
-    // PASO 1: VALIDACIÓN DE PRODUCTO
-    // ====================================================================================
-    console.log('🛒 addToCart called:', productId, 'quantity param:', quantity);
+function addToCart(productId) {
+    console.log('🛒 Adding to cart:', productId);
+    
     const producto = getProductById(productId);
     if (!producto) {
         console.log('❌ Producto not found:', productId);
         return;
     }
+    console.log('📦 Product found:', producto.nombre);
 
-    // ====================================================================================
-    // PASO 2: OBTENCIÓN DE CANTIDAD DESDE TAB ACTIVO
-    // ====================================================================================
-    const activeTab = document.querySelector('.tab-pane.active');
-    const inputElement = activeTab ? 
-        activeTab.querySelector(`#quantity-${productId}`) : 
-        document.getElementById(`quantity-${productId}`);
-    
-    const inputValue = inputElement ? inputElement.value : 'not found';
-    const cantidad = quantity || parseInt(inputValue) || 1;
-    
-    console.log('📊 Active tab:', activeTab?.id);
-    console.log('📊 Input element:', inputElement);
-    console.log('📊 Input value:', inputValue);
-    console.log('📊 Final cantidad:', cantidad);
-    
-    // ====================================================================================
-    // PASO 3: VERIFICACIÓN DE INPUTS DUPLICADOS
-    // ====================================================================================
-    const allInputs = document.querySelectorAll(`#quantity-${productId}`);
-    if (allInputs.length > 1) {
-        console.log('⚠️ WARNING: Found', allInputs.length, 'inputs with same ID:', productId);
-        allInputs.forEach((input, index) => {
-            console.log(`Input ${index}:`, input.value, input.offsetParent ? 'visible' : 'hidden');
-        });
-    }
-    
-    // ====================================================================================
-    // PASO 4: VALIDACIÓN DE STOCK
-    // ====================================================================================
-    if (producto.stock === 0) {
-        console.error('❌ Este producto no está disponible');
-        return;
-    }
-    
-    if (cantidad > producto.stock) {
-        console.error(`❌ Solo hay ${producto.stock} unidades disponibles`);
-        return;
-    }
-
-    // ====================================================================================
-    // PASO 5: MANEJO DE PRODUCTO EXISTENTE O NUEVO
-    // ====================================================================================
+    // Buscar si el producto ya está en el carrito
     const existingItem = cart.find(item => item.id === productId);
     
     if (existingItem) {
-        // Verificar si al agregar más cantidad no excede el stock
-        if (existingItem.cantidad + cantidad > producto.stock) {
-            console.warn(`⚠️ Solo puedes agregar ${producto.stock - existingItem.cantidad} unidades más`);
-            return;
-        }
-        console.log('➕ Adding to existing item:', existingItem.cantidad, '+', cantidad, '=', existingItem.cantidad + cantidad);
-        existingItem.cantidad += cantidad;
+        // Si ya existe, agregar 1 más
+        existingItem.cantidad += 1;
+        console.log('➕ Adding to existing item, new quantity:', existingItem.cantidad);
     } else {
-        console.log('🆕 Adding new item to cart:', cantidad, 'units');
+        // Si no existe, agregarlo con cantidad 1
         cart.push({
             id: productId,
             nombre: producto.nombre,
             precio: producto.precio,
-            cantidad: cantidad,
+            cantidad: 1,
             imagen: producto.imagen
         });
+        console.log('🆕 Adding new item to cart');
     }
 
-    // ====================================================================================
-    // PASO 6: ACTUALIZACIÓN DE INTERFAZ Y PERSISTENCIA
-    // ====================================================================================
+    // Actualizar interfaz y persistencia
     updateCartCounter();
     saveCartToStorage();
     updateCartModal();
@@ -1257,18 +820,6 @@ function addToCart(productId, quantity = null) {
 
 
 
-/**
- * Cambia la cantidad en el modal
- * @param {number} change - Cambio en la cantidad (+1 o -1)
- */
-function changeModalQuantity(change) {
-    const input = document.getElementById('modalQuantity');
-    if (!input) return;
-
-    let newValue = parseInt(input.value) + change;
-    newValue = Math.max(1, Math.min(newValue, parseInt(input.max)));
-    input.value = newValue;
-}
 
 /**
  * Elimina un producto del carrito
@@ -1286,13 +837,6 @@ function removeFromCart(productId) {
     }
 }
 
-/**
- * Obtiene el carrito completo
- * @returns {Array} Array con todos los productos del carrito
- */
-function getCart() {
-    return cart;
-}
 
 /**
  * Limpia todo el carrito
@@ -1359,14 +903,14 @@ function updateCartModal() {
                         <button class="btn btn-sm btn-outline-secondary" onclick="changeCartItemQuantity('${item.id}', 1)">
                             <i class="fas fa-plus"></i>
                         </button>
-                    </div>
-                </div>
+            </div>
+            </div>
                 <div class="text-end">
                     <div class="fw-bold mb-1">$${(item.precio * item.cantidad).toLocaleString('es-CL')}</div>
                     <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart('${item.id}')">
                         <i class="fas fa-trash"></i>
                     </button>
-                </div>
+        </div>
             </div>
         `).join('');
     }
@@ -1392,10 +936,6 @@ function changeCartItemQuantity(productId, change) {
         return;
     }
     
-    if (newQuantity > producto.stock) {
-        console.error(`❌ Solo hay ${producto.stock} unidades disponibles`);
-        return;
-    }
     
     item.cantidad = newQuantity;
     updateCartCounter();
@@ -1410,31 +950,16 @@ function updateCartCounter() {
         const totalItems = cart.reduce((sum, item) => sum + item.cantidad, 0);
         const totalPrice = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
         
-    // Actualizar contador desktop
-    const counter = document.getElementById('cartCounter');
-    if (counter) {
+    // Actualizar todos los contadores usando clase CSS
+    document.querySelectorAll('.cart-counter').forEach(counter => {
         counter.textContent = totalItems;
         counter.style.display = totalItems > 0 ? 'block' : 'none';
-    }
+    });
     
-    // Actualizar contador móvil
-    const counterMobile = document.getElementById('cartCounterMobile');
-    if (counterMobile) {
-        counterMobile.textContent = totalItems;
-        counterMobile.style.display = totalItems > 0 ? 'block' : 'none';
-    }
-    
-    // Actualizar precio total desktop
-        const priceElement = document.getElementById('cartTotalPrice');
-        if (priceElement) {
+    // Actualizar todos los precios usando clase CSS
+    document.querySelectorAll('.cart-price').forEach(priceElement => {
         priceElement.textContent = `Carrito $${totalPrice.toLocaleString('es-CL')}`;
-        }
-    
-    // Actualizar precio total móvil
-    const priceElementMobile = document.getElementById('cartTotalPriceMobile');
-    if (priceElementMobile) {
-        priceElementMobile.textContent = `Carrito $${totalPrice.toLocaleString('es-CL')}`;
-    }
+    });
 }
 
 // ========================================
@@ -1458,8 +983,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (modalAddToCartBtn) {
         modalAddToCartBtn.addEventListener('click', function() {
             if (currentModalProductId) {
-                const quantity = parseInt(document.getElementById('modalQuantity').value) || 1;
-                addToCart(currentModalProductId, quantity);
+                addToCart(currentModalProductId);
                 
                 // Cerrar el modal después de agregar
                 const modal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
@@ -1477,8 +1001,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Verificar que productosDB esté cargado antes de inicializar
         if (productosDB && productosDB.categorias) {
-            initializeDynamicProducts();
-            handleUrlHash();
+        initializeDynamicProducts();
+        handleUrlHash();
         } else {
             console.error('❌ productosDB no está cargado, no se puede inicializar productos');
         }
@@ -1493,25 +1017,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Configurar evento para el enlace principal de "Productos"
-        document.querySelectorAll('a[href="#productos"]').forEach(link => {
+        document.querySelectorAll('a[href*="#productos"]').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const productosSection = document.getElementById('productos');
                 if (productosSection) {
                     productosSection.scrollIntoView({ behavior: 'smooth' });
                     setTimeout(() => {
-                        const tabButton = document.getElementById('todos-tab');
-                        if (tabButton) {
-                            const tab = new bootstrap.Tab(tabButton);
-                            tab.show();
-                        }
+                        // Asegurar que se muestren todos los productos
+                        showAllProducts();
                     }, 500);
                 }
             });
         });
         
-        // Configurar eventos de cambio de tabs para configurar botones de cantidad
-        setupTabChangeListeners();
+        // Configurar botones de cantidad después de la navegación
     }
 });
 

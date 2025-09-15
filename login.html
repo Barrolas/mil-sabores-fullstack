@@ -24,7 +24,6 @@
      🔄 INTEGRACIÓN CON SISTEMA:
      - Componentes dinámicos cargados por js/components.js
      - Validaciones por js/login.js
-     - Funciones compartidas en js/common.js
      - Estilos personalizados en css/style.css
      
      ⚡ CARACTERÍSTICAS:
@@ -102,23 +101,8 @@
                         <li class="nav-item me-4">
                             <a class="nav-link fw-medium px-2" href="index.html">Inicio</a>
                         </li>
-                        <li class="nav-item dropdown me-4">
-                            <a class="nav-link dropdown-toggle fw-medium px-2" href="#" id="productosDropdown"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Productos
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="productosDropdown">
-                                <li><a class="dropdown-item" href="index.html#productos" data-category="todos">Todos los Productos</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="index.html#productos" data-category="tortas-cuadradas">Tortas Cuadradas</a></li>
-                                <li><a class="dropdown-item" href="index.html#productos" data-category="tortas-circulares">Tortas Circulares</a></li>
-                                <li><a class="dropdown-item" href="index.html#productos" data-category="postres-individuales">Postres Individuales</a></li>
-                                <li><a class="dropdown-item" href="index.html#productos" data-category="productos-sin-azucar">Productos Sin Azúcar</a></li>
-                                <li><a class="dropdown-item" href="index.html#productos" data-category="pasteleria-tradicional">Pastelería Tradicional</a></li>
-                                <li><a class="dropdown-item" href="index.html#productos" data-category="productos-sin-gluten">Productos sin gluten</a></li>
-                                <li><a class="dropdown-item" href="index.html#productos" data-category="productos-veganos">Productos Veganos</a></li>
-                                <li><a class="dropdown-item" href="index.html#productos" data-category="tortas-especiales">Tortas Especiales</a></li>
-                            </ul>
+                        <li class="nav-item me-4">
+                            <a class="nav-link fw-medium px-2" href="index.html#productos">Productos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-medium px-2" href="index.html#sobre-nosotros">Sobre Nosotros</a>
@@ -141,9 +125,9 @@
                     <div class="d-flex align-items-center gap-4">
                         <!-- Mi Cuenta Dropdown -->
                         <div class="dropdown">
-                            <div class="d-flex flex-column align-items-center px-2 dropdown-toggle"
+                            <div class="d-flex flex-column align-items-center px-2 dropdown-toggle" 
                                 id="miCuentaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                                style="cursor: pointer;">
+                                 style="cursor: pointer;">
                                 <i class="fas fa-user text-pink"></i>
                                 <small class="text-dark fw-medium">Mi cuenta</small>
                             </div>
@@ -160,12 +144,12 @@
                                 </li>
                             </ul>
                         </div>
-
+                        
                         <!-- Carrito -->
                         <div class="d-flex flex-column align-items-center px-2 position-relative" style="cursor: pointer;" onclick="showCartModal()">
                             <i class="fas fa-shopping-cart text-pink"></i>
-                            <small class="text-dark fw-medium" id="cartTotalPrice">Carrito $0</small>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCounter" style="display: none;">0</span>
+                            <small class="text-dark fw-medium cart-price">Carrito $0</small>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-counter" style="display: none;">0</span>
                         </div>
                     </div>
                 </div>
@@ -199,24 +183,7 @@
                     <a class="nav-link fw-medium py-3" href="index.html">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fw-medium py-3" href="#" data-bs-toggle="collapse"
-                        data-bs-target="#productosCollapse" aria-expanded="false" aria-controls="productosCollapse">
-                        Productos <i class="fas fa-chevron-down float-end"></i>
-                    </a>
-                    <div class="collapse" id="productosCollapse">
-                        <ul class="list-unstyled ps-3">
-                            <li><a class="nav-link py-2 text-muted" href="index.html#productos" data-category="todos">Todos los Productos</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="nav-link py-2 text-muted" href="index.html#productos" data-category="tortas-cuadradas">Tortas Cuadradas</a></li>
-                            <li><a class="nav-link py-2 text-muted" href="index.html#productos" data-category="tortas-circulares">Tortas Circulares</a></li>
-                            <li><a class="nav-link py-2 text-muted" href="index.html#productos" data-category="postres-individuales">Postres Individuales</a></li>
-                            <li><a class="nav-link py-2 text-muted" href="index.html#productos" data-category="productos-sin-azucar">Productos Sin Azúcar</a></li>
-                            <li><a class="nav-link py-2 text-muted" href="index.html#productos" data-category="pasteleria-tradicional">Pastelería Tradicional</a></li>
-                            <li><a class="nav-link py-2 text-muted" href="index.html#productos" data-category="productos-sin-gluten">Productos sin gluten</a></li>
-                            <li><a class="nav-link py-2 text-muted" href="index.html#productos" data-category="productos-veganos">Productos Veganos</a></li>
-                            <li><a class="nav-link py-2 text-muted" href="index.html#productos" data-category="tortas-especiales">Tortas Especiales</a></li>
-                        </ul>
-                    </div>
+                    <a class="nav-link fw-medium py-3" href="index.html#productos">Productos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fw-medium py-3" href="index.html#sobre-nosotros">Sobre Nosotros</a>
@@ -250,12 +217,12 @@
                         </a>
                     </div>
                 </div>
-
+                
                 <!-- Carrito - Mobile -->
                 <div class="d-flex align-items-center gap-3 p-3 bg-light rounded position-relative" style="cursor: pointer;" onclick="showCartModal()">
                     <i class="fas fa-shopping-cart text-pink"></i>
-                    <span class="fw-medium" id="cartTotalPriceMobile">Carrito $0</span>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCounterMobile" style="display: none;">0</span>
+                    <span class="fw-medium cart-price">Carrito $0</span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-counter" style="display: none;">0</span>
                 </div>
             </div>
         </div>
@@ -430,11 +397,11 @@
                                 <i class="fas fa-credit-card me-1"></i>Ir a Pagar
                             </button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- ====================================================================================
@@ -470,7 +437,6 @@
          1. SweetAlert2: Librería para alertas mejoradas
          2. Bootstrap: Framework CSS/JS para componentes UI
          3. productos.js: Funcionalidad de carrito y productos
-         4. common.js: Funciones compartidas de validación
          5. components.js: Sistema de componentes dinámicos
          6. login.js: Lógica específica de la página de login
          
@@ -490,7 +456,6 @@
     <script src="js/productos.js"></script>
     
     <!-- Funciones compartidas de validación -->
-    <script src="js/common.js"></script>
     
     
     <!-- Lógica específica de la página de login -->
@@ -517,7 +482,6 @@
      
      🔄 INTEGRACIÓN CON SISTEMA:
      - Componentes dinámicos (navbar, carrito, footer)
-     - Sistema de validación compartido (common.js)
      - Funcionalidad de carrito de compras
      - Sistema de navegación entre páginas
      
@@ -530,7 +494,6 @@
      
      📄 ARCHIVOS RELACIONADOS:
      - js/login.js: Lógica específica de login
-     - js/common.js: Funciones de validación compartidas
      - js/components.js: Sistema de componentes dinámicos
      - js/productos.js: Funcionalidad de carrito
      - css/style.css: Estilos personalizados

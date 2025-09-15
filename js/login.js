@@ -131,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // PASO 3: CONFIGURACIÓN DE EVENTOS DE INTERFAZ
         // ====================================================================================
         setupPasswordToggles();
-        setupDateInputs();
         
         // ====================================================================================
         // PASO 4: CONFIGURACIÓN DEL FORMULARIO DE LOGIN
@@ -192,12 +191,5 @@ function togglePassword(passwordId, eyeIconId) {
     }
 }
 
-function setupDateInputs() {
-    const fechaMaxima = new Date().toISOString().split('T')[0];
-    const dateInputs = document.querySelectorAll('input[type="date"]');
-    dateInputs.forEach(input => {
-        input.setAttribute('max', fechaMaxima);
-    });
-}
 
 console.log('✅ login.js cargado correctamente - Sistema de login disponible');
