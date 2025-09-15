@@ -123,7 +123,6 @@ mil-sabores-fullstack/
 ### 📊 Resumen Estadístico
 - **Total de funciones**: 47 funciones activas
 - **Archivos JavaScript**: 3 archivos optimizados
-- **Código eliminado**: ~244 líneas de código innecesario
 - **Estado**: Completamente optimizado sin redundancias
 
 ### 🛒 `js/productos.js` (28 funciones)
@@ -256,14 +255,6 @@ mil-sabores-fullstack/
 - ✅ **Cumple requisitos** de la rúbrica de evaluación
 
 ## Últimas Actualizaciones
-
-### 🧹 Auditoría y Optimización (Última versión)
-- **Auditoría completa** de codebase realizada
-- **Eliminado `js/common.js`** completo (164 líneas sin uso)
-- **Eliminadas 4 funciones** redundantes o sin uso
-- **Eliminado CSS** de tabs obsoletos (~80 líneas)
-- **Limpiadas referencias** a archivos inexistentes
-- **~244 líneas de código** eliminadas en total
 
 ### 🎨 Mejoras de Interfaz
 - **Filtros unificados** en una sola card optimizada
