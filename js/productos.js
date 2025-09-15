@@ -219,7 +219,79 @@ function saveCartToStorage() {
  */
 console.log('🚀 productos.js cargado correctamente');
 
-const productosDB = {
+// Base de datos de productos cargada dinámicamente desde JSON
+let productosDB = null;
+
+/**
+ * ====================================================================================
+ * 🗄️ CARGAR BASE DE DATOS DE PRODUCTOS
+ * ====================================================================================
+ * 
+ * Carga la base de datos de productos desde el archivo JSON externo.
+ * Esta función se ejecuta al inicializar la aplicación.
+ */
+async function loadProductosDB() {
+    try {
+        console.log('📁 Cargando base de datos de productos...');
+        const response = await fetch('productos.json');
+        
+        if (!response.ok) {
+            throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        productosDB = await response.json();
+        console.log('✅ Base de datos de productos cargada correctamente');
+        console.log(`📊 Categorías disponibles: ${Object.keys(productosDB.categorias).length}`);
+        
+        return productosDB;
+    } catch (error) {
+        console.error('❌ Error al cargar la base de datos de productos:', error);
+        showDatabaseError();
+        throw error;
+    }
+}
+
+/**
+ * ====================================================================================
+ * 🚨 MOSTRAR ERROR DE BASE DE DATOS
+ * ====================================================================================
+ * 
+ * Muestra un error visible cuando no se puede cargar la base de datos de productos.
+ */
+function showDatabaseError() {
+    console.error('🚨 ERROR CRÍTICO: Base de datos de productos no disponible');
+    console.error('📁 Verificar que el archivo productos.json existe y es accesible');
+    
+    // Mostrar error en la interfaz
+    const errorContainer = document.getElementById('productTabsContent');
+    if (errorContainer) {
+        errorContainer.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Error de Base de Datos
+                </h4>
+                <p><strong>No se pudo cargar el archivo productos.json</strong></p>
+                <hr>
+                <p class="mb-2">Posibles causas:</p>
+                <ul class="text-start">
+                    <li>El archivo productos.json no existe</li>
+                    <li>Error de permisos de acceso</li>
+                    <li>Problema de conexión o servidor</li>
+                    <li>Formato JSON inválido</li>
+                </ul>
+                <hr>
+                <small class="text-muted">
+                    <i class="fas fa-info-circle"></i> 
+                    Verifica la consola del navegador para más detalles técnicos
+                </small>
+            </div>
+        `;
+    }
+}
+
+// Datos de productos (serán reemplazados por la carga dinámica)
+const productosDB_fallback = {
     categorias: {
         "tortas-cuadradas": {
             nombre: "Tortas Cuadradas",
@@ -2035,7 +2107,15 @@ function updateCartCounter() {
 
 
 // Inicializar productos cuando se carga el DOM
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Cargar base de datos de productos desde JSON
+    try {
+        await loadProductosDB();
+    } catch (error) {
+        console.error('❌ No se pudo cargar la base de datos de productos:', error);
+        return; // Salir si no se puede cargar la base de datos
+    }
+    
     // Cargar carrito desde localStorage
     loadCartFromStorage();
     
