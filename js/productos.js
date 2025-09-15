@@ -982,6 +982,13 @@ function generateTodosHTML() {
  */
 function generateProductsContent() {
     console.log('🚀 Iniciando generación completa de contenido de productos...');
+    
+    // Verificar que productosDB esté cargado
+    if (!productosDB || !productosDB.categorias) {
+        console.error('❌ productosDB no está cargado o no tiene categorías');
+        return { tabs: '', content: '' };
+    }
+    
     console.log('📊 Categorías disponibles:', Object.keys(productosDB.categorias));
     
     // ====================================================================================
@@ -1047,11 +1054,23 @@ function generateProductsContent() {
 
 // Función para inicializar el contenido dinámico de productos
 function initializeDynamicProducts() {
+    console.log('🔧 Inicializando productos dinámicos...');
+    console.log('📊 productosDB estado:', productosDB ? 'Cargado' : 'No cargado');
+    
     const productTabs = document.getElementById('productTabs');
     const productTabsContent = document.getElementById('productTabsContent');
     
+    console.log('🎯 Elementos encontrados:', {
+        productTabs: productTabs ? 'Sí' : 'No',
+        productTabsContent: productTabsContent ? 'Sí' : 'No'
+    });
+    
     if (productTabs && productTabsContent) {
         const content = generateProductsContent();
+        console.log('📝 Contenido generado:', {
+            tabsLength: content.tabs ? content.tabs.length : 0,
+            categoriesLength: content.categories ? content.categories.length : 0
+        });
         
         // Reemplazar tabs
         productTabs.innerHTML = content.tabs;
@@ -1781,8 +1800,16 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Solo inicializar si estamos en la página de productos
     if (document.getElementById('productos')) {
-        initializeDynamicProducts();
-        handleUrlHash();
+        console.log('🎯 Página de productos detectada, inicializando...');
+        console.log('📊 productosDB antes de inicializar:', productosDB ? 'Cargado' : 'No cargado');
+        
+        // Verificar que productosDB esté cargado antes de inicializar
+        if (productosDB && productosDB.categorias) {
+            initializeDynamicProducts();
+            handleUrlHash();
+        } else {
+            console.error('❌ productosDB no está cargado, no se puede inicializar productos');
+        }
         
         // Configurar eventos de navegación de productos
         document.querySelectorAll('[data-category]').forEach(link => {
