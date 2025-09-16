@@ -135,7 +135,6 @@ let productosDB =
                     "rating": 4.7,
                     "reviews": 28,
                     "porciones": "15 personas",
-                    "featured": true,
                     "calorias": "320 cal/porción",
                     "ingredientes": "Frutillas frescas, crema chantilly, harina, huevos, azúcar, vainilla, gelatina",
                     "reseñas": [
@@ -160,7 +159,6 @@ let productosDB =
                     "rating": 4.5,
                     "reviews": 12,
                     "porciones": "1 persona",
-                    "featured": true,
                     "calorias": "280 cal/porción",
                     "ingredientes": "Chocolate premium, crema de leche, huevos, azúcar, frutas frescas",
                     "reseñas": [
@@ -215,7 +213,6 @@ let productosDB =
                     "rating": 4.8,
                     "reviews": 22,
                     "porciones": "8 personas",
-                    "featured": true,
                     "calorias": "220 cal/porción",
                     "ingredientes": "Queso crema, maracuyá natural, edulcorante stevia, galletas integrales sin azúcar, huevos, gelatina sin sabor",
                     "reseñas": [
@@ -332,7 +329,6 @@ let productosDB =
                     "rating": 4.4,
                     "reviews": 17,
                     "porciones": "12 galletas",
-                    "featured": true,
                     "calorias": "120 cal/porción",
                     "ingredientes": "Avena integral, pasas, canela, aceite de coco, azúcar de coco, harina de avena",
                     "reseñas": [
@@ -355,7 +351,6 @@ let productosDB =
                     "rating": 4.9,
                     "reviews": 35,
                     "porciones": "12-15 personas",
-                    "featured": true,
                     "calorias": "400 cal/porción",
                     "ingredientes": "Harina premium, huevos frescos, azúcar, mantequilla, crema chantilly, frutas frescas, chocolates, decoración personalizada",
                     "reseñas": [
@@ -372,7 +367,6 @@ let productosDB =
                     "rating": 5.0,
                     "reviews": 42,
                     "porciones": "20-25 personas",
-                    "featured": true,
                     "calorias": "350 cal/porción",
                     "ingredientes": "Harina premium, huevos frescos, azúcar, mantequilla, crema chantilly, fondant, flores comestibles, decoración artesanal",
                     "reseñas": [
@@ -383,7 +377,6 @@ let productosDB =
         }
     }
 }
-
 ;
 
 /**
@@ -401,8 +394,6 @@ function initializeProductosDB() {
     
     return productosDB;
 }
-
-
 
 // ========================================
 //   FUNCIONES DE PRODUCTOS
@@ -534,11 +525,6 @@ function regenerateProductsContent() {
 
 // Función para generar HTML de una card de producto
 function generateProductCardHTML(producto) {
-    let stockBadge = '';
-    if (producto.featured) {
-        stockBadge = `<div class="product-badge featured">Destacado</div>`;
-    }
-    
     const ratingStars = Array.from({length: 5}, (_, i) => 
         `<i class="fas fa-star ${i < Math.floor(producto.rating) ? 'text-warning' : 'text-muted'}"></i>`
     ).join('');
@@ -548,7 +534,6 @@ function generateProductCardHTML(producto) {
             <div class="card product-card h-100">
                 <div class="product-image">
                     <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}">
-                    ${stockBadge}
                 </div>
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">${producto.nombre}</h5>
@@ -595,7 +580,7 @@ function showAllProducts() {
     console.log('🔧 Mostrando todos los productos...');
     
     const todosLosProductos = Object.values(productosDB.categorias)
-        .flatMap(categoria => categoria.productos);
+        .flatMap(categoria => categoria.productos); //Aplana el array para mostrar los productos sin importar su categoria
     
     const productosFiltrados = filtrarProductosPorPrecio(todosLosProductos);
     const productosHTML = productosFiltrados.map(producto => 
@@ -733,53 +718,37 @@ function showProductDetails(productId) {
 }
 
 
-// Función para manejar navegación de productos desde navbar
-function handleProductNavigation(categoryKey) {
-    const productosSection = document.getElementById('productos');
-    if (!productosSection) return;
-
-    // Si estamos en la página de productos, hacer scroll y activar tab
-    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
-        productosSection.scrollIntoView({ behavior: 'smooth' });
-        
-        // Activar el tab correspondiente
-        setTimeout(() => {
-            const tabButton = document.getElementById(`${categoryKey}-tab`);
-            if (tabButton) {
-                const tab = new bootstrap.Tab(tabButton);
-                tab.show();
-            }
-        }, 500);
-    } else {
-        // Si estamos en otra página, redirigir a index con hash
-        window.location.href = `index.html#productos-${categoryKey}`;
-    }
-}
 
 // Función para manejar hash de URL al cargar la página
 function handleUrlHash() {
     const hash = window.location.hash;
-    if (hash && hash.startsWith('#productos-')) {
-        const categoryKey = hash.replace('#productos-', '');
-        setTimeout(() => {
-            handleProductNavigation(categoryKey);
-        }, 1000);
-    } else if (hash === '#productos' || hash === '#productos-todos') {
-        // Si el hash es solo #productos o #productos-todos, mostrar el tab "todos"
+    if (hash === '#productos') {
+        // Si el hash es #productos, hacer scroll a la sección
         setTimeout(() => {
             const productosSection = document.getElementById('productos');
             if (productosSection) {
                 productosSection.scrollIntoView({ behavior: 'smooth' });
-                setTimeout(() => {
-                    const tabButton = document.getElementById('todos-tab');
-                    if (tabButton) {
-                        const tab = new bootstrap.Tab(tabButton);
-                        tab.show();
-                    }
-                }, 500);
             }
         }, 1000);
     }
+}
+
+// Función para configurar event listeners de navegación a productos
+function setupProductNavigationListeners() {
+    // Configurar evento para el enlace principal de "Productos"
+    document.querySelectorAll('a[href*="#productos"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productosSection = document.getElementById('productos');
+            if (productosSection) {
+                productosSection.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => {
+                    // Asegurar que se muestren todos los productos
+                    showAllProducts();
+                }, 500);
+            }
+        });
+    });
 }
 
 function addToCart(productId) {
@@ -1001,35 +970,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Verificar que productosDB esté cargado antes de inicializar
         if (productosDB && productosDB.categorias) {
-        initializeDynamicProducts();
-        handleUrlHash();
+            initializeDynamicProducts();
+            handleUrlHash();
+            setupProductNavigationListeners();
         } else {
             console.error('❌ productosDB no está cargado, no se puede inicializar productos');
         }
-        
-        // Configurar eventos de navegación de productos
-        document.querySelectorAll('[data-category]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const categoryKey = this.getAttribute('data-category');
-                handleProductNavigation(categoryKey);
-            });
-        });
-        
-        // Configurar evento para el enlace principal de "Productos"
-        document.querySelectorAll('a[href*="#productos"]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const productosSection = document.getElementById('productos');
-                if (productosSection) {
-                    productosSection.scrollIntoView({ behavior: 'smooth' });
-                    setTimeout(() => {
-                        // Asegurar que se muestren todos los productos
-                        showAllProducts();
-                    }, 500);
-                }
-            });
-        });
         
         // Configurar botones de cantidad después de la navegación
     }

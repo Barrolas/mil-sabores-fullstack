@@ -281,42 +281,6 @@ body {
     transform: scale(1.08);
 }
 
-.product-badge {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: linear-gradient(45deg, var(--primary-pink), var(--accent-color));
-    color: white;
-    padding: 8px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
-    z-index: 2;
-}
-
-.product-badge.sale {
-    background: linear-gradient(45deg, #dc3545, #ff6b7a);
-}
-
-.product-badge.new {
-    background: linear-gradient(45deg, #28a745, #20c997);
-}
-
-.product-badge.low-stock {
-    background: linear-gradient(45deg, #ffc107, #ffeb3b);
-    color: #333;
-}
-
-.product-badge.out-of-stock {
-    background: linear-gradient(45deg, #dc3545, #ff6b7a);
-}
-
-.product-badge.featured {
-    background: linear-gradient(45deg, #28a745, #20c997);
-}
 
 .product-rating {
     font-size: 0.9rem;
